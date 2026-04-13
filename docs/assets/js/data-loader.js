@@ -1,21 +1,26 @@
-// Data Loader Utility
-// Handles loading and processing all trading data
-// ./data/a_stock_data/sse_50_day
-// ./data/agent_data_astock/sse_50_day/glm-4.5-air
-
-const chineseMarkets = ['sse50', 'zxg_17', 'zxg_30', 'etf_30']; //'cn', 'zxg', 'csi300', 'zz500', 'gem', 
+// 数据加载器（Data Loader）
+// 负责加载、处理并转换交易及价格数据以供前端显示
+// 支持 A 股（合并文件）与美股（逐只文件）两类数据源
+// 常见路径示例：./data/a_stock_data/sse_50_day, ./data/agent_data_astock/sse_50_day/glm-4.5-air
 
 class DataLoader {
     constructor() {
+        // 缓存所有 agent 的处理后数据（按 agent 名称）
         this.agentData = {};
+        // 缓存价格时间序列，key 为 symbol
         this.priceCache = {};
+        // 配置对象（从 window.configLoader 加载）
         this.config = null;
+        // 数据基础路径（从 configLoader 获取，用于 fetch 请求）
         this.baseDataPath = '';
-        this.currentMarket = 'sse50'; // 'us' or 'cn'
+        // 当前市场标识，默认 'cn'（可为 'us' 或各种 cn 变体）
+        this.currentMarket = 'cn'; // 'us' or 'cn'
+        // 股票代码到名称的缓存（用于展示）
         this.nameCache = {}; // 新增：专门存股票名称
     }
 
     // Switch market between US stocks and A-shares
+    // 功能：切换当前市场（例如 'cn' 或 'us'），并清空相关缓存
     setMarket(market) {
         this.currentMarket = market;
         this.agentData = {};
@@ -23,21 +28,24 @@ class DataLoader {
     }
 
     // Get current market
+    // 功能：返回当前市场标识
     getMarket() {
         return this.currentMarket;
     }
 
     // Get current market configuration
+    // 功能：根据前端市场 ID 映射到配置中的 market key，并从全局 configLoader 获取市场配置
     getMarketConfig() {
         // Map front-end market IDs to config.yaml market keys
         const marketMapping = {
-            'sse50':  'sse50',        // sse50 -> config.yaml markets.sse50
-            'zxg_17': 'zxg_17',    // zxg_17 -> config.yaml markets.zxg_17
-            'zxg_30': 'zxg_30',        // zxg_30 -> config.yaml markets.zxg_30
-            'etf_30': 'etf_30',        // etf_30 -> config.yaml markets.etf_30
-            'zz500':  'zz500',        // zz500 -> config.yaml markets.zz500
+            'sse50':  'cn',        // sse50 -> config.yaml markets.cn
+            'zxg':    'cn_sxg',    // zxg -> config.yaml markets.cn_sxg
+            'csi300': 'cn',        // csi300 -> config.yaml markets.cn
+            'zz500':  'cn',        // zz500 -> config.yaml markets.cn
+            'gem':    'cn',        // gem -> config.yaml markets.cn
             'cn':     'cn',        // cn -> config.yaml markets.cn
-            'cn_hour': 'cn',       // cn_hour -> config.yaml markets.cn_hour
+            'cn_sxg': 'cn_sxg',    // cn_sxg -> config.yaml markets.cn_sxg
+            'cn_hour': 'cn',       // cn_hour -> config.yaml markets.cn
             'us':     'us',        // us -> config.yaml markets.us (if exists)
         };
         
@@ -46,9 +54,11 @@ class DataLoader {
     }
 
     // 获取股票名字的简易方法
+    // 功能：优先从 `nameCache` 获取股票名称，未命中返回代码本身
     getStockName(symbol) {return this.nameCache[symbol] || symbol;} // 如果没找到名字，就返回代码本身
 
     // Initialize with configuration
+    // 功能：延迟加载全局配置并设置基础数据路径
     async initialize() {
         if (!this.config) {
             this.config = await window.configLoader.loadConfig();
@@ -57,6 +67,7 @@ class DataLoader {
     }
 
     // Load all agent names from configuration
+    // 功能：根据当前市场从配置中获取启用的 agent 列表，并检测每个 agent 的 position 文件是否存在
     async loadAgentList() {
         try {
             // Ensure config is loaded
@@ -68,12 +79,13 @@ class DataLoader {
             
             // Map front-end market IDs to config.yaml market keys
             const marketMapping = {
-                'sse50':  'sse50',        // sse50 -> config.yaml markets.sse50
-                'zxg_17': 'zxg_17',    // zxg_17 -> config.yaml markets.zxg_17
-                'zxg_30': 'zxg_30',        // zxg_30 -> config.yaml markets.zxg_30
-                'etf_30': 'etf_30',        // etf_30 -> config.yaml markets.etf_30
+                'sse50':  'cn',        
+                'zxg':    'cn_sxg',    
+                'csi300': 'cn',        
+                'zz500':  'cn',        
                 'gem':    'cn',        
                 'cn':     'cn',        
+                'cn_sxg': 'cn_sxg',    
                 'cn_hour': 'cn',       
                 'us':     'us',        
             };
@@ -108,6 +120,7 @@ class DataLoader {
     }
 
     // Load position data for a specific agent
+    // 功能：读取指定 agent 的 position.jsonl 文件，解析每一行为 JSON 并返回位置数组
     async loadAgentPositions(agentName) {
         try {
             const marketConfig = this.getMarketConfig();
@@ -140,6 +153,7 @@ class DataLoader {
     }
 
     // Load all A-share stock prices from merged.jsonl
+    // 功能：从合并的 JSONL 文件中一次性加载所有 A 股行情数据并缓存，支持日线与 60 分数据
     async loadAStockPrices() {
         if (Object.keys(this.priceCache).length > 0) {
             return this.priceCache;
@@ -183,13 +197,14 @@ class DataLoader {
     }
 
     // Load price data for a specific stock symbol
+    // 功能：根据当前市场选择从 priceCache（A 股）或单个文件（美股）加载指定股票的时间序列
     async loadStockPrice(symbol) {
         if (this.priceCache[symbol]) {
             return this.priceCache[symbol];
         }
 
         // Check if current market is a Chinese market (including all variants: cn, zxg, csi300, zz500, gem, sse50, etc.)
-        //const chineseMarkets = ['cn', 'zxg', 'csi300', 'zz500', 'gem', 'sse50', 'cn_zxg', 'cn_hour', 'sse50', 'zxg_17', 'zxg_30', 'etf_30'];
+        const chineseMarkets = ['cn', 'zxg', 'csi300', 'zz500', 'gem', 'sse50', 'cn_sxg', 'cn_hour'];
         const isChinaMarket = this.currentMarket.startsWith('cn') || chineseMarkets.includes(this.currentMarket);
         
         if (isChinaMarket) {
@@ -229,6 +244,7 @@ class DataLoader {
     }
 
     // Get closing price for a symbol on a specific date/time
+    // 功能：返回给定时间点或日期的收盘价，兼容不同字段名与日/小时级别的数据
     async getClosingPrice(symbol, dateOrTimestamp) {
         const prices = await this.loadStockPrice(symbol);
         if (!prices) {
@@ -236,7 +252,7 @@ class DataLoader {
         }
 
         // Treat these market ids as Chinese A-share markets as well
-        //const chineseMarkets = ['cn', 'zxg', 'csi300', 'zz500', 'gem', 'sse50', 'cn_zxg', 'cn_hour', 'sse50', 'zxg_17', 'zxg_30', 'etf_30'];
+        const chineseMarkets = ['cn', 'zxg', 'csi300', 'zz500', 'gem', 'sse50', 'cn_sxg', 'cn_hour'];
         const isChinaMarket = this.currentMarket.startsWith('cn') || chineseMarkets.includes(this.currentMarket);
 
         // Try exact match first (for hourly data like "2025-10-01 10:00:00")
@@ -289,6 +305,7 @@ class DataLoader {
     }
 
     async getTradePrice(symbol, dateOrTimestamp, action) {
+        // 功能：根据交易方向（buy/sell）尝试返回对应的买入价或卖出价，兼容多种字段名
         const prices = await this.loadStockPrice(symbol);
         if (!prices) {
             return null;
@@ -326,6 +343,7 @@ class DataLoader {
     }
 
     // Calculate total asset value for a position on a given date
+    // 功能：根据 position（包含持仓表和现金）计算指定日期的资产总值（现金 + 股票市值）
     async calculateAssetValue(position, date) {
         let totalValue = position.positions.CASH || 0;
         let partialValue = true; // Track if we got all prices
@@ -352,6 +370,7 @@ class DataLoader {
     }
 
     // Load complete data for an agent including asset values over time
+    // 功能：读取 agent 的所有 position，按日或时间戳计算每个时间点的资产净值，填补日期间隙并返回历史序列
     async loadAgentData(agentName) {
         console.log(`Starting to load data for ${agentName} in ${this.currentMarket} market...`);
         const positions = await this.loadAgentPositions(agentName);
@@ -367,10 +386,9 @@ class DataLoader {
         const marketConfig = this.getMarketConfig();
         const isHourlyConfig = marketConfig && marketConfig.time_granularity === 'hourly';
 
-        if (true) { 
-            // this.currentMarket.startsWith('cn') && !isHourlyConfig
-            // A-SHARES DAILY LOGIC: Handle multiple transactions per day AND fill date gaps
-            // Used only for 'cn' (daily) market, not 'cn_hour'
+        if (this.currentMarket.startsWith('cn') && !isHourlyConfig) {
+            // A-SHARES DAILY LOGIC: 处理同一交易日内多笔交易，并在日期范围内填补缺失的交易日
+            // 仅用于日线模式（非 cn_hour 的小时模式）
 
             // Detect if data is hourly or daily
             const firstDate = positions[0]?.date || '';
@@ -378,7 +396,7 @@ class DataLoader {
 
             console.log(`Detected ${isHourlyData ? 'hourly' : 'daily'} data format for ${agentName}`);
 
-            // Group positions by DATE (for hourly data, group by date and take last entry)
+            // 将 position 按日期分组（对于小时级数据，按日期取当日最新一条记录）
             const positionsByDate = {};
             positions.forEach(position => {
                 let dateKey;
@@ -390,7 +408,7 @@ class DataLoader {
                     dateKey = position.date;
                 }
 
-                // Skip weekends when building position map
+                // 跳过周末（周六、周日），不将其计入交易日序列
                 const d = new Date(dateKey + 'T00:00:00');
                 const dayOfWeek = d.getDay();
                 if (dayOfWeek === 0 || dayOfWeek === 6) {
@@ -398,7 +416,7 @@ class DataLoader {
                     return; // Skip this position (it's a weekend)
                 }
 
-                // Keep the position with the highest ID for each date (most recent)
+                // 对每个日期保留 ID 最大（最新）的 position
                 if (!positionsByDate[dateKey] || position.id > positionsByDate[dateKey].id) {
                     positionsByDate[dateKey] = {
                         ...position,
@@ -430,7 +448,7 @@ class DataLoader {
                 positionMap[pos.dateKey] = pos;
             });
 
-            // Fill all dates in range (skip weekends)
+            // 在起止日期之间逐日遍历，跳过周末，并使用已知或最近的 position 计算当日资产
             let currentPosition = null;
             for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
                 // Extract date string in local timezone (avoid UTC conversion issues)
@@ -446,7 +464,7 @@ class DataLoader {
                     continue;
                 }
 
-                // Use position for this date if exists, otherwise use last known position
+                // 若该日期有 position，则更新 currentPosition；否则复用上一个有效的 position
                 if (positionMap[dateStr]) {
                     currentPosition = positionMap[dateStr];
                     console.log(`[${agentName}] Date ${dateStr}: Updated currentPosition (id=${currentPosition.id})`);
@@ -460,7 +478,7 @@ class DataLoader {
                     continue;
                 }
 
-                // Calculate asset value using current iteration date for price lookup
+                // 使用当前循环的日期作为价格查询时间，计算资产净值
                 const assetValue = await this.calculateAssetValue(currentPosition, dateStr);
                 console.log(`[${agentName}] Date ${dateStr}: assetValue = ${assetValue}`);
 
@@ -478,10 +496,10 @@ class DataLoader {
             }
 
         } else {
-            // US STOCKS OR CN HOURLY LOGIC: Keep timestamps, do not flatten to daily
+            // 美股或 CN 小时数据逻辑：保留原始时间戳（不合并为日线），逐条计算资产
             console.log(`Using fine-grained timestamp logic for ${this.currentMarket} (hourly/raw mode)`);
 
-            // Group positions by timestamp and take only the last position for each timestamp
+            // 将 position 按完整时间戳分组，保留每个时间戳下 ID 最大的记录
             const positionsByTimestamp = {};
             positions.forEach(position => {
                 const timestamp = position.date;
@@ -490,7 +508,7 @@ class DataLoader {
                 }
             });
 
-            // Convert to array and sort by timestamp
+            // 转为数组并按时间戳排序，以便顺序计算资产历史
             const uniquePositions = Object.values(positionsByTimestamp).sort((a, b) => {
                 if (a.date !== b.date) {
                     return a.date.localeCompare(b.date);
@@ -502,6 +520,7 @@ class DataLoader {
 
             for (const position of uniquePositions) {
                 const timestamp = position.date;
+                // 计算每个时间点的资产净值
                 const assetValue = await this.calculateAssetValue(position, timestamp);
                 
                 // For CN Hourly, we might have missing prices if timestamp doesn't align perfectly
@@ -519,7 +538,7 @@ class DataLoader {
             }
         }
 
-        // Check if we have enough valid data
+        // 检查是否获得到有效的资产历史数据
         if (assetHistory.length === 0) {
             console.error(`❌ ${agentName}: NO VALID ASSET HISTORY`);
             return null;
@@ -550,10 +569,11 @@ class DataLoader {
     }
 
     // Load benchmark data (QQQ for US, SSE 50 for A-shares)
+    // 功能：根据当前市场返回对应的基准（美股示例为 QQQ，A 股为 SSE 50），用于与 agent 表现对比
     async loadBenchmarkData() {
         // Determine which benchmark to load based on market type
         // Treat a set of front-end market IDs as CN (A-shares) markets
-        // const chineseMarkets = ['cn', 'zxg', 'csi300', 'zz500', 'gem', 'sse50', 'cn_zxg', 'cn_hour'];
+        const chineseMarkets = ['cn', 'zxg', 'csi300', 'zz500', 'gem', 'sse50', 'cn_sxg', 'cn_hour'];
 
         if (this.currentMarket === 'us') {
             // For US markets, return null (QQQ loading not implemented)
@@ -568,6 +588,7 @@ class DataLoader {
     }
 
     // Aggregate hourly time series data to daily (take end-of-day close price)
+    // 功能：将小时级时间序列聚合为日线，选择当日收盘（或接近收盘的小时）作为代表
     aggregateHourlyToDaily(hourlyTimeSeries) {
         const dailyData = {};
         const dates = Object.keys(hourlyTimeSeries).sort();
@@ -588,6 +609,7 @@ class DataLoader {
     }
 
     // Load SSE 50 Index data for A-shares
+    // 功能：查找并加载上证 50 指数的时间序列数据（支持多种候选文件名和路径）
     async loadSSE50Data() {
         try {
             console.log('Loading SSE 50 Index data...');
@@ -666,6 +688,8 @@ class DataLoader {
     }
 
     // Create benchmark asset history from time series data
+    // 功能：将基准的时间序列（日线或小时线）转换为与 agent 相同格式的 assetHistory，
+    //        支持将日线扩展到 agent 的小时级时间戳以便精确对齐
     createBenchmarkAssetHistory(name, timeSeries, currency, expandToHourly = false) {
         try {
             // Convert to asset history format
@@ -715,7 +739,7 @@ class DataLoader {
             let benchmarkStartPrice = null;
             let currentValue = initialValue;
             
-            // Build a price map for easy lookup
+            // 构建价格映射（日期->收盘价），以便快速查找
             const priceMap = {};
             for (const date of dates) {
                 const closePrice = timeSeries[date]['4. close'] || timeSeries[date]['4. sell price'];
@@ -724,7 +748,7 @@ class DataLoader {
                 }
             }
 
-            // If expanding to hourly, use agent timestamps; otherwise use benchmark dates
+            // 如果需要扩展到小时级，则使用 agent 的所有时间戳；否则使用基准自身的日期序列
             const timestampsToUse = expandToHourly ? 
                 Array.from(allAgentTimestamps).sort() : 
                 dates;
@@ -733,6 +757,7 @@ class DataLoader {
             const isHourlyBenchmark = dates.length > 0 && dates[0].includes(':');
             console.log(`Benchmark data type: ${isHourlyBenchmark ? 'Hourly' : 'Daily'}, expandToHourly: ${expandToHourly}`);
 
+            // 遍历需要输出的时间戳列表，计算基准在每个时间点的等权资产价值
             for (const timestamp of timestampsToUse) {
                 // Skip if outside agent date range
                 if (startDate && timestamp < startDate) continue;
@@ -773,6 +798,7 @@ class DataLoader {
                 });
             }
 
+            // 构造结果对象，包含 assetHistory 与统计信息
             const result = {
                 name: name,
                 positions: [],
@@ -799,6 +825,8 @@ class DataLoader {
     }
 
     // Load all agents data with caching
+    // Load all agents data with caching
+    // 功能：一次性加载所有启用 agent 的数据并生成 allData，包含可选的基准数据
     async loadAllAgentsData() {
         const startTime = performance.now();
         console.log('Starting to load all agents data...');
@@ -839,6 +867,7 @@ class DataLoader {
     }
 
     // Get current holdings for an agent (latest position)
+    // 功能：获取指定 agent 的最新持仓（包括股票和现金）
     getCurrentHoldings(agentName) {
         const data = this.agentData[agentName];
         if (!data || !data.positions || data.positions.length === 0) return null;
@@ -848,6 +877,7 @@ class DataLoader {
     }
 
     // Get trade history for an agent
+    // 功能：返回按时间倒序排列的实际交易记录（排除 no_trade）
     getTradeHistory(agentName) {
         const data = this.agentData[agentName];
         if (!data) {
@@ -877,10 +907,11 @@ class DataLoader {
     }
 
     // Format number as currency
+    // 功能：根据当前市场和配置格式化货币显示（本地化 + 货币符号）
     formatCurrency(value) {
         const marketConfig = this.getMarketConfig();
-        const currency = 'CNY' // marketConfig ? marketConfig.currency : 'CNY';
-        const locale = 'zh-CN' // this.currentMarket = 'zh-CN' // === 'cn' ? 'zh-CN' : 'en-US' ;
+        const currency = marketConfig ? marketConfig.currency : 'CNY';
+        const locale = this.currentMarket === 'cn' ? 'zh-CN' : 'en-US' ;
 
         return new Intl.NumberFormat(locale, {
             style: 'currency',
@@ -890,63 +921,77 @@ class DataLoader {
     }
 
     // Format percentage
+    // 功能：格式化百分比字符串，带符号与两位小数
     formatPercent(value) {
         const sign = value >= 0 ? '+' : '';
         return `${sign}${value.toFixed(2)}%`;
     }
 
-    // // Get nice display name for agent
-    // getAgentDisplayName(agentName) {
-    //     const displayName = window.configLoader.getDisplayName(agentName, this.currentMarket);
-    //     if (displayName) return displayName;
-
-    //     // Fallback to legacy names
-    //     const names = {
-    //         'gemini-2.5-flash': 'Gemini-2.5-flash',
-    //         'qwen3-max': 'Qwen3-max',
-    //         'MiniMax-M2': 'MiniMax-M2',
-    //         'gpt-5': 'GPT-5',
-    //         'deepseek-chat-v3.1': 'DeepSeek-v3.1',
-    //         'claude-3.7-sonnet': 'Claude 3.7 Sonnet',
-    //         'QQQ Invesco': 'QQQ ETF',
-    //         'SSE 50 Index': 'SSE 50 Index' 
-    //     };
-    //     return names[agentName] || agentName;
-    // }
-
-    // 修复bug Repeat similar normalization for getAgentDisplayName and getAgentBrandColor
+    // Get nice display name for agent
+    // 功能：返回 agent 的展示名称，优先从 configLoader 查询，失败回退到内置名字映射
     getAgentDisplayName(agentName) {
-        const display = window.configLoader.getDisplayName(agentName, this.currentMarket);
-        if (display) return display;
-
-        const normalizedName = this.getAgentIconKey(agentName);
-        const fallbackDisplay = window.configLoader.getDisplayName(normalizedName, this.currentMarket);
-        if (fallbackDisplay) return fallbackDisplay;
-
-        // Legacy
-        const names = {
-            'glm-4.5-air': 'GLM 4.5 air',
-            'glm-4.5-flash': 'GLM 4.5 flash',
-            'gpt-oss-120b': 'gpt-oss-120b',
-            'qwen3-235b-a22b': 'qwen3-235b-a22b',
-            // Add others
-            'SSE 50 Index': 'SSE 50 Index'
+        // agentName might be a folder key like 'glm-4.5-air' or full path with slashes
+        // For config lookup, ensure we're using the folder key
+        const folderKey = typeof agentName === 'string' && agentName.includes('/') 
+            ? agentName.split('/').pop() 
+            : agentName;
+        
+        // Map front-end market IDs to config.yaml market keys
+        const marketMapping = {
+            'sse50':  'cn',
+            'zxg':    'cn_sxg',
+            'csi300': 'cn',
+            'zz500':  'cn',
+            'gem':    'cn',
+            'cn':     'cn',
+            'cn_sxg': 'cn_sxg',
+            'cn_hour': 'cn',
+            'us':     'us',
         };
-        return names[normalizedName] || normalizedName;
+        const effectiveMarket = marketMapping[this.currentMarket] || this.currentMarket;
+        
+        const displayName = window.configLoader.getDisplayName(folderKey, effectiveMarket);
+        if (displayName) return displayName;
+
+        // Fallback to legacy names
+        const names = {
+            'gemini-2.5-flash': 'Gemini-2.5-flash',
+            'qwen3-max': 'Qwen3-max',
+            'MiniMax-M2': 'MiniMax-M2',
+            'gpt-5': 'GPT-5',
+            'deepseek-chat-v3.1': 'DeepSeek-v3.1',
+            'claude-3.7-sonnet': 'Claude 3.7 Sonnet',
+            'QQQ Invesco': 'QQQ ETF',
+            'SSE 50 Index': 'SSE 50 Index' 
+        };
+        return names[agentName] || folderKey;
     }
 
-    // Get icon for agent (SVG file path)  获得走势图的agent icon
-    getAgentIcon(agentName) { 
-        // Try full agentName first (matches YAML folder)
-        const icon = window.configLoader.getIcon(agentName, this.currentMarket);
-        //const normalizedName = agentName.split('/').pop();  // e.g., "agent_data_astock/ZSG_17_day/glm-4.5-flash" -> "glm-4.5-flash"
-        //const icon = window.configLoader.getIcon(normalizedName, this.currentMarket);
+    // Get icon for agent (SVG file path)
+    // 功能：返回 agent 的图标路径，优先使用配置中的图标，失败则使用内置路径回退
+    getAgentIcon(agentName) {
+        // agentName might be a folder key like 'glm-4.5-air' or full path with slashes
+        // For config lookup, ensure we're using the folder key
+        const folderKey = typeof agentName === 'string' && agentName.includes('/') 
+            ? agentName.split('/').pop() 
+            : agentName;
+        
+        // Map front-end market IDs to config.yaml market keys
+        const marketMapping = {
+            'sse50':  'cn',
+            'zxg':    'cn_sxg',
+            'csi300': 'cn',
+            'zz500':  'cn',
+            'gem':    'cn',
+            'cn':     'cn',
+            'cn_sxg': 'cn_sxg',
+            'cn_hour': 'cn',
+            'us':     'us',
+        };
+        const effectiveMarket = marketMapping[this.currentMarket] || this.currentMarket;
+        
+        const icon = window.configLoader.getIcon(folderKey, effectiveMarket);
         if (icon) return icon;
-
-        // Fallback to normalized name 修复走势图 icon bug
-        const normalizedName = this.getAgentIconKey(agentName);
-        const fallbackIcon = window.configLoader.getIcon(normalizedName, this.currentMarket);
-        if (fallbackIcon) return fallbackIcon;
 
         // Fallback to legacy icons
         const icons = {
@@ -962,86 +1007,55 @@ class DataLoader {
         return icons[agentName] || './figs/stock.svg';
     }
 
-    // // Get agent name without version suffix for icon lookup
-    // getAgentIconKey(agentName) {
-    //     // This method is kept for backward compatibility
-    //     return agentName;
-    // }
-
-    // 修复无icon bug Get agent name without version suffix for icon lookup (existing, but enhance for full paths)
+    // Get agent name without version suffix for icon lookup
+    // 功能：兼容老接口，返回用于查找图标的 agent 名称键（目前直接返回原名）
     getAgentIconKey(agentName) {
-        return agentName.split('/').pop();  // e.g., "agent_data_astock/ZSG_17_day/glm-4.5-flash" -> "glm-4.5-flash"
+        // This method is kept for backward compatibility
+        return agentName;
     }
 
-    // Get icon for agent
-    getAgentIcon(agentName) {
-        // Try full name first
-        console.log(`[getAgentIcon] Input: ${agentName}`);
-        let icon = window.configLoader.getIcon(agentName, this.currentMarket);
-        if (icon) {
-        console.log(`[getAgentIcon] Found with full: ${icon}`);
-        return icon;
-        }
-
-        // Normalize and try again
-        const normalizedName = this.normalizeAgentName(agentName);
-        icon = window.configLoader.getIcon(normalizedName, this.currentMarket);
-        console.log(`[getAgentIcon] Found with normalized: ${icon}`);
-        if (icon) return icon;
-
-        // Legacy fallbacks (based on your config.yaml)
-        const icons = {
-            'glm-4.5-air': './figs/zhipu-color.svg',
-            'glm-4.5-flash': './figs/zhipu-color.svg',
-            'gpt-oss-120b': './figs/openai.svg',
-            'qwen3-235b-a22b': './figs/qwen.svg',
-            // Add more if needed
-            'SSE 50 Index': './figs/stock.svg'
-        };
-        return icons[normalizedName] || './figs/stock.svg';  // Default icon
-    }
-
-    // // Get brand color for agent
-    // getAgentBrandColor(agentName) {
-    //     const color = window.configLoader.getColor(agentName, this.currentMarket);
-    //     console.log(`[getAgentBrandColor] agentName: ${agentName}, market: ${this.currentMarket}, color: ${color}`);
-    //     if (color) return color;
-
-    //     // Fallback to legacy colors
-    //     const colors = {
-    //         'gemini-2.5-flash': '#8A2BE2',
-    //         'qwen3-max': '#0066ff',
-    //         'MiniMax-M2': '#ff0000',
-    //         'gpt-5': '#10a37f',
-    //         'deepseek-chat-v3.1': '#4a90e2',
-    //         'claude-3.7-sonnet': '#cc785c',
-    //         'QQQ Invesco': '#ff6b00',
-    //         'SSE 50 Index': '#e74c3c'
-    //     };
-    //     return colors[agentName] || null;
-    // }
-
+    // Get brand color for agent
+    // 功能：返回 agent 的品牌色（用于 UI），优先从配置获取，失败时使用内置的回退颜色
     getAgentBrandColor(agentName) {
-        const color = window.configLoader.getColor(agentName, this.currentMarket);
+        // agentName might be a folder key like 'glm-4.5-air' or full path with slashes
+        // For config lookup, ensure we're using the folder key
+        const folderKey = typeof agentName === 'string' && agentName.includes('/') 
+            ? agentName.split('/').pop() 
+            : agentName;
+        
+        // Map front-end market IDs to config.yaml market keys
+        const marketMapping = {
+            'sse50':  'cn',
+            'zxg':    'cn_sxg',
+            'csi300': 'cn',
+            'zz500':  'cn',
+            'gem':    'cn',
+            'cn':     'cn',
+            'cn_sxg': 'cn_sxg',
+            'cn_hour': 'cn',
+            'us':     'us',
+        };
+        const effectiveMarket = marketMapping[this.currentMarket] || this.currentMarket;
+        
+        const color = window.configLoader.getColor(folderKey, effectiveMarket);
+        console.log(`[getAgentBrandColor] folderKey: ${folderKey}, market: ${this.currentMarket} => effectiveMarket: ${effectiveMarket}, color: ${color}`);
         if (color) return color;
 
-        const normalizedName = this.getAgentIconKey(agentName);
-        const fallbackColor = window.configLoader.getColor(normalizedName, this.currentMarket);
-        if (fallbackColor) return fallbackColor;
-
-        // Legacy
+        // Fallback to legacy colors
         const colors = {
-            'glm-4.5-air': '#6610f2',
-            'glm-4.5-flash': '#6610f2',
-            'gpt-oss-120b': '#00ffcc',
-            'qwen3-235b-a22b': '#00d4ff',
-            // Add others
+            'gemini-2.5-flash': '#8A2BE2',
+            'qwen3-max': '#0066ff',
+            'MiniMax-M2': '#ff0000',
+            'gpt-5': '#10a37f',
+            'deepseek-chat-v3.1': '#4a90e2',
+            'claude-3.7-sonnet': '#cc785c',
+            'QQQ Invesco': '#ff6b00',
             'SSE 50 Index': '#e74c3c'
         };
-        return colors[normalizedName] || null;
+        return colors[agentName] || null;
     }
 
 }
 
-// Export for use in other modules and expose globally
+// 导出到全局作用域，供其他前端模块使用
 window.DataLoader = DataLoader;

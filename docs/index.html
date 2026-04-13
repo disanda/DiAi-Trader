@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked@latest/marked.min.js"></script>
+    <!-- Lightweight Charts 库（K线图表） -->
+    <script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -20,6 +21,8 @@
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link active">行情展示</a></li>
                 <li><a href="portfolio.html" class="nav-link">持仓分析</a></li>
+                <li><a href="choose_stock.html" class="nav-link">标的管理</a></li>
+                <li><a href="run_agent.html" class="nav-link">运行智能体</a></li>
                 <a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener noreferrer" class="github-link icon-only" aria-label="View source on GitHub">
                 <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -27,18 +30,16 @@
                 </a>
             </ul>
             <div class="market-selector">
+                <!-- <button id="cnMarketBtn" class="market-btn active" data-market="cn">🇨🇳 A股-上证50 </button> -->
                 <select id="marketSelector" class="market-select">
                     <option value="sse50" data-dir="agent_data_astock/sse_50_day" selected>🇨🇳 上证50</option>
-                    <option value="zxg_17" data-dir="agent_data_astock/ZXG_17_day">🇨🇳 自选股-17</option>
-                    <option value="zxg_30" data-dir="agent_data_astock/ZXG_30_day">🇨🇳 自选股-30</option>
-                    <option value="etf_30" data-dir="agent_data_astock/ETF_30_day">🇨🇳 ETF-30</option>
-                    <option value="gem" data-dir="agent_data_astock/Index_Pre">🇨🇳 Index_Pre</option>
-                </select>
+                    <option value="zxg"   data-dir="agent_data_astock/ZSG_17_day" >🇨🇳 自选股</option>
+                 </select>
                 <div id="granularityWrapper" class="granularity-wrapper hidden">
                     <div class="granularity-divider"></div>
                     <button id="weeklyBtn" class="granularity-btn" title="Weekly Data">周线</button>
                     <button id="dailyBtn" class="granularity-btn active" title="Daily Data">日线</button>
-                    <button id="hourlyBtn" class="granularity-btn" title="Hourly Data">小时</button>
+                    <button id="hourlyBtn" class="granularity-btn" title="Hourly Data">1小时线</button>
                 </div>
             </div>
         </div>
@@ -74,12 +75,18 @@
                 <div class="chart-header">
                     <h3>资产交易走势图</h3>
                     <div class="chart-controls">
+                        <button class="btn-secondary" id="k-line-mode">基准K线</button>
                         <button class="btn-secondary" id="toggle-log">线性尺度</button>
                         <button class="btn-secondary" id="export-chart">导出数据</button>
                     </div>
                 </div>
-                <div class="chart-container">
+                <!-- 线性图表容器 -->
+                <div class="chart-container" id="assetChartContainer">
                     <canvas id="assetChart"></canvas>
+                </div>
+                <!-- K线图表容器（初始隐藏） -->
+                <div class="chart-container hidden" id="klinesChartContainer" style="height: 500px;">
+                    <div id="klinesChart" style="width: 100%; height: 100%;"></div>
                 </div>
             </div>
         </section>
@@ -134,7 +141,7 @@
 
         <div class="loading-overlay" id="loadingOverlay">
             <div class="spinner"></div>
-            <p>Loading trading data...</p>
+            <p>加载交易数据中 ...</p>
         </div>
 
         <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">

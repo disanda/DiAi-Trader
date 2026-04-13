@@ -1,37 +1,63 @@
-// 首页- Asset Evolution Chart - Main page visualization
+// ============================================
+// 资产变化图表 - 主页可视化
+// ============================================
 
+// 数据加载器实例
 const dataLoader = new DataLoader();
-window.dataLoader = dataLoader; // Export to global for transaction-loader
+window.dataLoader = dataLoader; // 导出到全局作用域供transaction-loader使用
+
+// 当前图表实例
 let chartInstance = null;
+
+// 存储所有代理的数据
 let allAgentsData = {};
+
+// 是否采用对数刻度
 let isLogScale = false;
+
+// 当前选中的代理
 let currentSelectedAgent = null;
 
-// Color palette for different agents
+// K线图表相关全局变量
+let klinesChart = null;
+let currentBenchmarkTimeSeries = null;
+let klinesChartTooltip = null;
+
+// ============ 配置 ============
+// 不同代理的颜色调色板
 const agentColors = [
-    '#00d4ff', // Cyan Blue
-    '#00ffcc', // Cyan
-    '#ff006e', // Hot Pink
-    '#ffbe0b', // Yellow
-    '#8338ec', // Purple
-    '#3a86ff', // Blue
-    '#fb5607', // Orange
-    '#06ffa5'  // Mint
+    '#00d4ff', // 青蓝
+    '#00ffcc', // 青色
+    '#ff006e', // 热粉
+    '#ffbe0b', // 黄色
+    '#8338ec', // 紫色
+    '#3a86ff', // 蓝色
+    '#fb5607', // 橙色
+    '#06ffa5'  // 薄荷
 ];
 
+// SVG图像缓存
+const iconImageCache = {};
 
-const iconImageCache = {}; //Cache for loaded SVG images
+// ============ 工具函数 ============
 
-// Function to load SVG as image
+/**
+ * 将SVG图标加载为图像对象
+ * @param {string} iconPath - 图标路径
+ * @returns {Promise} 返回图像对象的Promise
+ */
 function loadIconImage(iconPath) {
     return new Promise((resolve, reject) => {
+        // 如果已缓存，直接返回
         if (iconImageCache[iconPath]) {
             resolve(iconImageCache[iconPath]);
             return;
         }
         
+        // 创建新的图像对象
         const img = new Image();
         img.onload = () => {
+            // 成功加载时缓存并返回
             iconImageCache[iconPath] = img;
             resolve(img);
         };
@@ -40,159 +66,652 @@ function loadIconImage(iconPath) {
     });
 }
 
-// // Update market subtitle based on current market
-// function updateMarketSubtitle() {
-//     console.log('[updateMarketSubtitle] Starting...');
-//     console.log('[updateMarketSubtitle] Current market:', dataLoader.getMarket());
-
-//     const marketConfig = dataLoader.getMarketConfig();
-//     console.log('[updateMarketSubtitle] Market config:', marketConfig);
-
-//     const subtitleElement = document.getElementById('marketSubtitle');
-//     console.log('[updateMarketSubtitle] Subtitle element:', subtitleElement);
-
-//     if (marketConfig && marketConfig.subtitle && subtitleElement) {
-//         subtitleElement.textContent = marketConfig.subtitle;
-//         console.log('Updated subtitle to:', marketConfig.subtitle);
-//     } else {
-//         console.warn('[updateMarketSubtitle] Missing required data:', {
-//             hasMarketConfig: !!marketConfig,
-//             hasSubtitle: marketConfig?.subtitle,
-//             hasElement: !!subtitleElement
-//         });
-//     }
-// }
-
-// Update market subtitle based on current market
-function updateMarketSubtitle() {
-    console.log('[updateMarketSubtitle] Starting...');
+/**
+ * 初始化 K线图表（Lightweight Charts）
+ * 功能：创建 Lightweight Charts 实例并配置初始参数
+ */
+function initKlineChart() {
+    console.log('[initKlineChart] 开始初始化 K线图表...');
     
-    let currentMarket = dataLoader.getMarket();
-    console.log('[updateMarketSubtitle] Raw market from dataLoader:', currentMarket);
+    // 检查 Lightweight Charts 库是否已加载
+    if (typeof LightweightCharts === 'undefined') {
+        console.error('[initKlineChart] Lightweight Charts 库未加载');
+        return false;
+    }
+    console.log('[initKlineChart] LightweightCharts 库已加载:', typeof LightweightCharts);
 
-    // 新增：映射邏輯，將前端的市場 ID 映射到 config.yaml 中的市場 key
-    const marketMapping = {
-            'sse50':  'sse50',        // sse50 -> config.yaml markets.sse50
-            'zxg_17': 'zxg_17',    // zxg_17 -> config.yaml markets.zxg_17
-            'zxg_30': 'zxg_30',        // zxg_30 -> config.yaml markets.zxg_30
-            'etf_30': 'etf_30',        // etf_30 -> config.yaml markets.etf_30
-            'zz500':  'zz500',        // zz500 -> config.yaml markets.zz500
-            'cn':     'cn',        // cn -> config.yaml markets.cn
-            'cn_hour': 'cn',       // cn_hour -> config.yaml markets.cn_hour
-            'us':     'us',        // us -> config.yaml markets.us (if exists)
+    const klinesContainer = document.getElementById('klinesChart');
+    console.log('[initKlineChart] 容器元素:', klinesContainer);
+    if (!klinesContainer) {
+        console.error('[initKlineChart] 找不到 K线图表容器');
+        return false;
+    }
+
+    // 检查容器大小 - 这很关键！
+    let width = klinesContainer.offsetWidth;
+    let height = klinesContainer.offsetHeight;
+    console.log('[initKlineChart] 容器 offsetWidth:', width, 'offsetHeight:', height);
+    
+    // 如果容器尺寸为0，尝试从父容器获取
+    if (width === 0 || height === 0) {
+        const parentContainer = document.getElementById('klinesChartContainer');
+        if (parentContainer) {
+            width = parentContainer.offsetWidth || 1200;
+            height = parentContainer.offsetHeight || 500;
+            console.log('[initKlineChart] 使用父容器尺寸:', width, 'x', height);
+        } else {
+            // 如果都获取不到，使用默认值
+            width = 1200;
+            height = 500;
+            console.log('[initKlineChart] 使用默认尺寸:', width, 'x', height);
+        }
+    }
+    
+    try {
+        // 创建 Lightweight Charts 实例 - 必须显式指定宽高！
+        klinesChart = LightweightCharts.createChart(klinesContainer, {
+            width: width,
+            height: height,
+            layout: {
+                textColor: '#e4e8ed',
+                background: {color: '#1a2239'},
+                fontFamily: 'system-ui, -apple-system, sans-serif'
+            },
+            timeScale: {
+                timeVisible: false,
+                secondsVisible: false,
+                rightOffset: 12
+            },
+            rightPriceScale: {
+                textColor: '#a0aec0',
+            }
+        });
+        console.log('[initKlineChart] K线图表实例创建成功，尺寸:', width, 'x', height);
+        return true;
+    } catch (error) {
+        console.error('[initKlineChart] 创建图表失败:', error);
+        klinesChart = null;
+        return false;
+    }
+}
+
+/**
+ * 创建或获取 K线图表的 Tooltip 元素
+ * 功能：返回或创建用于显示K线详情的浮动提示框
+ * @returns {HTMLElement} Tooltip 元素
+ */
+function getOrCreateKlineTooltip() {
+    if (klinesChartTooltip) {
+        return klinesChartTooltip;
+    }
+
+    const tooltip = document.createElement('div');
+    tooltip.id = 'kline-tooltip';
+    tooltip.style.cssText = `
+        position: absolute;
+        pointer-events: none;
+        z-index: 100;
+        background: rgba(26, 34, 57, 0.95);
+        border: 1px solid rgba(100, 200, 255, 0.3);
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 12px;
+        color: #e4e8ed;
+        font-family: 'Courier New', monospace;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        display: none;
+        min-width: 180px;
+        backdrop-filter: blur(4px);
+    `;
+
+    document.body.appendChild(tooltip);
+    klinesChartTooltip = tooltip;
+    return tooltip;
+}
+
+/**
+ * 更新 K线 Tooltip 的位置和内容
+ * @param {number} clientX - 鼠标 X 坐标
+ * @param {number} clientY - 鼠标 Y 坐标
+ * @param {Object} ohlcData - K线数据 {open, high, low, close, time}
+ */
+function updateKlineTooltip(clientX, clientY, ohlcData) {
+    const tooltip = getOrCreateKlineTooltip();
+
+    if (!ohlcData) {
+        tooltip.style.display = 'none';
+        return;
+    }
+
+    // 格式化价格
+    const formatPrice = (price) => {
+        return parseFloat(price).toFixed(2);
     };
 
-    // 如果是已知的子市場，就映射到 config.yaml 裡存在的 key
+    // 确定涨跌信息
+    const change = ohlcData.close - ohlcData.open;
+    const changePercent = ((change / ohlcData.open) * 100).toFixed(2);
+    const changeColor = change >= 0 ? '#FF4444' : '#00B050'; // A股红涨绿跌
+    const changeSymbol = change >= 0 ? '▲' : '▼';
+
+    let html = `
+        <div style="font-weight: bold; margin-bottom: 8px; color: #00d4ff;">
+            ${ohlcData.time}
+        </div>
+        <div style="display: grid; gap: 4px;">
+            <div>开盘 <span style="float: right; color: #6dd8ff;">${formatPrice(ohlcData.open)}</span></div>
+            <div>最高 <span style="float: right; color: #F5C400;">${formatPrice(ohlcData.high)}</span></div>
+            <div>最低 <span style="float: right; color: #f0dc8b;">${formatPrice(ohlcData.low)}</span></div>
+            <div>收盘 <span style="float: right; color: #c19dff;">${formatPrice(ohlcData.close)}</span></div>
+            <div style="border-top: 1px solid rgba(100, 200, 255, 0.2); padding-top: 4px; margin-top: 4px;">
+                <span style="color: ${changeColor};">${changeSymbol} ${Math.abs(change).toFixed(2)}</span>
+                <span style="float: right; color: ${changeColor};">(${changeSymbol}${Math.abs(changePercent)}%)</span>
+            </div>
+        </div>
+    `;
+
+    tooltip.innerHTML = html;
+    tooltip.style.display = 'block';
+
+    // 智能定位：避免超出视口
+    const tooltipWidth = 180;
+    const tooltipHeight = tooltip.offsetHeight;
+    const padding = 10;
+
+    let x = clientX + 15;
+    let y = clientY - tooltipHeight - 15;
+
+    // 检查右边界
+    if (x + tooltipWidth + padding > window.innerWidth) {
+        x = clientX - tooltipWidth - 15;
+    }
+
+    // 检查下边界
+    if (y < padding) {
+        y = clientY + 15;
+    }
+
+    // 检查左边界
+    if (x < padding) {
+        x = padding;
+    }
+
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+}
+
+/**
+ * 隐藏 K线 Tooltip
+ */
+function hideKlineTooltip() {
+    if (klinesChartTooltip) {
+        klinesChartTooltip.style.display = 'none';
+    }
+}
+
+/**
+ * 将时间序列数据转换为 OHLC 格式
+ * 功能：从历史价格中提取每个日期的开高低收价
+ * @param {Object} timeSeries - 时间序列数据 {日期: {价格字段}}
+ * @returns {Array} OHLC 数据数组
+ */
+function convertToOHLC(timeSeries) {
+    if (!timeSeries || Object.keys(timeSeries).length === 0) {
+        console.warn('时间序列数据为空');
+        return [];
+    }
+
+    const ohlcData = [];
+    const dates = Object.keys(timeSeries).sort();
+
+    for (const dateStr of dates) {
+        const priceData = timeSeries[dateStr];
+        
+        // 提取价格字段（兼容多种字段名）
+        const close = parseFloat(
+            priceData['4. close'] || priceData['4. sell price'] || priceData['close'] || priceData['price'] || 0
+        );
+        
+        const open = parseFloat(
+            priceData['1. open'] || priceData['open'] || close
+        );
+        
+        const high = parseFloat(
+            priceData['2. high'] || priceData['high'] || close
+        );
+        
+        const low = parseFloat(
+            priceData['3. low'] || priceData['low'] || close
+        );
+
+        if (!isNaN(open) && !isNaN(high) && !isNaN(low) && !isNaN(close)) {
+            ohlcData.push({
+                time: dateStr,
+                open: open,
+                high: high,
+                low: low,
+                close: close
+            });
+        }
+    }
+
+    console.log(`转换后 OHLC 数据点数：${ohlcData.length}`);
+    return ohlcData;
+}
+
+/**
+ * 加载基准指数的 K线数据并显示
+ * 功能：加载基准数据并绘制蜡烛图
+ */
+async function loadAndDisplayKline() {
+    console.log('[loadAndDisplayKline] 开始执行...');
+    
+    if (!klinesChart) {
+        console.error('[loadAndDisplayKline] K线图表未初始化，klinesChart 值:', klinesChart);
+        return;
+    }
+    console.log('[loadAndDisplayKline] K线图表已初始化');
+    
+    // 确保图表有有效的尺寸
+    const candleContainer = document.getElementById('klinesChart');
+    const parentContainer = document.getElementById('klinesChartContainer');
+    const currentWidth = candleContainer.offsetWidth;
+    const currentHeight = parentContainer.offsetHeight;
+    console.log('[loadAndDisplayKline] 当前图表容器尺寸:', currentWidth, 'x', currentHeight);
+    
+    // 如果容器尺寸为0，强制应用父容器的尺寸
+    if (currentWidth === 0 || currentHeight === 0) {
+        console.warn('[loadAndDisplayKline] 容器尺寸为0，应用默认或父容器尺寸');
+        const w = currentWidth || parentContainer.offsetWidth || 1200;
+        const h = currentHeight || parentContainer.offsetHeight || 500;
+        try {
+            klinesChart.applyOptions({ width: w, height: h });
+            console.log('[loadAndDisplayKline] 已应用尺寸:', w, 'x', h);
+        } catch (e) {
+            console.error('[loadAndDisplayKline] 应用尺寸失败:', e);
+        }
+    }
+
+    try {
+        console.log('[loadAndDisplayKline] 开始加载基准指数 K线数据...');
+        
+        // 确保数据加载器已初始化
+        await dataLoader.initialize();
+        console.log('[loadAndDisplayKline] 数据加载器已初始化');
+
+        // 获取基准数据（同时获取原始时间序列）
+        // 需要直接加载基准数据的原始时间序列
+        const marketConfig = dataLoader.getMarketConfig();
+        console.log('[loadAndDisplayKline] 市场配置:', marketConfig);
+        if (!marketConfig) {
+            console.warn('[loadAndDisplayKline] 未能获取市场配置');
+            return;
+        }
+
+        // 获取基准文件路径
+        const benchmarkFile = marketConfig.benchmark_file || 'data/a_stock_data/sse_50_day/index_daily_sh000001.json';
+        console.log('[loadAndDisplayKline] 将加载基准文件:', benchmarkFile);
+
+        const fullPath = `${dataLoader.baseDataPath}/${benchmarkFile}`;
+        console.log('[loadAndDisplayKline] 完整 URL:', fullPath);
+        const response = await fetch(fullPath);
+        if (!response.ok) {
+            console.error('[loadAndDisplayKline] 基准文件加载失败，状态码:', response.status, '路径:', fullPath);
+            return;
+        }
+        console.log('[loadAndDisplayKline] 基准文件加载成功，状态码:', response.status);
+
+        const data = await response.json();
+        console.log('[loadAndDisplayKline] JSON 数据加载成功，数据键:', Object.keys(data));
+
+        // 获取时间序列
+        let timeSeries = data['Time Series (Daily)'] || data['Time Series (60min)'];
+        if (!timeSeries) {
+            for (const k of Object.keys(data)) {
+                if (k.toLowerCase().includes('time series')) {
+                    timeSeries = data[k];
+                    break;
+                }
+            }
+        }
+
+        console.log('[loadAndDisplayKline] 时间序列数据:', timeSeries ? '已获取，长度: ' + Object.keys(timeSeries).length : '未找到');
+        if (!timeSeries) {
+            console.error('[loadAndDisplayKline] 未找到时间序列数据，数据结构:', data);
+            return;
+        }
+
+        currentBenchmarkTimeSeries = timeSeries;
+
+        // 清空之前的蜡烛图
+        if (klinesChart) {
+            try {
+                klinesChart.candlestickSeries?.forEach(series => {
+                    klinesChart.removeSeries(series);
+                });
+            } catch (e) {
+                // 忽略错误
+            }
+        }
+
+        // 创建蜡烛图 - A股配色：涨为红色，跌为绿色
+        const candlestickSeries = klinesChart.addCandlestickSeries({
+            upColor: '#FF4444',      // 涨时红色（A股）
+            downColor: '#00B050',    // 跌时绿色（A股）
+            borderUpColor: '#FF4444',
+            borderDownColor: '#00B050',
+            wickUpColor: '#FF4444',
+            wickDownColor: '#00B050',
+        });
+
+        // 转换为 OHLC 格式
+        const ohlcData = convertToOHLC(timeSeries);
+        
+        console.log('[loadAndDisplayKline] K线数据转换完成，共', ohlcData.length, '个数据点');
+        if (ohlcData.length === 0) {
+            console.error('[loadAndDisplayKline] 转换后没有数据!');
+            return;
+        }
+        
+        // 设置蜡烛图数据
+        console.log('[loadAndDisplayKline] 设置蜡烛图数据...');
+        candlestickSeries.setData(ohlcData);
+        console.log('[loadAndDisplayKline] 蜡烛图数据已设置');
+
+        // ============ 添加鼠标悬停事件处理 ============
+        // 订阅十字线移动事件（鼠标在图表上移动时触发）
+        klinesChart.subscribeCrosshairMove((param) => {
+            // 如果鼠标离开图表或没有指向数据点，隐藏tooltip
+            if (param.point === undefined || param.time === undefined) {
+                hideKlineTooltip();
+                return;
+            }
+
+            // 从 candlestickSeries 的数据中查找对应时间的K线数据
+            const ohlcItem = ohlcData.find(item => item.time === param.time);
+
+            if (ohlcItem) {
+                // 获取鼠标的客户端坐标
+                const chartContainer = document.getElementById('klinesChart');
+                const rect = chartContainer.getBoundingClientRect();
+                const clientX = rect.left + param.point.x;
+                const clientY = rect.top + param.point.y;
+
+                // 更新并显示 Tooltip
+                updateKlineTooltip(clientX, clientY, ohlcItem);
+            } else {
+                hideKlineTooltip();
+            }
+        });
+
+        console.log('[loadAndDisplayKline] 已添加鼠标悬停事件处理');
+
+        // 自适应视图
+        console.log('[loadAndDisplayKline] 调整视图大小...');
+        klinesChart.timeScale().fitContent();
+        
+        // 注册窗口大小变化事件处理器
+        console.log('[loadAndDisplayKline] 注册窗口大小变化事件...');
+        const handleResize = () => {
+            try {
+                const container = document.getElementById('klinesChartContainer');
+                if (container && !container.classList.contains('hidden')) {
+                    klinesChart.applyOptions({
+                        width: container.offsetWidth,
+                        height: container.offsetHeight
+                    });
+                }
+            } catch (error) {
+                // 忽略错误
+            }
+        };
+        window.addEventListener('resize', handleResize);
+
+        console.log('[loadAndDisplayKline] K线图表已绘制完成');
+
+    } catch (error) {
+        console.error('加载 K线数据失败:', error);
+    }
+}
+
+/**
+ * 在线性和 K线视图之间切换
+ * 功能：隐藏线性图表，显示 K线视图；反之亦然
+ */
+function toggleBetweenCharts() {
+    const assetChartContainer = document.getElementById('assetChartContainer');
+    const klinesChartContainer = document.getElementById('klinesChartContainer');
+    const klineBtn = document.getElementById('k-line-mode');
+
+    console.log('[toggleBetweenCharts] ===== 开始执行 =====');
+    console.log('[toggleBetweenCharts] assetChartContainer:', assetChartContainer);
+    console.log('[toggleBetweenCharts] klinesChartContainer:', klinesChartContainer);
+    console.log('[toggleBetweenCharts] klineBtn:', klineBtn);
+    console.log('[toggleBetweenCharts] 当前 klinesChart 状态:', klinesChart);
+
+    if (!assetChartContainer || !klinesChartContainer) {
+        console.error('找不到图表容器。页面中的容器元素：');
+        console.error('所有 div 元素：', document.querySelectorAll('div[id*="Chart"]'));
+        return;
+    }
+
+    const isChartHidden = assetChartContainer.classList.contains('hidden');
+    console.log('[toggleBetweenCharts] isChartHidden:', isChartHidden);
+
+    if (isChartHidden) {
+        // 当前显示的是 K线，切换回线性
+        console.log('[toggleBetweenCharts] 执行切换逻辑：从 K线 切换到线性');
+        assetChartContainer.classList.remove('hidden');
+        klinesChartContainer.classList.add('hidden');
+        klineBtn.textContent = 'K线视图';
+        console.log('[toggleBetweenCharts] ✓ 已切换到线性图表');
+    } else {
+        // 当前显示的是线性，切换到 K线
+        console.log('[toggleBetweenCharts] 执行切换逻辑：从线性 切换到 K线');
+        assetChartContainer.classList.add('hidden');
+        klinesChartContainer.classList.remove('hidden');
+        klineBtn.textContent = '线性视图';
+        console.log('[toggleBetweenCharts] HTML 类已更新');
+        
+        // 强制浏览器重排，使容器获得有效尺寸
+        void klinesChartContainer.offsetHeight; // 触发重排
+        console.log('[toggleBetweenCharts] 强制重排，容器尺寸:', 
+            klinesChartContainer.offsetWidth, 'x', klinesChartContainer.offsetHeight);
+        
+        // 立即初始化或更新
+        if (!klinesChart) {
+            console.log('[toggleBetweenCharts] klinesChart 为空，执行初始化...');
+            if (initKlineChart()) {
+                console.log('[toggleBetweenCharts] 初始化成功，立即加载数据...');
+                loadAndDisplayKline();
+            } else {
+                console.error('[toggleBetweenCharts] 初始化失败！');
+            }
+        } else {
+            // K线图表已存在，更新其尺寸并重新载入数据
+            console.log('[toggleBetweenCharts] klinesChart 已存在，应用父容器尺寸...');
+            const w = klinesChartContainer.offsetWidth;
+            const h = klinesChartContainer.offsetHeight;
+            console.log('[toggleBetweenCharts] 应用尺寸:', w, 'x', h);
+            try {
+                klinesChart.applyOptions({ width: w, height: h });
+                klinesChart.timeScale().fitContent();
+                console.log('[toggleBetweenCharts] ✓ K线图表已更新');
+                // 重新加载数据
+                loadAndDisplayKline();
+            } catch (error) {
+                console.error('[toggleBetweenCharts] 更新K线时出错:', error);
+            }
+        }
+    }
+    console.log('[toggleBetweenCharts] ===== 执行完毕 =====');
+}
+
+/**
+ * 响应市场切换时重新加载 K线数据
+ * 功能：当用户切换市场时，如果 K线图表已显示，则重新加载对应市场的基准数据
+ */
+async function refreshKlineForNewMarket() {
+    const klinesChartContainer = document.getElementById('klinesChartContainer');
+    
+    // 仅在 K线视图可见时刷新
+    if (klinesChartContainer && !klinesChartContainer.classList.contains('hidden')) {
+        console.log('市场已切换，重新加载 K线数据...');
+        if (klinesChart) {
+            klinesChart.remove();
+            klinesChart = null;
+        }
+        
+        if (initKlineChart()) {
+            await loadAndDisplayKline();
+        }
+    }
+}
+
+
+/**
+ * 根据当前市场更新副标题
+ * 将前端市场ID映射到config.yaml中定义的市场key
+ */
+function updateMarketSubtitle() {
+    console.log('[updateMarketSubtitle] 开始更新副标题...');
+    
+    let currentMarket = dataLoader.getMarket();
+    console.log('[updateMarketSubtitle] 原始市场ID:', currentMarket);
+
+    // 市场ID映射表 - 将前端的市场ID映射到config.yaml中的市场key
+    const marketMapping = {
+        'sse50':  'cn',        // 上证50 -> config.yaml markets.cn
+        'zxg':    'cn_sxg',    // 自选股 -> config.yaml markets.cn_sxg
+        'csi300': 'cn',        // 沪深300 -> config.yaml markets.cn
+        'zz500':  'cn',        // 中证500 -> config.yaml markets.cn
+        'gem':    'cn',        // 创业板指 -> config.yaml markets.cn
+        'cn':     'cn',        // 上证50（默认）
+        'cn_sxg': 'cn_sxg',    // 自选股
+    };
+
+    // 获取有效市场ID（如果有映射则使用映射值，否则使用原值）
     const effectiveMarket = marketMapping[currentMarket] || currentMarket;
-    console.log('[updateMarketSubtitle] Effective market after mapping:', effectiveMarket);
+    console.log('[updateMarketSubtitle] 映射后的市场ID:', effectiveMarket);
 
-    const marketConfig = dataLoader.getMarketConfig(effectiveMarket);  // ← 改用 effectiveMarket
-    console.log('[updateMarketSubtitle] Market config:', marketConfig);
+    // 获取市场配置信息
+    const marketConfig = dataLoader.getMarketConfig(effectiveMarket);
+    console.log('[updateMarketSubtitle] 市场配置:', marketConfig);
 
+    // 获取副标题DOM元素
     const subtitleElement = document.getElementById('marketSubtitle');
-    console.log('[updateMarketSubtitle] Subtitle element:', subtitleElement);
+    console.log('[updateMarketSubtitle] 副标题元素:', subtitleElement);
 
+    // 更新副标题文本
     if (marketConfig && marketConfig.subtitle && subtitleElement) {
         subtitleElement.textContent = marketConfig.subtitle;
-        console.log('Updated subtitle to:', marketConfig.subtitle);
+        console.log('副标题已更新为:', marketConfig.subtitle);
     } else {
-        console.warn('[updateMarketSubtitle] Missing required data:', {
+        // 日志记录缺失的数据
+        console.warn('[updateMarketSubtitle] 缺少必需数据:', {
             hasMarketConfig: !!marketConfig,
             hasSubtitle: marketConfig?.subtitle,
             hasElement: !!subtitleElement,
             usedMarket: effectiveMarket
         });
 
-        // 保底顯示（可選）
+        // 显示默认副标题
         if (subtitleElement) {
-            subtitleElement.textContent = "A股市場";
+            subtitleElement.textContent = "A股市场";
         }
     }
 }
 
-// Load data and refresh UI
+/**
+ * 加载数据並刷新UI
+ * 1. 初始化数据加载器
+ * 2. 更新市场副标题
+ * 3. 加载所有代理数据
+ * 4. 预加载代理图标
+ * 5. 创建图表、图例、排行楼、交易记录
+ */
 async function loadDataAndRefresh() {
-    showLoading();
+    showLoading(); // 显示加载提示符
 
     try {
-        // Ensure config is loaded first
+        // 确保数据配置已加载
         await dataLoader.initialize();
 
-        // Update subtitle for the current market
+        // 更新当前市场的副标题
         updateMarketSubtitle();
 
-        // Load all agents data
-        console.log('Loading all agents data...');
+        // 加载所有代理的一你数据
+        console.log('正在加载所有代理的数据...');
         allAgentsData = await dataLoader.loadAllAgentsData();
-        console.log('Data loaded:', allAgentsData);
+        console.log('数据加载完成:', allAgentsData);
 
-        // Preload all agent icons
+        // 预加载svg图标
         const agentNames = Object.keys(allAgentsData);
         const iconPromises = agentNames.map(agentName => {
-            const folderKey = agentName.split('/').pop();           // ← 新增这行
-            //const iconPath = dataLoader.getAgentIcon(agentName);
-            const iconPath = dataLoader.getAgentIcon(agentName);    // ← 改成 folderKey
-            console.warn(`load icon for ${agentName}:`, agentName);
-            console.warn(`load icon for ${agentName}:`, folderKey);
-            console.warn(`load icon for ${agentName}:`, iconPath);
+            const iconPath = dataLoader.getAgentIcon(agentName);
             return loadIconImage(iconPath).catch(err => {
-                console.warn(`Failed to load icon for ${agentName}:`, err);
+                console.warn(`为 ${agentName} 加载图标失败:`, err);
             });
         });
         await Promise.all(iconPromises);
-        console.log('Icons preloaded');
+        console.log('嚾标预加载完成');
 
-        // Destroy existing chart if it exists
+        // 摒的存在的图表并等候一个氡0ms确保它完全销毁
         if (chartInstance) {
-            console.log('Destroying existing chart...');
+            console.log('需要删除旧图表...');
             chartInstance.destroy();
             chartInstance = null;
-            // Wait a tick to ensure chart is fully destroyed before creating new one
             await new Promise(resolve => setTimeout(resolve, 100));
         }
 
-        // Update stats
+        // 更新统计信息
         updateStats();
 
-        // Create chart
+        // 创建图表
         createChart();
 
-        // Create legend
+        // 创建嚾例
         createLegend();
 
-        // Create leaderboard and action flow
+        // 创建排行楼和交易记录
         await createLeaderboard();
         await createActionFlow();
 
     } catch (error) {
-        console.error('Error loading data:', error);
-        alert('Failed to load trading data. Please check console for details.');
+        console.error('加载数据失败:', error);
+        alert('业务数据加载失败。请检查控制台是否有错误信息。');
     } finally {
-        hideLoading();
+        hideLoading(); // 隐藏加载提示符
     }
 }
 
-// Initialize the page
+/**
+ * 初始化页面
+ * 1. 设置事件监听晨
+ * 2. 加载初始数据
+ * 3. 更新UI状态
+ */
 async function init() {
-    // Set up event listeners first
+    // 需要首先设置事件监听晨才能收到用户外上改变
     setupEventListeners();
 
-    // Load initial data
+    // 加载初始数据
     await loadDataAndRefresh();
     
-    // Initialize UI state
+    // 初始化UI状态
     updateMarketUI();
-
-    // 在 loadDataAndRefresh() 的 finally 块中添加：
-    // setupTradeHistoryCollapsible();
 }
 
-// Update statistics cards
+/**
+ * 更新统计信息卡片
+ * 显示：代理数量、交易时间范围、最优业维、最优餞率
+ */
 function updateStats() {
+    // 获取代理名称列表
     const agentNames = Object.keys(allAgentsData);
     const agentCount = agentNames.length;
 
-    // Calculate date range
+    // 计算时间范围（最早与最晩知处）
     let minDate = null;
     let maxDate = null;
 
@@ -207,7 +726,7 @@ function updateStats() {
         }
     });
 
-    // Find best performer
+    // 找到最优业维（收益率最高）
     let bestAgent = null;
     let bestReturn = -Infinity;
 
@@ -219,21 +738,21 @@ function updateStats() {
         }
     });
 
-    // Update DOM
+    // 更新DOM元素
     document.getElementById('agent-count').textContent = agentCount;
 
-    // Format date range - uniform format for both markets
+    // 日期格式化函数 - 适配易时代戳
     const formatDateRange = (dateStr) => {
-        if (!dateStr) return 'N/A'; // Parse date string (handles both "2025-10-01" and "2025-10-01 10:00:00" formats)
+        if (!dateStr) return 'N/A';
         const date = new Date(dateStr);
-        // return date.toLocaleString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
         return date.toLocaleString('zh-CN', {year: 'numeric', month: 'numeric', day: 'numeric' });
     };
 
+    // 更新交易时间范围
     document.getElementById('trading-period').textContent = minDate && maxDate ?
         `${formatDateRange(minDate)} 至 ${formatDateRange(maxDate)}` : 'N/A';
     
-    // Extract folder name from full path for display name lookup
+    // 从全路径提取代理名称用于检索
     const bestPerformerName = bestAgent ? bestAgent.split('/').pop() : null;
     document.getElementById('best-performer').textContent = bestPerformerName ?
         dataLoader.getAgentDisplayName(bestPerformerName) : 'N/A';
@@ -241,7 +760,13 @@ function updateStats() {
         dataLoader.formatPercent(bestReturn) : 'N/A';
 }
 
-// Create the main chart
+/**
+ * 创建主嚾表
+ * 特效：
+ * - 收集所有代理的数据点
+ * - 为Chart.js构建数据集
+ * - 添加负责N标記的插件
+ */
 function createChart() {
     const ctx = document.getElementById('assetChart').getContext('2d');
 
@@ -267,11 +792,11 @@ function createChart() {
         // Special styling for benchmarks (check if name contains 'QQQ' or 'SSE')
         const isBenchmark = agentName.includes('QQQ') || agentName.includes('SSE');
         if (isBenchmark) {
-            color = dataLoader.getAgentBrandColor(agentName) || '#ff6b00';
+            color = dataLoader.getAgentBrandColor(folderKey) || '#ff6b00';
             borderWidth = 2;
             borderDash = [5, 5]; // Dashed line for benchmark
         } else {
-            color = dataLoader.getAgentBrandColor(agentName) || agentColors[index % agentColors.length];
+            color = dataLoader.getAgentBrandColor(folderKey) || agentColors[index % agentColors.length];
             borderWidth = 3;
             borderDash = [];
         }
@@ -318,12 +843,12 @@ function createChart() {
                 borderColor: color,
             },
             // store folder key for later lookups in tooltip/legend
-            agentFolder: agentName, // folderKey,
-            agentIcon: dataLoader.getAgentIcon(agentName)
+            agentFolder: folderKey,
+            agentIcon: dataLoader.getAgentIcon(folderKey)
         };
 
         console.log(`[DATASET OBJECT ${index}] borderColor: ${datasetObj.borderColor}, pointHoverBackgroundColor: ${datasetObj.pointHoverBackgroundColor}`);
-        console.log(`[DATASET OBJECT ${index}] agentIcon: ${datasetObj.agentIcon}, agentFolder: ${datasetObj.agentFolder}`);
+
         return datasetObj;
     });
 
@@ -433,10 +958,8 @@ function createChart() {
             });
         }
     };
+
     console.log('Creating chart with', datasets.length, 'datasets');
-    console.log('Preload icon key example:', dataLoader.getAgentIcon('glm-4.5-air'));
-    console.log('Preload icon key example2:', dataLoader.getAgentIcon('agent_data_astock/sse_50_day/glm-4.5-air')); // agent_data_astock/sse_50_day/glm-4.5-air
-    console.log('Dataset agentIcon example:', datasets[0].agentIcon);
     console.log('Datasets summary:', datasets.map(d => ({
         label: d.label,
         borderColor: d.borderColor,
@@ -670,7 +1193,10 @@ function createChart() {
     });
 }
 
-// Create legend
+/**
+ * 创建嚾例
+ * 显示每个代理的名称、颜色与收益率
+ */
 function createLegend() {
     const legendContainer = document.getElementById('agentLegend');
     legendContainer.innerHTML = '';
@@ -718,7 +1244,10 @@ function createLegend() {
     });
 }
 
-// Toggle between linear and log scale
+/**
+ * 切换线性/对数刻度
+ * 点击按预一次会切换Y轴的刻度（线性⇄对数）
+ */
 function toggleScale() {
     isLogScale = !isLogScale;
 
@@ -732,7 +1261,13 @@ function toggleScale() {
     createChart();
 }
 
-// Export chart data as CSV
+
+
+
+/**
+ * 将嚾表数据导出为CSV文件
+ * 包含整个时间段内所有代理的资产价值
+ */
 function exportData() {
     let csv = 'Date,';
 
@@ -773,7 +1308,13 @@ function exportData() {
     window.URL.revokeObjectURL(url);
 }
 
-// Update UI based on current market state
+/**
+ * 根据当前市场更新UI状态
+ * 操作：
+ * - 更新按钱的活动状态
+ * - 显示/隐藏粗度加简化设置
+ * - 更新下拉单选择项
+ */
 function updateMarketUI() {
     const currentMarket = dataLoader.getMarket();
     const usBtn = document.getElementById('usMarketBtn');
@@ -812,8 +1353,30 @@ function updateMarketUI() {
     updateMarketSubtitle();
 }
 
-// Set up event listeners
+/**
+ * 设置所有不市场切换、涾度切换、数据导出等不件
+ * 事件监听晨的中心
+ */
 function setupEventListeners() {
+    console.log('[setupEventListeners 调试] 开始绑定事件监听器...');
+    
+    // K线视图切换按钮
+    const klineModeBtn = document.getElementById('k-line-mode');
+    console.log('[K线按钮] 找到的按钮元素:', klineModeBtn);
+    
+    if (klineModeBtn) {
+        console.log('[K线按钮] 成功绑定点击事件');
+        klineModeBtn.addEventListener('click', toggleBetweenCharts);
+    } else {
+        console.error('[K线按钮] 未找到 id="k-line-mode" 的按钮元素');
+        // 尝试通过其他方式查找按钮
+        const allButtons = document.querySelectorAll('button');
+        console.log('[K线按钮] 页面中所有按钮:', allButtons);
+        allButtons.forEach((btn, idx) => {
+            console.log(`按钮 ${idx}:`, btn.id, btn.textContent);
+        });
+    }
+    
     document.getElementById('toggle-log').addEventListener('click', toggleScale);
     document.getElementById('export-chart').addEventListener('click', exportData);
 
@@ -878,6 +1441,9 @@ function setupEventListeners() {
                 dataLoader.setMarket(selectedMarket);  // 设置前端市场 ID
                 updateMarketUI();
                 await loadDataAndRefresh();  // 重新加载数据
+                
+                // 若K线图表已显示，则刷新K线数据
+                await refreshKlineForNewMarket();
             }
         });
     }
@@ -915,7 +1481,11 @@ function setupEventListeners() {
     window.addEventListener('orientationchange', handleResize);
 }
 
-// Create leaderboard
+/**
+ * 创建不行排同
+ * 显示排名、嚾标、收賊不增率
+ * 点击排行楼项目会载入该代理的交易记录
+ */
 async function createLeaderboard() {
     const leaderboard = await window.transactionLoader.buildLeaderboard(allAgentsData);
     const container = document.getElementById('leaderboardList');
@@ -950,6 +1520,10 @@ async function createLeaderboard() {
     });
 }
 
+/**
+ * 选择一个代理
+ * 加载该代理的交易记录不载入交易时間线
+ */
 async function selectAgent(agentName) {
     currentSelectedAgent = agentName;
 
@@ -976,6 +1550,9 @@ let actionFlowState = {
     container: null
 };
 
+/**
+ * 创建不行记录容器不铺设储、下拉加载、折叠非闻
+ */
 async function createActionFlow() {
     // Load all transactions
     //await window.transactionLoader.loadAllTransactions();
@@ -1068,7 +1645,10 @@ async function loadAgentActions(agentName) {
     }
 }
 
-//加载最近交易记录
+/**
+ * 下拉加载更多交易记录
+ * 使用分段加载来优化性能
+ */
 async function loadMoreTransactions() {
     if (actionFlowState.isLoading) return;
     if (actionFlowState.loadedCount >= actionFlowState.allTransactions.length) return;
@@ -1158,6 +1738,9 @@ async function loadMoreTransactions() {
     updateStatusNote();
 }
 
+/**
+ * 显示加载提示符
+ */
 function showLoadingIndicator() {
     // Remove existing indicator
     const existingLoader = actionFlowState.container.querySelector('.transactions-loading');
@@ -1172,6 +1755,9 @@ function showLoadingIndicator() {
     actionFlowState.container.appendChild(loaderEl);
 }
 
+/**
+ * 隐藏加载提示符
+ */
 function hideLoadingIndicator() {
     const existingLoader = actionFlowState.container.querySelector('.transactions-loading');
     if (existingLoader) {
@@ -1179,6 +1765,9 @@ function hideLoadingIndicator() {
     }
 }
 
+/**
+ * 更新交易记录页面下方的状态接条
+ */
 function updateStatusNote() {
     // Remove existing note
     const existingNote = actionFlowState.container.querySelector('.transactions-status-note');
@@ -1209,6 +1798,9 @@ function updateStatusNote() {
     actionFlowState.container.appendChild(noteEl);
 }
 
+/**
+ * 设置了载入里前的下拉监听晨
+ */
 function setupScrollListener() {
     const container = actionFlowState.container;
     let ticking = false;
@@ -1241,7 +1833,9 @@ function setupScrollListener() {
     });
 }
 
-// Format thinking text into paragraphs
+/**
+ * 格式化思考文本（将换行或列表怍成段落）
+ */
 function formatThinking(text) {
     // Split by double newlines or numbered lists
     const paragraphs = text.split(/\n\n+/).filter(p => p.trim());
@@ -1253,16 +1847,24 @@ function formatThinking(text) {
     return paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
 }
 
-// Loading overlay controls
+/**
+ * 显示减斗㛢叠层罩（整个页面的加载信号）
+ */
 function showLoading() {
     document.getElementById('loadingOverlay').classList.remove('hidden');
 }
 
+/**
+ * 隐藏斠布叠层
+ */
 function hideLoading() {
     document.getElementById('loadingOverlay').classList.add('hidden');
 }
 
-// === 改进版：更新最近交易记录（修复日期无年份 + 价格显示0）===
+/**
+ * 更新指定代理的交易历史信息时间线
+ * 改进：验证日期格式、处理价格缺失
+ */
 async function updateTradeHistory(agentName) {
     const timeline = document.getElementById('tradeTimeline');
     if (!timeline) return;
@@ -1342,27 +1944,9 @@ async function updateTradeHistory(agentName) {
     }
 }
 
-// Force default market selection on load 解决index默认下拉列表问题
-const marketSelector = document.getElementById('marketSelector');
-marketSelector.value = 'sse50';  // Set value directly
-const defaultOption = marketSelector.querySelector('option[value="sse50"]');
-if (defaultOption) {
-    defaultOption.selected = true;  // Explicitly select the option
-}
-dataLoader.setMarket('sse50');  // Sync with data loader
-updateMarketUI();  // Update any UI dependent on market
-marketSelector.dispatchEvent(new Event('change'));  // Trigger change event to load data if needed
-
-// Add debug logging to verify
-console.log('Default market forced to:', marketSelector.value);
-console.log('Selected option:', marketSelector.options[marketSelector.selectedIndex].text);
-
-
-// Initialize on page load
+// ============================================
+// 页面初始化入口
+// ============================================
+// 当页面加载完毕后自动初始化应用
 window.addEventListener('DOMContentLoaded', init);
-
-const full = "agent_data_astock/sse_50_day/glm-4.5-air";
-const short = "glm-4.5-air";
-console.log('Full:', dataLoader.getAgentIcon(full));  // 应为自定义，如"./figs/zhipu-color.svg"
-console.log('Short:', dataLoader.getAgentIcon(short)); // 目前为"./figs/stock.svg"（bug）
 

@@ -13,7 +13,6 @@ class TransactionLoader {
         const dataLoader = window.dataLoader;
         const currentMarket = dataLoader.getMarket();
         const agents = config.getEnabledAgents(currentMarket);
-        //dataLoader.setMarket("sse50");  // 设置默认
 
         console.log(`[TransactionLoader] Loading transactions for ${agents.length} agents in ${currentMarket} market`);
 
@@ -89,18 +88,8 @@ class TransactionLoader {
     async loadAgentTransactions(agentFolder, market = 'cn') {
         try {
             const marketConfig = window.configLoader.getMarketConfig(market);
-            //const agentDataDir = marketConfig ? marketConfig.data_dir : 'agent_data_astock';
-            //const positionPath = `data/${agentDataDir}/${agentFolder}/position/position.jsonl`;
-            
-            // 修复路径问题 Aligns path building with data-loader.js 。 Use undefined check for better handling of empty/undefined data_dir 
-            let agentDataDir = (marketConfig && marketConfig.data_dir !== undefined) ? marketConfig.data_dir : 'agent_data_astock'; 
-            let folderPath = agentFolder; // Add startsWith check to prevent duplication
-            if (agentDataDir && agentDataDir.trim() !== '') {
-            folderPath = agentFolder.startsWith(agentDataDir) ? agentFolder : `${agentDataDir}/${agentFolder}`;}
-
-            // Normalize path: Remove double slashes and trim
-            folderPath = folderPath.replace(/\/+/g, '/').trim();
-            const positionPath = `data/${folderPath}/position/position.jsonl`;
+            const agentDataDir = marketConfig ? marketConfig.data_dir : 'agent_data_astock';
+            const positionPath = `data/${agentDataDir}/${agentFolder}/position/position.jsonl`;
 
             console.log(`[TransactionLoader] Loading transactions from: ${positionPath}`);
 
@@ -225,7 +214,24 @@ class TransactionLoader {
         const leaderboard = [];
         const currentMarket = window.dataLoader ? window.dataLoader.getMarket() : 'cn';
 
+        // Map front-end market IDs to config.yaml market keys
+        const marketMapping = {
+            'sse50':  'cn',        // 上证50 -> config.yaml markets.cn
+            'zxg':    'cn_sxg',    // 自选股 -> config.yaml markets.cn_sxg
+            'csi300': 'cn',        // 沪深300 -> config.yaml markets.cn
+            'zz500':  'cn',        // 中证500 -> config.yaml markets.cn
+            'gem':    'cn',        // 创业板指 -> config.yaml markets.cn
+            'cn':     'cn',        // 上证50（默认）
+            'cn_sxg': 'cn_sxg',    // 自选股
+        };
+        
+        const effectiveMarket = marketMapping[currentMarket] || currentMarket;
+        console.log('[buildLeaderboard] currentMarket:', currentMarket, '=> effectiveMarket:', effectiveMarket);
+
         for (const [agentName, data] of Object.entries(allAgentsData)) {
+            // Extract folder key from full path (e.g., 'agent_data_astock/sse_50_day/glm-4.5-air' => 'glm-4.5-air')
+            const folderKey = agentName.split('/').pop();
+            
             const assetHistory = data.assetHistory || [];
             const initialValue = assetHistory[0]?.value || 10000;
             const finalValue = assetHistory[assetHistory.length - 1]?.value || initialValue;
@@ -234,9 +240,10 @@ class TransactionLoader {
 
             leaderboard.push({
                 agentName: agentName,
-                displayName: window.configLoader.getDisplayName(agentName, currentMarket),
-                icon: window.configLoader.getIcon(agentName, currentMarket),
-                color: window.configLoader.getColor(agentName, currentMarket),
+                folderKey: folderKey,
+                displayName: window.configLoader.getDisplayName(folderKey, effectiveMarket),
+                icon: window.configLoader.getIcon(folderKey, effectiveMarket),
+                color: window.configLoader.getColor(folderKey, effectiveMarket),
                 initialValue: initialValue,
                 currentValue: finalValue,
                 gain: gain,

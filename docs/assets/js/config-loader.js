@@ -55,48 +55,51 @@ class ConfigLoader {
         return this.getEnabledAgents(marketId).map(agent => agent.folder);
     }
 
-    // // Get agent configuration by folder name from market or legacy config
-    // getAgentConfig(folderName, marketId = null) {
-    //     // If market ID provided, search in market-specific agents
-    //     if (marketId) {
-    //         const marketConfig = this.getMarketConfig(marketId);
-    //         if (marketConfig && marketConfig.agents) {
-    //             const agent = marketConfig.agents.find(a => a.folder === folderName);
-    //             if (agent) return agent;
-    //         }
-    //     }
-
-    //     // Fallback to legacy global agents list
-    //     if (!this.config || !this.config.agents) {
-    //         return null;
-    //     }
-    //     return this.config.agents.find(agent => agent.folder === folderName);
-    // }
-
     // Get agent configuration by folder name from market or legacy config
     getAgentConfig(folderName, marketId = null) {
-        const normalizedFolder = folderName.split('/').pop();
-        let agentsList;
+        // If market ID provided, search in market-specific agents
         if (marketId) {
             const marketConfig = this.getMarketConfig(marketId);
-            agentsList = marketConfig && marketConfig.agents ? marketConfig.agents : [];
-        } else {
-            agentsList = this.config && this.config.agents ? this.config.agents : [];
+            if (marketConfig && marketConfig.agents) {
+                // Try exact match first
+                let agent = marketConfig.agents.find(a => a.folder === folderName);
+                if (agent) return agent;
+                
+                // Try suffix match (e.g., 'glm-4.5-air' should match 'agent_data_astock/sse_50_day/glm-4.5-air')
+                agent = marketConfig.agents.find(a => a.folder.endsWith('/' + folderName) || a.folder.endsWith(folderName));
+                if (agent) return agent;
+            }
         }
-        return agentsList.find(a => a.folder === folderName || a.folder === normalizedFolder) || null;
+
+        // Fallback to legacy global agents list
+        if (!this.config || !this.config.agents) {
+            return null;
+        }
+        // Try exact match first
+        let agent = this.config.agents.find(agent => agent.folder === folderName);
+        if (agent) return agent;
+        
+        // Try suffix match
+        return this.config.agents.find(agent => agent.folder.endsWith('/' + folderName) || agent.folder.endsWith(folderName));
     }
 
-    // // Get display name for agent
+    // Get display name for agent
     // getDisplayName(folderName, marketId = null) {
     //     const agent = this.getAgentConfig(folderName, marketId);
     //     return agent ? agent.display_name : folderName;
     // }
-
-    // Get display name for agent
     getDisplayName(folderName, marketId = null) {
-        const agent = this.getAgentConfig(folderName, marketId);
-        return agent ? (agent.display_name || folderName.split('/').pop()) : folderName.split('/').pop(); //兼容性
+    console.log('[DEBUG] getDisplayName called with:', { folderName, marketId });
+    
+    const agent = this.getAgentConfig(folderName, marketId);
+    if (agent) {
+        console.log('[DEBUG] Found agent:', agent);
+        return agent.display_name;
+    } else {
+        console.log('[DEBUG] Agent not found for folder:', folderName);
+        return folderName;
     }
+}
 
     // Get icon path for agent
     getIcon(folderName, marketId = null) {
