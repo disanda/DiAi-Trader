@@ -36,13 +36,42 @@ def _load_runtime_env() -> dict:
         pass
     return {}
 
-def get_config_value(key: str, default=None): 
-# 统一配置文件读取入口
+def get_config_value(key: str, default=None, json_config_path: str = None):
+    """
+    统一配置文件读取入口（支持 JSON + 原有环境变量）
+    
+    参数:
+        key: 要读取的配置键（如 "sse_50", "Ashare_symbols" 等）
+        default: 默认值
+        json_config_path: JSON配置文件路径（如果提供则优先读取）
+    """
+    # 1. 优先从 JSON 文件读取（如果你传了路径）
+    if json_config_path:
+        config_file = Path(json_config_path)
+        if config_file.exists():
+            try:
+                with open(config_file, "r", encoding="utf-8") as f:
+                    config = json.load(f)
+                
+                # 如果 key 直接存在于 JSON 中（例如 "sse_50"）
+                if key in config:
+                    return config[key]
+                
+                # 可选：也支持读取像 "Ashare_symbols" 这样的控制键（以后扩展用）
+                if key == "Ashare_symbols" and "Ashare_symbols" in config:
+                    return config["Ashare_symbols"]
+                    
+            except Exception as e:
+                print(f"⚠️ 读取 JSON 配置文件失败 ({config_file}): {e}")
+        else:
+            print(f"⚠️ JSON 配置文件不存在: {config_file}")
+
+    # 2. 保留原来的逻辑（运行时环境 + 环境变量）
     _RUNTIME_ENV = _load_runtime_env()
     if key in _RUNTIME_ENV:
         return _RUNTIME_ENV[key]
-    return os.getenv(key, default)
 
+    return os.getenv(key, default)
 def write_config_value(key: str, value: Any): 
 # 把程序运行过程中产生的状态，写入 runtime env JSON 文件，“覆盖式写入”
     path = _resolve_runtime_env_path()

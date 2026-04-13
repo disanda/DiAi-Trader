@@ -1,0 +1,15 @@
+{"date": "2026-03-01", "id": 0, "positions": {"600519.SH": 0, "601318.SH": 0, "688606.SH": 0, "CASH": 1000000}}
+{"date": "2026-03-02", "id": 1, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 400}, "positions": {"600519.SH": 0, "601318.SH": 400, "688606.SH": 0, "CASH": 975036.0}}
+{"date": "2026-03-02", "id": 2, "this_action": {"action": "buy", "symbol": "600519.SH", "amount": 300}, "positions": {"600519.SH": 300, "601318.SH": 400, "688606.SH": 0, "CASH": 540036.0}}
+{"date": "2026-03-02", "id": 3, "this_action": {"action": "buy", "symbol": "688606.SH", "amount": 200}, "positions": {"600519.SH": 300, "601318.SH": 400, "688606.SH": 200, "CASH": 526336.0}}
+{"date": "2026-03-03", "id": 4, "this_action": {"action": "sell", "symbol": "688606.SH", "amount": 200}, "positions": {"600519.SH": 300, "601318.SH": 400, "688606.SH": 0, "CASH": 539648.0}}
+{"date": "2026-03-03", "id": 5, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 500}, "positions": {"600519.SH": 300, "601318.SH": 900, "688606.SH": 0, "CASH": 508423.0}}
+{"date": "2026-03-04", "id": 6, "this_action": {"action": "sell", "symbol": "600519.SH", "amount": 100}, "positions": {"600519.SH": 200, "601318.SH": 900, "688606.SH": 0, "CASH": 649923.0}}
+{"date": "2026-03-04", "id": 7, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 500}, "positions": {"600519.SH": 200, "601318.SH": 1400, "688606.SH": 0, "CASH": 618823.0}}
+{"date": "2026-03-05", "id": 8, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 500}, "positions": {"600519.SH": 200, "601318.SH": 1900, "688606.SH": 0, "CASH": 587818.0}}
+{"date": "2026-03-06", "id": 9, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 500}, "positions": {"600519.SH": 200, "601318.SH": 2400, "688606.SH": 0, "CASH": 556923.0}}
+{"date": "2026-03-09", "id": 10, "this_action": {"action": "sell", "symbol": "600519.SH", "amount": 100}, "positions": {"600519.SH": 100, "601318.SH": 2400, "688606.SH": 0, "CASH": 695923.0}}
+{"date": "2026-03-09", "id": 11, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 1000}, "positions": {"600519.SH": 100, "601318.SH": 3400, "688606.SH": 0, "CASH": 634483.0}}
+{"date": "2026-03-10", "id": 12, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 2000}, "positions": {"600519.SH": 100, "601318.SH": 5400, "688606.SH": 0, "CASH": 510763.0}}
+{"date": "2026-03-11", "id": 13, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 500}, "positions": {"600519.SH": 100, "601318.SH": 5900, "688606.SH": 0, "CASH": 479718.0}}
+{"date": "2026-03-12", "id": 14, "this_action": {"action": "buy", "symbol": "601318.SH", "amount": 1000}, "positions": {"600519.SH": 100, "601318.SH": 6900, "688606.SH": 0, "CASH": 417568.0}}

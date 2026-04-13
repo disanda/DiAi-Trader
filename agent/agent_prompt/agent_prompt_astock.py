@@ -15,7 +15,7 @@ from typing import Dict, List, Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
-#from utils.ashare_symbol import sse_50_symbols
+from utils.ashare_symbol import sse_50_symbols
 from agent.general_tools import get_config_value
 from agent.price_tools import (format_price_dict_with_names, get_open_prices,
                                get_today_init_position, get_yesterday_date,
@@ -25,7 +25,7 @@ from agent.price_tools import (format_price_dict_with_names, get_open_prices,
 STOP_SIGNAL = "<FINISH_SIGNAL>"
 
 agent_system_prompt_astock = """
-你是一位A股散户,你的长期目标是：
+你是一位A股交易员,你的长期目标是：
  >通过优化资产投资组合，最大化资产收益。
 
 思考标准(清晰展示关键的中间步骤)：
@@ -102,8 +102,8 @@ def get_agent_system_prompt_astock(today_date: str, signature: str, stock_symbol
     print(f"market: cn (A-shares)")
 
     # 默认使用上证50成分股
-    # if stock_symbols is None:
-    #     stock_symbols = sse_50_symbols
+    if stock_symbols is None:
+        stock_symbols = sse_50_symbols
 
     # 获取前一时间点的买入和卖出价格，硬编码market="cn"
     # 对于日线交易：获取昨日的开盘价和收盘价，对于小时级交易：获取上一小时的开盘价和收盘价

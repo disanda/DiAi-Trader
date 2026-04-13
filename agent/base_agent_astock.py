@@ -29,7 +29,7 @@ class BaseAgentAStock:
     5. Position and configuration management
     """
 
-    #DEFAULT_SSE50_SYMBOLS = ashare_symbol.sse_50_symbols #Default SSE 50 stock symbols (A-shares only)
+    DEFAULT_SSE50_SYMBOLS = ashare_symbol.sse_50_symbols #Default SSE 50 stock symbols (A-shares only)
 
     def __init__(
         self,
@@ -70,12 +70,11 @@ class BaseAgentAStock:
         self.market = "cn"  # 硬编码为A股市场
 
         # 默认使用上证50成分股
-        # if stock_symbols is None:
-        #     self.stock_symbols = self.DEFAULT_SSE50_SYMBOLS
-        # else:
-        #     self.stock_symbols = stock_symbols
+        if stock_symbols is None:
+            self.stock_symbols = self.DEFAULT_SSE50_SYMBOLS
+        else:
+            self.stock_symbols = stock_symbols
 
-        self.stock_symbols = stock_symbols
         self.max_steps = max_steps
         self.max_retries = max_retries
         self.base_delay = base_delay
@@ -210,16 +209,15 @@ class BaseAgentAStock:
             journal_request = {
                 "role": "user", 
                 "content": (
-                    "今日交易已结束。请跟你的交易思路，撰写一份《交易复盘日志》。要求：\n"
-                    "1. 今日交易操作记录，及整体交易策略。\n"
-                    "2. 概述目前持仓(含各股仓位、价值和当前现金量), 概述短-中-长线策略。\n"
-                    "3. 当前持仓资产的止盈止损点，对持有资产可能存在的风险进行预警"
+                    "今日交易已结束。请对今日操作与长线交易逻辑，撰写一份《交易复盘日志》。要求：\n"
+                    "1. 今日交易操作概览，及当前交易策略的意义。\n"
+                    "2. 总结目前持仓(含各股仓位、价值和当前现金量), 概述短-中-长线策略。\n"
+                    "3. 当前持仓的风险预警点及应对策略 & 下一阶段调仓意向 "
                     "4. 如果过去交易策略存在不足，需指出并给出改进方法。\n"
-                    "5. 下一阶段调仓意向 \n"
-                    "6. 你觉得有必要记录的其他信息。\n"
+                    "5. 你觉得有必要记录的其他信息。\n"
                     "若 今日《交易复盘日志》的部分内容与昨日内容接近，则简略撰写，总体字数控制在500字左右。"
-                    "若 今日《交易复盘日志》相对昨日内容改变较大，则需在日志标题后注明“有重要更新“，且字数限制不限制。"
-                    "这份日志将作为你长期交易的核心记录，日志撰写格式采用Markdown \n"
+                    "若 今日《交易复盘日志》相对昨日内容改变较大，则需在日志标题后注明“有重要更新“，字数限制放宽到800字以内。"
+                    "这份日志将作为你长期交易的核心记录，日志格式统一采用Markdown \n"
                 )
             }
             

@@ -2,7 +2,8 @@ import os
 import sys
 from typing import Any, Dict, List, Optional
 from fastmcp import FastMCP
-import fcntl
+# import fcntl
+import portalocker   # ← 新增这一行
 from pathlib import Path
 import json
 
@@ -20,26 +21,52 @@ mcp = FastMCP("TradeTools")
 def _extract_trade_day(date_str: str) -> str:
     return date_str[:10]  # YYYY-MM-DD
 
+# def _position_lock(signature: str):
+#     """Context manager for file-based lock to serialize position updates per signature."""
+#     class _Lock:
+#         def __init__(self, name: str):
+#             # Prefer LOG_PATH so the lock file lives alongside the positions file
+#             log_path = get_config_value("MODEL_DATA_PATH", "./data/agent_data_astock/sse_50_day/")
+#             # Resolve base dir for this signature under the configured log path
+#             base_dir = Path(log_path) / name
+#             base_dir.mkdir(parents=True, exist_ok=True)
+#             self.lock_path = base_dir / ".position.lock"
+#             # Ensure lock file exists
+#             self._fh = open(self.lock_path, "a+")
+#         def __enter__(self):
+#             fcntl.flock(self._fh.fileno(), fcntl.LOCK_EX) # 操作系统级文件锁-写
+#             return self
+#         def __exit__(self, exc_type, exc, tb):
+#             try:
+#                 fcntl.flock(self._fh.fileno(), fcntl.LOCK_UN) # 释放
+#             finally:
+#                 self._fh.close()
+#     return _Lock(signature)
+
 def _position_lock(signature: str):
     """Context manager for file-based lock to serialize position updates per signature."""
     class _Lock:
         def __init__(self, name: str):
-            # Prefer LOG_PATH so the lock file lives alongside the positions file
             log_path = get_config_value("MODEL_DATA_PATH", "./data/agent_data_astock/sse_50_day/")
-            # Resolve base dir for this signature under the configured log path
             base_dir = Path(log_path) / name
             base_dir.mkdir(parents=True, exist_ok=True)
             self.lock_path = base_dir / ".position.lock"
-            # Ensure lock file exists
             self._fh = open(self.lock_path, "a+")
+
         def __enter__(self):
-            fcntl.flock(self._fh.fileno(), fcntl.LOCK_EX) # 操作系统级文件锁-写
+            try:
+                portalocker.lock(self._fh, portalocker.LOCK_EX | portalocker.LOCK_NB)
+            except portalocker.AlreadyLocked:
+                print(f"⚠️  Position file is locked by another process for {signature}, waiting...")
+                portalocker.lock(self._fh, portalocker.LOCK_EX)  # 阻塞等待
             return self
+
         def __exit__(self, exc_type, exc, tb):
             try:
-                fcntl.flock(self._fh.fileno(), fcntl.LOCK_UN) # 释放
+                portalocker.unlock(self._fh)
             finally:
                 self._fh.close()
+
     return _Lock(signature)
 
 @mcp.tool()

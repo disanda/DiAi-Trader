@@ -1,0 +1,22 @@
+# 忽略环境变量文件（密钥都在这里）
+.env
+.env.local
+.env.development
+.env.production
+.env.example   
+
+# Python 临时文件和缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 其他常见忽略（日志、IDE 配置等，根据需要加）
+*.log
+.idea/
+.vscode/
+*.DS_Store   
+pic-log/

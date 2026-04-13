@@ -1,8 +1,8 @@
 {
-    "SIGNATURE": "qwen3-235b-a22b",
+    "SIGNATURE": "glm-4.5-air",
     "IF_TRADE": false,
     "MARKET": "cn",
-    "MODEL_DATA_PATH": "./data/agent_data_astock/ZXG_30_day",
-    "Ashare_DATA_PATH": "./data/a_stock_data/ZXG_17_day/merged.jsonl",
-    "TODAY_DATE": "2026-01-08"
+    "MODEL_DATA_PATH": "./data/agent_data_astock/Test_day",
+    "Ashare_DATA_PATH": "./data/a_stock_data/Test_day/merged.jsonl",
+    "TODAY_DATE": "2026-03-12"
 }

@@ -1,0 +1,64 @@
+{
+  "agent_type": "BaseAgentAStock_Hour",
+  "market": "cn",
+  "date_range": {
+    "init_date": "2025-11-17 10:30:00",
+    "end_date": "2026-09-30 15:00:00"
+  },
+  "models": [
+    {
+      "name": "claude-3.7-sonnet",
+      "basemodel": "anthropic/claude-3.7-sonnet", 
+      "signature": "claude-3.7-sonnet",
+      "enabled": false,
+      "openai_base_url": "Optional: YOUR_OPENAI_BASE_URL,you can write them in .env file",
+      "openai_api_key": "Optional: YOUR_OPENAI_API_KEY,you can write them in .env file" 
+    },
+    {
+      "name": "deepseek-chat-v3.1",
+      "basemodel": "deepseek/deepseek-chat-v3.1",
+      "signature": "deepseek-chat-v3.1",
+      "enabled": false
+    },
+    {
+      "name": "qwen3-max",
+      "basemodel": "qwen/qwen3-max",
+      "signature": "qwen3-max",
+      "enabled": false
+    },
+    {
+      "name": "gemini-2.5-flash",
+      "basemodel": "google/gemini-2.5-flash",
+      "signature": "gemini-2.5-flash",
+      "enabled": false
+    },
+    {
+      "name": "glm-4.5-air",
+      "basemodel": "glm-4.5-air",
+      "signature": "glm-4.5-air",
+      "enabled": true,
+      "openai_base_url":"",
+      "openai_api_key":""
+    },
+    {
+      "name": "glm-4.6",
+      "basemodel": "glm-4.6",
+      "signature": "glm-4.6",
+      "enabled": false,
+      "openai_base_url":"",
+      "openai_api_key":""
+    }
+  ],
+  "agent_config": {
+    "max_steps": 3,
+    "max_retries": 3,
+    "base_delay": 1.0,
+    "initial_cash": 1000000.0
+  },
+  "log_config": {
+    "model_data_path": "./data/agent_data_astock/sse_50_hour",
+    "Ashare_data_path": "./data/a_stock_data/sse_50_hour/merged_hourly.jsonl",
+    "BAR_MODE":"hour"
+  }
+}
+
