@@ -55,23 +55,6 @@ class ConfigLoader {
         return this.getEnabledAgents(marketId).map(agent => agent.folder);
     }
 
-    // // Get agent configuration by folder name from market or legacy config
-    // getAgentConfig(folderName, marketId = null) {
-    //     // If market ID provided, search in market-specific agents
-    //     if (marketId) {
-    //         const marketConfig = this.getMarketConfig(marketId);
-    //         if (marketConfig && marketConfig.agents) {
-    //             const agent = marketConfig.agents.find(a => a.folder === folderName);
-    //             if (agent) return agent;
-    //         }
-    //     }
-
-    //     // Fallback to legacy global agents list
-    //     if (!this.config || !this.config.agents) {
-    //         return null;
-    //     }
-    //     return this.config.agents.find(agent => agent.folder === folderName);
-    // }
 
     // Get agent configuration by folder name from market or legacy config
     getAgentConfig(folderName, marketId = null) {
@@ -86,11 +69,6 @@ class ConfigLoader {
         return agentsList.find(a => a.folder === folderName || a.folder === normalizedFolder) || null;
     }
 
-    // // Get display name for agent
-    // getDisplayName(folderName, marketId = null) {
-    //     const agent = this.getAgentConfig(folderName, marketId);
-    //     return agent ? agent.display_name : folderName;
-    // }
 
     // Get display name for agent
     getDisplayName(folderName, marketId = null) {

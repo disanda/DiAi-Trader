@@ -40,29 +40,6 @@ function loadIconImage(iconPath) {
     });
 }
 
-// // Update market subtitle based on current market
-// function updateMarketSubtitle() {
-//     console.log('[updateMarketSubtitle] Starting...');
-//     console.log('[updateMarketSubtitle] Current market:', dataLoader.getMarket());
-
-//     const marketConfig = dataLoader.getMarketConfig();
-//     console.log('[updateMarketSubtitle] Market config:', marketConfig);
-
-//     const subtitleElement = document.getElementById('marketSubtitle');
-//     console.log('[updateMarketSubtitle] Subtitle element:', subtitleElement);
-
-//     if (marketConfig && marketConfig.subtitle && subtitleElement) {
-//         subtitleElement.textContent = marketConfig.subtitle;
-//         console.log('Updated subtitle to:', marketConfig.subtitle);
-//     } else {
-//         console.warn('[updateMarketSubtitle] Missing required data:', {
-//             hasMarketConfig: !!marketConfig,
-//             hasSubtitle: marketConfig?.subtitle,
-//             hasElement: !!subtitleElement
-//         });
-//     }
-// }
-
 // Update market subtitle based on current market
 function updateMarketSubtitle() {
     console.log('[updateMarketSubtitle] Starting...');
@@ -816,7 +793,8 @@ function updateMarketUI() {
 function setupEventListeners() {
     document.getElementById('toggle-log').addEventListener('click', toggleScale);
     document.getElementById('export-chart').addEventListener('click', exportData);
-
+    document.getElementById('k-line-mode').addEventListener('click', toggleBetweenCharts);
+    
     // Market switching
     const usMarketBtn = document.getElementById('usMarketBtn');
     const cnMarketBtn = document.getElementById('cnMarketBtn');
@@ -878,6 +856,7 @@ function setupEventListeners() {
                 dataLoader.setMarket(selectedMarket);  // 设置前端市场 ID
                 updateMarketUI();
                 await loadDataAndRefresh();  // 重新加载数据
+                await refreshKlineForNewMarket();  //刷新k线
             }
         });
     }

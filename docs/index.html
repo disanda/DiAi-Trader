@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@latest/marked.min.js"></script>
+    <script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -74,12 +75,18 @@
                 <div class="chart-header">
                     <h3>资产交易走势图</h3>
                     <div class="chart-controls">
+                        <button class="btn-secondary" id="k-line-mode">基准K线</button>
                         <button class="btn-secondary" id="toggle-log">线性尺度</button>
                         <button class="btn-secondary" id="export-chart">导出数据</button>
                     </div>
                 </div>
-                <div class="chart-container">
+                <!-- 线性图表容器 -->
+                <div class="chart-container" id="assetChartContainer">
                     <canvas id="assetChart"></canvas>
+                </div>
+                <!-- K线图表容器（初始隐藏） -->
+                <div class="chart-container hidden" id="klinesChartContainer" style="height: 500px;">
+                    <div id="klinesChart" style="width: 100%; height: 100%;"></div>
                 </div>
             </div>
         </section>
@@ -151,5 +158,6 @@
     <script src="assets/js/data-loader.js?v=14.0"></script>
     <script src="assets/js/transaction-loader.js?v=12.0"></script>
     <script src="assets/js/asset-chart.js?v=12.0"></script>
+    <script src="assets/js/candle-chart.js"></script>
 </body>
 </html>
