@@ -2,7 +2,10 @@ import os
 import sys
 from typing import Any, Dict, List, Optional
 from fastmcp import FastMCP
-import fcntl
+if sys.platform != "win32":
+    import fcntl
+else:
+    import msvcrt
 from pathlib import Path
 import json
 
@@ -21,27 +24,35 @@ def _extract_trade_day(date_str: str) -> str:
     return date_str[:10]  # YYYY-MM-DD
 
 def _position_lock(signature: str):
-    """Context manager for file-based lock to serialize position updates per signature."""
+    """跨平台文件锁（Windows + Linux/Mac）"""
     class _Lock:
         def __init__(self, name: str):
-            # Prefer LOG_PATH so the lock file lives alongside the positions file
             log_path = get_config_value("MODEL_DATA_PATH", "./data/agent_data_astock/sse_50_day/")
-            # Resolve base dir for this signature under the configured log path
             base_dir = Path(log_path) / name
             base_dir.mkdir(parents=True, exist_ok=True)
             self.lock_path = base_dir / ".position.lock"
-            # Ensure lock file exists
             self._fh = open(self.lock_path, "a+")
+
         def __enter__(self):
-            fcntl.flock(self._fh.fileno(), fcntl.LOCK_EX) # 操作系统级文件锁-写
+            if sys.platform == "win32":
+                # Windows：用 msvcrt 锁定文件开头1字节
+                self._fh.seek(0)
+                msvcrt.locking(self._fh.fileno(), msvcrt.LK_LOCK, 1)
+            else:
+                fcntl.flock(self._fh.fileno(), fcntl.LOCK_EX)
             return self
+
         def __exit__(self, exc_type, exc, tb):
             try:
-                fcntl.flock(self._fh.fileno(), fcntl.LOCK_UN) # 释放
+                if sys.platform == "win32":
+                    self._fh.seek(0)
+                    msvcrt.locking(self._fh.fileno(), msvcrt.LK_UNLCK, 1)
+                else:
+                    fcntl.flock(self._fh.fileno(), fcntl.LOCK_UN)
             finally:
                 self._fh.close()
-    return _Lock(signature)
 
+    return _Lock(signature)
 @mcp.tool()
 def buy(symbol: str, amount: int) -> Dict[str, Any]:
     """

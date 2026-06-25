@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiAi-提示词管理</title>
+    <link rel="icon" type="image/svg+xml" href="figs/stock.svg">
+    <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Design tokens ──────────────────────────────── */
+        :root {
+            --bg:          #0d1117;
+            --bg-card:     #161b22;
+            --bg-hover:    #1c2333;
+            --border:      #30363d;
+            --border-focus:#388bfd;
+            --text:        #e6edf3;
+            --text-muted:  #7d8590;
+            --text-dim:    #484f58;
+            --accent:      #388bfd;
+            --accent-glow: rgba(56,139,253,.18);
+            --green:       #3fb950;
+            --green-glow:  rgba(63,185,80,.15);
+            --amber:       #d29922;
+            --red:         #f85149;
+            --sys-bg:      #0d1f0d;
+            --sys-border:  #2ea04326;
+            --tag-active-bg: rgba(63,185,80,.15);
+            --tag-active-text: #3fb950;
+            --tag-off-bg:    rgba(125,133,144,.10);
+            --tag-off-text:  #7d8590;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 14px;
+            min-height: 100vh;
+        }
+
+        /* ── Layout ─────────────────────────────────────── */
+        .pm-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            grid-template-rows: auto 1fr;
+            min-height: calc(100vh - 120px);
+            gap: 0;
+        }
+
+        /* ── Tab bar ─────────────────────────────────────── */
+        .tab-bar {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 4px;
+            padding: 20px 24px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all .2s;
+            position: relative;
+            top: 1px;
+        }
+        .tab-btn:hover { color: var(--text); background: var(--bg-hover); }
+        .tab-btn.active {
+            color: var(--text);
+            background: var(--bg-card);
+            border-color: var(--border);
+            border-bottom-color: var(--bg-card);
+        }
+        .tab-btn .tab-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            margin-right: 7px;
+            background: var(--text-dim);
+        }
+        .tab-btn.active .tab-dot { background: var(--accent); }
+
+        /* ── Sidebar ─────────────────────────────────────── */
+        .sidebar {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 16px 16px 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sidebar-header h3 {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--text-muted);
+        }
+
+        .btn-new {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .btn-new:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .prompt-list { list-style: none; }
+
+        .prompt-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background .15s;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .prompt-item:hover { background: var(--bg-hover); }
+        .prompt-item.selected { background: var(--accent-glow); border-left: 2px solid var(--accent); padding-left: 14px; }
+
+        .prompt-item-info { flex: 1; min-width: 0; }
+        .prompt-item-title {
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px;
+        }
+        .prompt-item-preview {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .badge-active {
+            flex-shrink: 0;
+            margin-top: 2px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--tag-active-bg);
+            color: var(--tag-active-text);
+            border: 1px solid rgba(63,185,80,.3);
+        }
+        .badge-off {
+            flex-shrink: 0;
+            margin-top: 2px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 11px;
+            background: var(--tag-off-bg);
+            color: var(--tag-off-text);
+        }
+
+        /* ── Main edit panel ─────────────────────────────── */
+        .edit-panel {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+        }
+
+        .edit-panel-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .edit-title-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .edit-title-input::placeholder { color: var(--text-dim); }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn { border-radius: 6px; font-size: 13px; cursor: pointer; transition: all .15s; font-family: 'Noto Sans SC', sans-serif; border: 1px solid transparent; padding: 6px 14px; }
+        .btn-ghost { background: transparent; border-color: var(--border); color: var(--text-muted); }
+        .btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+        .btn-danger { background: transparent; border-color: rgba(248,81,73,.4); color: var(--red); }
+        .btn-danger:hover { background: rgba(248,81,73,.1); }
+        .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+        .btn-primary:hover { background: #58a6ff; }
+        .btn-success { background: var(--green); border-color: var(--green); color: #fff; font-weight: 600; }
+        .btn-success:hover { background: #56d364; }
+        .btn-toggle-active  { background: var(--tag-active-bg); border-color: rgba(63,185,80,.4); color: var(--green); font-weight: 600; }
+        .btn-toggle-active:hover  { background: rgba(63,185,80,.25); }
+        .btn-toggle-off { background: var(--tag-off-bg); border-color: var(--border); color: var(--text-muted); }
+        .btn-toggle-off:hover { border-color: var(--green); color: var(--green); }
+
+        .edit-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 24px;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .edit-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .textarea-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .textarea-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+        .content-textarea {
+            flex: 1;
+            min-height: 300px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .content-textarea:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+        /* ── System prompt panel ─────────────────────────── */
+        .sys-panel {
+            margin: 0 24px 20px;
+            border: 1px solid var(--sys-border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--sys-bg);
+        }
+        .sys-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--sys-border);
+            cursor: pointer;
+            user-select: none;
+        }
+        .sys-panel-header h4 {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sys-lock-icon { font-size: 14px; }
+        .sys-toggle-icon {
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: transform .2s;
+        }
+        .sys-panel-body {
+            padding: 14px 16px;
+            display: none;
+        }
+        .sys-panel-body.open { display: block; }
+        .sys-prompt-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* ── Empty state ─────────────────────────────────── */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--text-muted);
+            padding: 60px;
+            text-align: center;
+        }
+        .empty-icon { font-size: 40px; opacity: .4; }
+        .empty-state p { font-size: 14px; }
+        .empty-state small { font-size: 12px; opacity: .6; }
+
+        /* ── Toast ───────────────────────────────────────── */
+        #toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all .25s;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+        }
+        #toast.show { opacity: 1; transform: translateY(0); }
+        #toast.success { background: #1a3a1a; border: 1px solid rgba(63,185,80,.4); color: var(--green); }
+        #toast.error   { background: #3a1a1a; border: 1px solid rgba(248,81,73,.4); color: var(--red); }
+
+        /* ── No-selection indicator ───────────────── */
+        .loading-indicator {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        .dot-pulse { width:6px; height:6px; border-radius:50%; background:var(--accent); animation: pulse 1.2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">📊</span>
+                <h1>DiAi-自交易系统</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">行情展示</a></li>
+                <li><a href="portfolio.html" class="nav-link">持仓分析</a></li>
+                <li><a href="choose_stock.html" class="nav-link">标的管理</a></li>
+                <li><a href="run_agent.html" class="nav-link">运行智能体</a></li>
+                <li><a href="prompt.html" class="nav-link">提示词管理</a></li>
+                <li><a href="market-display.html" class="nav-link ">中证2000</a></li>
+                <a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View source on GitHub">
+                    <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding:0; max-width:100%">
+        <header class="page-header" style="padding: 20px 24px 0">
+            <h2>🧠 提示词管理</h2>
+            <p class="subtitle">查看系统提示词 · 编辑并启用自定义提示词</p>
+        </header>
+
+        <div class="pm-layout">
+            <!-- Tab bar -->
+            <div class="tab-bar">
+                <button class="tab-btn active" data-tab="strategy" onclick="switchTab('strategy')">
+                    <span class="tab-dot"></span>交易策略提示词
+                </button>
+                <button class="tab-btn" data-tab="journal" onclick="switchTab('journal')">
+                    <span class="tab-dot"></span>日志格式提示词
+                </button>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h3>自定义提示词</h3>
+                    <button class="btn-new" onclick="newPrompt()">
+                        <span>＋</span> 新建
+                    </button>
+                </div>
+                <ul class="prompt-list" id="promptList">
+                    <li class="loading-indicator"><span class="dot-pulse"></span> 加载中…</li>
+                </ul>
+            </aside>
+
+            <!-- Edit panel -->
+            <section class="edit-panel" id="editPanel">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">✍️</div>
+                    <p>选择左侧条目，或新建一条提示词</p>
+                    <small>已启用的提示词将追加到系统提示词末尾</small>
+                </div>
+
+                <!-- Prompt editor (hidden until item selected) -->
+                <div id="editorWrap" style="display:none; flex-direction:column; flex:1">
+                    <div class="edit-panel-header">
+                        <input type="text" class="edit-title-input" id="editTitle" placeholder="提示词标题…">
+                        <div class="header-actions">
+                            <button class="btn btn-toggle-off" id="btnToggle" onclick="toggleActive()">启用</button>
+                            <button class="btn btn-primary" onclick="savePrompt()">保存</button>
+                            <button class="btn btn-danger" onclick="deletePrompt()">删除</button>
+                        </div>
+                    </div>
+
+                    <div class="edit-body">
+                        <div class="edit-meta">
+                            <span id="metaStatus"></span>
+                        </div>
+
+                        <div class="textarea-wrapper" style="flex:1">
+                            <div class="textarea-label">提示词内容</div>
+                            <textarea class="content-textarea" id="editContent"
+                                placeholder="在此输入自定义提示词内容…&#10;&#10;例如（交易策略）：&#10;请优先关注沪深300成分股中市盈率低于20的价值股。每次买入前确认RSI指标低于40。&#10;&#10;例如（日志格式）：&#10;请在日志末尾附加一个表格，列出当日所有交易记录：时间 | 标的 | 方向 | 数量 | 价格 | 备注"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- System prompt collapsible panel (below main layout) -->
+        <div style="padding: 0 0 32px">
+            <div class="sys-panel">
+                <div class="sys-panel-header" onclick="toggleSysPanel()">
+                    <h4><span class="sys-lock-icon">🔒</span> 系统提示词（只读）</h4>
+                    <span class="sys-toggle-icon" id="sysToggleIcon">▶ 展开查看</span>
+                </div>
+                <div class="sys-panel-body" id="sysPanelBody">
+                    <pre class="sys-prompt-text" id="sysPromptText">正在加载…</pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>DiAi &copy; 2026 | 智能体自主交易系统</p>
+    </footer>
+
+    <div id="toast"></div>
+
+    <script src="assets/js/prompt.js"></script>
+</body>
+</html>

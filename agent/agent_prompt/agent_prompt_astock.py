@@ -24,6 +24,11 @@ from agent.price_tools import (format_price_dict_with_names, get_open_prices,
 
 STOP_SIGNAL = "<FINISH_SIGNAL>"
 
+# ── 自定义提示词文件路径（相对于 agent_prompt_astock.py 所在的 agent/agent_prompt/）──
+# 格式：{ "prompts": [{ "id": 1, "title": "...", "content": "...", "active": true }, ...] }
+STRATEGY_PROMPT_FILE = Path(__file__).resolve().parent.parent / "custom_prompt" / "trading_strategy_prompt.json"
+JOURNAL_PROMPT_FILE  = Path(__file__).resolve().parent.parent / "custom_prompt" / "daily_journal_prompt.json"
+
 agent_system_prompt_astock = """
 你是一位A股散户,你的长期目标是：
  >通过优化资产投资组合，最大化资产收益。
@@ -83,9 +88,52 @@ agent_system_prompt_astock = """
 {STOP_SIGNAL}
 """
 
+
+# ── 自定义提示词加载工具函数 ──────────────────────────────────────────────
+
+def _load_active_custom_prompt(filepath: Path) -> str:
+    """
+    从单个 JSON 文件中读取「已启用」的自定义提示词并拼接返回。
+
+    文件格式：
+        { "prompts": [{ "id": 1, "title": "...", "content": "...", "active": true }, ...] }
+    - active 字段为 false 或缺省的条目不会被加载
+    - 多个已启用条目之间以空行分隔
+    - 若文件不存在或无启用项，返回空字符串
+    """
+    if not filepath.exists():
+        return ""
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        active_parts = []
+        for item in data.get("prompts", []):
+            if item.get("active", False):
+                text = item.get("content", "").strip()
+                if text:
+                    title = item.get("title", "")
+                    active_parts.append(f"### {title}\n{text}" if title else text)
+        return "\n\n".join(active_parts)
+    except Exception as e:
+        print(f"⚠️  加载自定义提示词失败 ({filepath.name}): {e}")
+        return ""
+
+
+def get_active_strategy_prompt() -> str:
+    """返回当前启用的交易策略自定义提示词"""
+    return _load_active_custom_prompt(STRATEGY_PROMPT_FILE)
+
+
+def get_active_journal_prompt() -> str:
+    """返回当前启用的日志格式自定义提示词"""
+    return _load_active_custom_prompt(JOURNAL_PROMPT_FILE)
+
+
+# ── 主提示词生成函数 ──────────────────────────────────────────────────────
+
 def get_agent_system_prompt_astock(today_date: str, signature: str, stock_symbols: Optional[List[str]] = None) -> str:
     """
-    生成A股专用系统提示词
+    生成A股专用系统提示词，并在末尾追加用户自定义的「交易策略」提示词（若有启用）。
 
     Args:
         today_date: 今日日期
@@ -101,12 +149,7 @@ def get_agent_system_prompt_astock(today_date: str, signature: str, stock_symbol
     print(f"today_date: {today_date}")
     print(f"market: cn (A-shares)")
 
-    # 默认使用上证50成分股
-    # if stock_symbols is None:
-    #     stock_symbols = sse_50_symbols
-
     # 获取前一时间点的买入和卖出价格，硬编码market="cn"
-    # 对于日线交易：获取昨日的开盘价和收盘价，对于小时级交易：获取上一小时的开盘价和收盘价
     yesterday_buy_prices, yesterday_sell_prices = get_yesterday_open_and_close_price(
         today_date, stock_symbols, market="cn"
     )
@@ -114,10 +157,8 @@ def get_agent_system_prompt_astock(today_date: str, signature: str, stock_symbol
     today_buy_price = get_open_prices(today_date, stock_symbols, market="cn")
     # 获取当前持仓
     today_init_position = get_today_init_position(today_date, signature)
-    
-    # 计算收益：(前一时间点收盘价 - 前一时间点开盘价) × 持仓数量
-    # 对于日线交易：计算昨日收益
-    # 对于小时级交易：计算上一小时收益
+
+    # 计算收益
     current_profit = get_yesterday_profit(
         today_date, yesterday_buy_prices, yesterday_sell_prices, today_init_position, stock_symbols
     )
@@ -126,7 +167,8 @@ def get_agent_system_prompt_astock(today_date: str, signature: str, stock_symbol
     yesterday_sell_prices_display = format_price_dict_with_names(yesterday_sell_prices, market="cn")
     today_buy_price_display = format_price_dict_with_names(today_buy_price, market="cn")
 
-    return agent_system_prompt_astock.format(
+    # 基础系统提示词
+    base_prompt = agent_system_prompt_astock.format(
         date=today_date,
         positions=today_init_position,
         STOP_SIGNAL=STOP_SIGNAL,
@@ -134,6 +176,18 @@ def get_agent_system_prompt_astock(today_date: str, signature: str, stock_symbol
         today_buy_price=today_buy_price_display,
         current_profit=current_profit,
     )
+
+    # 追加用户自定义交易策略提示词（仅策略部分；日志格式在 _write_daily_journal 中使用）
+    strategy_addon = get_active_strategy_prompt()
+    if strategy_addon:
+        base_prompt += (
+            "\n\n---\n"
+            "## 📋 用户自定义交易策略\n\n"
+            + strategy_addon
+        )
+
+    return base_prompt
+
 
 if __name__ == "__main__":
     today_date = get_config_value("TODAY_DATE")

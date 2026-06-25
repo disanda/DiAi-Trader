@@ -12,7 +12,8 @@ import langchain
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from agent.agent_prompt.agent_prompt_astock import (STOP_SIGNAL, get_agent_system_prompt_astock)
+from agent.agent_prompt.agent_prompt_astock import (STOP_SIGNAL, get_agent_system_prompt_astock,
+                                                    get_active_journal_prompt)
 from agent.general_tools import (extract_conversation, extract_tool_messages, get_config_value, write_config_value)
 from agent.price_tools import add_no_trade_record, is_trading_day
 import utils.ashare_symbol as ashare_symbol
@@ -133,7 +134,7 @@ class BaseAgentAStock:
             # Create AI model - use custom DeepSeekChatOpenAI for DeepSeek models
             # to handle tool_calls.args format differences (JSON string vs dict)
             if "deepseek" in self.basemodel.lower():
-                self.model = DeepSeekChatOpenAI(
+                self.model = ChatOpenAI(
                     model=self.basemodel,
                     base_url=self.openai_base_url,
                     api_key=self.openai_api_key,
@@ -149,6 +150,8 @@ class BaseAgentAStock:
                     timeout=30,
                 )
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             raise RuntimeError(f"❌ Failed to initialize AI model: {e}")
 
         # Note: agent will be created in run_trading_session() based on specific date
@@ -207,22 +210,34 @@ class BaseAgentAStock:
             """引导 Agent 撰写今日复盘日志并保存"""
             print(f"📝 正在撰写今日交易日志...")
             
-            journal_request = {
-                "role": "user", 
-                "content": (
-                    "今日交易已结束。请跟你的交易思路，撰写一份《交易复盘日志》。要求：\n"
-                    "1. 今日交易操作记录，及整体交易策略。\n"
-                    "2. 概述目前持仓(含各股仓位、价值和当前现金量), 概述短-中-长线策略。\n"
-                    "3. 当前持仓资产的止盈止损点，对持有资产可能存在的风险进行预警"
-                    "4. 如果过去交易策略存在不足，需指出并给出改进方法。\n"
-                    "5. 下一阶段调仓意向 \n"
-                    "6. 你觉得有必要记录的其他信息。\n"
-                    "若 今日《交易复盘日志》的部分内容与昨日内容接近，则简略撰写，总体字数控制在500字左右。"
-                    "若 今日《交易复盘日志》相对昨日内容改变较大，则需在日志标题后注明“有重要更新“，且字数限制不限制。"
-                    "这份日志将作为你长期交易的核心记录，日志撰写格式采用Markdown \n"
+            # 基础日志撰写要求（系统级，不可更改）
+            base_journal_instruction = (
+                "今日交易已结束。请跟你的交易思路，撰写一份《交易复盘日志》。要求：\n"
+                "1. 今日交易操作记录，及整体交易策略。\n"
+                "2. 概述目前持仓(含各股仓位、价值和当前现金量), 概述短-中-长线策略。\n"
+                "3. 当前持仓资产的止盈止损点，对持有资产可能存在的风险进行预警"
+                "4. 如果过去交易策略存在不足，需指出并给出改进方法。\n"
+                "5. 下一阶段调仓意向 \n"
+                "6. 你觉得有必要记录的其他信息。\n"
+                "若 今日《交易复盘日志》的部分内容与昨日内容接近，则简略撰写，总体字数控制在500字左右。"
+                "若 今日《交易复盘日志》相对昨日内容改变较大，则需在日志标题后注明“有重要更新”，且字数限制不限制。"
+                "这份日志将作为你长期交易的核心记录，日志撰写格式采用Markdown \n"
+            )
+
+            # 追加用户自定义日志格式提示词（若有启用）
+            journal_addon = get_active_journal_prompt()
+            if journal_addon:
+                base_journal_instruction += (
+                    "\n\n---\n"
+                    "## 📋 用户自定义日志格式要求\n\n"
+                    + journal_addon
+                    + "\n"
                 )
+
+            journal_request = {
+                "role": "user",
+                "content": base_journal_instruction,
             }
-            
             temp_messages = conversation_history + [journal_request]
             
             try:

@@ -276,33 +276,64 @@ def convert_index_to_json(
 
     return json_data
 
+# def merge_data(existing: dict, new: dict, freq: str) -> dict:
+#     if not existing or f"Time Series ({freq})" not in existing:
+#         return new
+
+#     ts_key = f"Time Series ({freq})"
+#     old_dates = existing[ts_key]
+#     new_dates = new[ts_key]
+
+#     # 合併：新資料覆蓋同日期（雖然正常不會），優先保留新抓到的
+#     merged_dates = {**old_dates, **new_dates}
+
+#     # 轉成 OrderedDict 並按日期**降序**排列
+#     sorted_items = sorted(
+#         merged_dates.items(),
+#         key=lambda x: datetime.strptime(x[0], "%Y-%m-%d"),
+#         reverse=True
+#     )
+#     merged_dates_ordered = OrderedDict(sorted_items)
+
+#     # 建新資料結構，保留舊的 meta，但更新時間
+#     result = existing.copy()
+#     result[ts_key] = merged_dates_ordered
+
+#     if merged_dates_ordered:
+#         latest_date = list(merged_dates_ordered.keys())[0]
+#         result["Meta Data"]["3. Last Refreshed"] = latest_date
+
+#     return result
 def merge_data(existing: dict, new: dict, freq: str) -> dict:
+    """合并新旧数据，增加 key 兼容性"""
     if not existing or f"Time Series ({freq})" not in existing:
         return new
-
+    
     ts_key = f"Time Series ({freq})"
-    old_dates = existing[ts_key]
-    new_dates = new[ts_key]
-
-    # 合併：新資料覆蓋同日期（雖然正常不會），優先保留新抓到的
+    
+    old_dates = existing.get(ts_key, {})
+    new_dates = new.get(ts_key, {})          # 使用 .get() 防止 KeyError
+    
+    # 新数据优先覆盖旧数据
     merged_dates = {**old_dates, **new_dates}
-
-    # 轉成 OrderedDict 並按日期**降序**排列
+    
+    # 按日期降序排序
     sorted_items = sorted(
         merged_dates.items(),
         key=lambda x: datetime.strptime(x[0], "%Y-%m-%d"),
         reverse=True
     )
+    
     merged_dates_ordered = OrderedDict(sorted_items)
-
-    # 建新資料結構，保留舊的 meta，但更新時間
+    
+    # 构建返回结果
     result = existing.copy()
     result[ts_key] = merged_dates_ordered
-
+    
     if merged_dates_ordered:
         latest_date = list(merged_dates_ordered.keys())[0]
         result["Meta Data"]["3. Last Refreshed"] = latest_date
-
+    
     return result
 
 def load_existing_data(filepath: str): # 加载已存在的数据文件
@@ -315,14 +346,49 @@ def load_existing_data(filepath: str): # 加载已存在的数据文件
     return None
 
 #Convert TuShare daily DataFrame to Alpha Vantage–style JSON.
+# def convert_df_to_alpha_json(df: pd.DataFrame, symbol: str, freq: str) -> dict:
+#     if df is None or df.empty:
+#         return {}
+
+#     df = df.sort_values("trade_date", ascending=False).reset_index(drop=True) # 按交易日倒序（最新在前）
+
+#     last_date = df.iloc[0]["trade_date"]
+
+#     json_data = {
+#         "Meta Data": {
+#             "1. Information": f"{freq} Prices (open, high, low, close) and Volumes",
+#             "2. Symbol": symbol,
+#             "3. Last Refreshed": f"{last_date[:4]}-{last_date[4:6]}-{last_date[6:]}",
+#             "4. Output Size": "Full size",
+#             "5. Time Zone": "Asia/Shanghai",
+#         },
+#         "Time Series ({freq})": {}
+#     }
+
+#     for _, r in df.iterrows():
+#         d = r["trade_date"]
+#         date_str = f"{d[:4]}-{d[4:6]}-{d[6:]}"
+
+#         json_data["Time Series ({freq})"][date_str] = {
+#             "1. open": f"{r['open']:.4f}",
+#             "2. high": f"{r['high']:.4f}",
+#             "3. low": f"{r['low']:.4f}",
+#             "4. close": f"{r['close']:.4f}",
+#             "5. volume": (str(int(r["vol"])) if pd.notna(r["vol"]) else "0") # 将成交量单位由“手”改为“股” (1 lot = 100 shares)
+#         }
+#     return json_data
+
 def convert_df_to_alpha_json(df: pd.DataFrame, symbol: str, freq: str) -> dict:
+    """Convert TuShare daily DataFrame to Alpha Vantage–style JSON."""
     if df is None or df.empty:
         return {}
-
-    df = df.sort_values("trade_date", ascending=False).reset_index(drop=True) # 按交易日倒序（最新在前）
-
+    
+    df = df.sort_values("trade_date", ascending=False).reset_index(drop=True)
     last_date = df.iloc[0]["trade_date"]
-
+    
+    # 关键修复：使用 f-string 生成正确的 key
+    ts_key = f"Time Series ({freq})"
+    
     json_data = {
         "Meta Data": {
             "1. Information": f"{freq} Prices (open, high, low, close) and Volumes",
@@ -331,20 +397,20 @@ def convert_df_to_alpha_json(df: pd.DataFrame, symbol: str, freq: str) -> dict:
             "4. Output Size": "Full size",
             "5. Time Zone": "Asia/Shanghai",
         },
-        f"Time Series ({freq})": {}
+        ts_key: {}                                   # ← 使用变量
     }
-
+    
     for _, r in df.iterrows():
         d = r["trade_date"]
         date_str = f"{d[:4]}-{d[4:6]}-{d[6:]}"
-
-        json_data[f"Time Series ({freq})"][date_str] = {
+        json_data[ts_key][date_str] = {
             "1. open": f"{r['open']:.4f}",
             "2. high": f"{r['high']:.4f}",
             "3. low": f"{r['low']:.4f}",
             "4. close": f"{r['close']:.4f}",
-            "5. volume": (str(int(r["vol"])) if pd.notna(r["vol"]) else "0") # 将成交量单位由“手”改为“股” (1 lot = 100 shares)
+            "5. volume": (str(int(r["vol"])) if pd.notna(r["vol"]) else "0")
         }
+    
     return json_data
 
 def generate_each_stockfiles_easy(ts_api, freq: str = "Daily", Atype: str = 'ETF'):
@@ -372,50 +438,135 @@ def generate_each_stockfiles_easy(ts_api, freq: str = "Daily", Atype: str = 'ETF
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(merged, f, ensure_ascii=False, indent=4)
 
-def generate_each_stockfiles(ts_api, freq: str = "Daily", Atype: str = 'Ashare'):
+# def generate_each_stockfiles(ts_api, freq: str = "Daily", Atype: str = 'Ashare'):
+#     pro = ts_api
+#     suffix = "day" if freq == "Daily" else "Weekly"
+#     output_folder = Path(f"a_stock_data/{ashare_symbols_str}_{suffix}/each_stock")
+#     output_folder.mkdir(parents=True, exist_ok=True)
+
+#     if Atype == 'ETF':
+#         api_func = pro.fund_daily
+#     else:
+#         api_func = pro.daily if freq == "Daily" else pro.weekly
+
+#     today_str = datetime.now().strftime("%Y%m%d")
+#     start_fetch = "20250101"  # ← 可改成更聰明的起點，例如讀舊檔最新日期+1天
+
+#     for symbol in ashare_symbols:
+#         json_path = output_folder / f"{freq}_prices_{symbol}.json"
+#         print(f"處理 {symbol} → {json_path.name}")
+
+#         # 1. 讀取舊資料（若存在）
+#         existing_data = None
+#         existing_latest_date = None
+
+#         if json_path.exists():
+#             try:
+#                 with open(json_path, "r", encoding="utf-8") as f:
+#                     existing_data = json.load(f)
+#                 time_series = existing_data.get(f"Time Series ({freq})", {})
+#                 if time_series:
+#                     latest_key = list(time_series.keys())[0]  # 假設已降序
+#                     existing_latest_date = latest_key.replace("-", "")
+#                     print(f"  已存在資料，最晚日期: {latest_key}")
+#             except Exception as e:
+#                 print(f"  讀取舊JSON失敗，將重新全取: {e}")
+
+#         # 2. 決定這次要抓的起點（增量優先）
+#         fetch_start = start_fetch
+#         if existing_latest_date and existing_latest_date > fetch_start:
+#             # 從舊資料最後一天的「下一交易日」開始抓
+#             fetch_start = existing_latest_date
+
+#         # 3. 抓取新資料（可能為空）
+#         print(f"  請求範圍: {fetch_start} ~ {today_str}")
+#         try:
+#             df_new = api_call_with_retry(
+#                 api_func,
+#                 pro_api_instance=pro,
+#                 ts_code=symbol,
+#                 start_date=fetch_start,
+#                 end_date=today_str
+#             )
+#             if df_new is None or df_new.empty:
+#                 print("  無新資料")
+#                 if existing_data:
+#                     continue  # 保留舊檔
+#                 else:
+#                     print("  完全無資料，跳過")
+#                     continue
+
+#             df_new = df_new.sort_values("trade_date", ascending=False)
+#             print(f"  新抓到 {len(df_new)} 筆資料")
+#         except Exception as e:
+#             print(f"  抓取失敗: {e}")
+#             continue
+
+#         # 4. 轉成新格式的 dict
+#         new_json = convert_df_to_alpha_json(df_new, symbol, freq)
+#        #打印测试
+#         # print(f"DEBUG: new_json keys = {list(new_json.keys())}")   # ← 加这行
+#         # 5. 合併（核心邏輯）
+#         if existing_data:
+#             merged = merge_data(existing_data, new_json, freq)
+#         else:
+#             merged = new_json
+
+#         # 6. 存檔
+#         with open(json_path, "w", encoding="utf-8") as f:
+#             json.dump(merged, f, ensure_ascii=False, indent=4)
+
+#         print(f"  已更新 → {json_path.name}\n")
+def generate_each_stockfiles(ts_api, ashare_symbols: list, ashare_symbols_str: str,
+                             freq: str = "Daily", Atype: str = 'Ashare'):
+    """
+    生成每个股票单独的 JSON 文件（支持增量更新）
+    参数说明：
+        ashare_symbols: 当前组的股票列表
+        ashare_symbols_str: 当前组的名称（用于文件夹命名）
+    """
     pro = ts_api
     suffix = "day" if freq == "Daily" else "Weekly"
     output_folder = Path(f"a_stock_data/{ashare_symbols_str}_{suffix}/each_stock")
     output_folder.mkdir(parents=True, exist_ok=True)
-
+    
     if Atype == 'ETF':
         api_func = pro.fund_daily
     else:
         api_func = pro.daily if freq == "Daily" else pro.weekly
-
+    
     today_str = datetime.now().strftime("%Y%m%d")
-    start_fetch = "20250101"  # ← 可改成更聰明的起點，例如讀舊檔最新日期+1天
+    start_fetch = "20250101"
+
+    print(f"开始生成 {len(ashare_symbols)} 只股票的独立 JSON 文件...")
 
     for symbol in ashare_symbols:
         json_path = output_folder / f"{freq}_prices_{symbol}.json"
-        print(f"处理 {symbol} → {json_path.name}")
-
-        # 1. 读取旧资料（若存在）
-        existing_data = None
-        existing_latest_date = None
-
-        if json_path.exists():
-            try:
-                with open(json_path, "r", encoding="utf-8") as f:
-                    existing_data = json.load(f)
-                time_series = existing_data.get(f"Time Series ({freq})", {})
-                if time_series:
-                    latest_key = list(time_series.keys())[0]  # 假設已降序
-                    existing_latest_date = latest_key.replace("-", "")
-                    print(f"  已存在资料，最晚日期: {latest_key}")
-            except Exception as e:
-                print(f"  读取旧JSON失败，将重新全取: {e}")
-
-        # 2. 決定這次要抓的起點（增量優先）
-        fetch_start = start_fetch
-        if existing_latest_date and existing_latest_date > start_fetch: 
-            latest_dt = datetime.strptime(existing_latest_date, "%Y%m%d")
-            next_day = latest_dt + timedelta(days=1)
-            fetch_start = next_day.strftime("%Y%m%d")
-
-        # 3. 抓取新資料（可能為空）
-        print(f"  请求范围: {fetch_start} ~ {today_str}")
+        print(f"處理 {symbol} → {json_path.name}")
+        
         try:
+            # 1. 读取旧数据（如果存在）
+            existing_data = None
+            existing_latest_date = None
+            if json_path.exists():
+                try:
+                    with open(json_path, "r", encoding="utf-8") as f:
+                        existing_data = json.load(f)
+                    time_series = existing_data.get(f"Time Series ({freq})", {})
+                    if time_series:
+                        latest_key = list(time_series.keys())[0]
+                        existing_latest_date = latest_key.replace("-", "")
+                        print(f"  已存在資料，最晚日期: {latest_key}")
+                except Exception as e:
+                    print(f"  读取旧JSON失败，将重新获取: {e}")
+
+            # 2. 决定抓取起点
+            fetch_start = start_fetch
+            if existing_latest_date and existing_latest_date > fetch_start:
+                fetch_start = existing_latest_date
+
+            # 3. 抓取新数据
+            print(f"  请求範圍: {fetch_start} ~ {today_str}")
             df_new = api_call_with_retry(
                 api_func,
                 pro_api_instance=pro,
@@ -423,34 +574,39 @@ def generate_each_stockfiles(ts_api, freq: str = "Daily", Atype: str = 'Ashare')
                 start_date=fetch_start,
                 end_date=today_str
             )
+
             if df_new is None or df_new.empty:
-                print("无新资料")
+                print("  無新資料")
                 if existing_data:
-                    continue  # 保留舊檔
+                    print("  保留旧数据")
+                    continue
                 else:
-                    print("  完全无资料，跳过")
+                    print("  完全無資料，跳过")
                     continue
 
             df_new = df_new.sort_values("trade_date", ascending=False)
-            print(f"  新抓到 {len(df_new)} 个资料")
+            print(f"  新抓到 {len(df_new)} 筆資料")
+
+            # 4. 转换为 JSON 格式
+            new_json = convert_df_to_alpha_json(df_new, symbol, freq)
+
+            # 5. 合并数据
+            if existing_data:
+                merged = merge_data(existing_data, new_json, freq)
+            else:
+                merged = new_json
+
+            # 6. 保存文件
+            with open(json_path, "w", encoding="utf-8") as f:
+                json.dump(merged, f, ensure_ascii=False, indent=4)
+            print(f"  已更新 → {json_path.name}\n")
+
         except Exception as e:
-            print(f"  抓取失敗: {e}")
-            continue
-
-        # 4. 轉成新格式的 dict
-        new_json = convert_df_to_alpha_json(df_new, symbol, freq)
-
-        # 5. 合併（核心邏輯）
-        if existing_data:
-            merged = merge_data(existing_data, new_json, freq)
-        else:
-            merged = new_json
-
-        # 6. 存檔
-        with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(merged, f, ensure_ascii=False, indent=4)
-
-        print(f"  已更新 → {json_path.name}\n")
+            print(f"  ❌ 处理 {symbol} 时发生错误: {type(e).__name__}: {e}")
+            # 可选：打印详细错误堆栈
+            # import traceback
+            # traceback.print_exc()
+            continue  # 继续处理下一只股票
 
 def test_get_index_weight(index_code: str = "000016.SH"):
     """
@@ -499,83 +655,6 @@ def test_get_index_weight(index_code: str = "000016.SH"):
         print(f"💥 接口调用报错: {e}")
         return []
 
-def save_etf_basic_info(etf_list: list[str], output_path: str, pro=None, Atype = 'ETF'):
-    """
-    批量获取ETF基础信息并保存为CSV
-    
-    参数:
-    etf_list    : list[str]   例如 ['159941.SZ', '510300.SH', '513050.SH']
-    output_path : str         输出csv路径，例如 "etf_info.csv"
-    pro         : tushare pro 对象（需提前 ts.pro_api() 初始化）
-    """
-    if pro is None:
-        raise ValueError("请先初始化 pro = ts.pro_api() 并传入")
-    
-    results = []
-
-    if Atype == 'ETF':
-        pro_fun = pro.etf_basic
-        cols_order = [
-            'ts_code', 'csname', 'extname', 'cname', 
-            'index_code', 'index_name', 'setup_date', 'list_date', 'list_status', 
-            'exchange', 'mgr_name', 'custod_name', 'mgt_fee', 'etf_type'
-        ] # 常用字段排序（只保留存在的列）
-    elif Atype == 'Ashare_Date':
-        pro_fun = pro.bak_basic
-        cols_order = ['ts_code', 'trade_date', 'name', 'industry',
-            'area', 'pe', 'float_share', 'total_share',
-            'total_assets', 'liquid_assets', 'fixed_assets',
-            'reserved', 'reserved_pershare', 'eps',
-            'bvps', 'pb', 'list_date', 'undp', 'per_undp',
-            'rev_yoy', 'profit_yoy', 'gpr', 'npr', 'holder_num']
-    else:
-        pro_fun = pro.stock_basic
-        cols_order = [
-            'ts_code', 'symbol', 'name', 'area', 
-            'industry', 'fullname', 'enname', 'cnspell', 'market', 
-            'exchange', 'curr_type', 'list_status', 'list_date', 
-            'delist_date', 'is_hs', 'act_name', 'act_ent_type'
-        ]
-    
-    print(f"开始获取 {len(etf_list)} 个股票信息...")
-    
-    for i, code in enumerate(etf_list, 1):
-        try:
-            df = pro_fun(ts_code=code)
-            if not df.empty:
-                results.append(df)
-                print(f"[{i}/{len(etf_list)}] {code} 成功")
-            else:
-                print(f"[{i}/{len(etf_list)}] {code} 无数据")
-        except Exception as e:
-            print(f"[{i}/{len(etf_list)}] {code} 失败: {str(e)}")
-    
-    if not results:
-        print("没有任何数据获取成功")
-        return None
-    
-    # 合并
-    df_all = pd.concat(results, ignore_index=True)
-    
-
-    available_cols = [c for c in cols_order if c in df_all.columns]
-    df_all = df_all[available_cols]
-    
-    # 简单格式处理
-    for col in ['setup_date', 'list_date']:
-        if col in df_all.columns:
-            df_all[col] = pd.to_datetime(df_all[col], format='%Y%m%d', errors='coerce').dt.strftime('%Y-%m-%d')
-    
-    if 'mgt_fee' in df_all.columns:
-        df_all['mgt_fee'] = df_all['mgt_fee'].round(4)
-    
-    # 保存（utf-8-sig 防止中文乱码）
-    output_path_file = output_path / 'ashare_names.csv'
-    df_all.to_csv(output_path_file, index=False, encoding='utf-8-sig')
-    print(f"\n已保存 {len(df_all)} 条记录 → {output_path_file}")
-    
-    return df_all
-
 def convert_a_stock_to_jsonl(
     input_path: str = "a_stock_data/",
     freq: str = 'day',# week, day
@@ -616,7 +695,7 @@ def convert_a_stock_to_jsonl(
     if Atype == 'ETF':
         index_code = "ts_code"
         index_name = "extname"
-    elif Atype == 'Ashare':
+    elif Atype == 'Ashare_New':
         index_code = "ts_code"
         index_name = "name"
     else:
@@ -697,52 +776,174 @@ def convert_a_stock_to_jsonl(
     print(f"✅ Total stocks: {len(grouped)}")
     print(f"✅ File size: {output_path.stat().st_size / 1024 / 1024:.2f} MB")
 
-if __name__ == "__main__":
+def save_etf_basic_info(etf_list: list[str], output_path: str, pro=None, Atype = 'ETF'):
+    """
+    批量获取ETF基础信息并保存为CSV
+    
+    参数:
+    etf_list    : list[str]   例如 ['159941.SZ', '510300.SH', '513050.SH']
+    output_path : str         输出csv路径，例如 "etf_info.csv"
+    pro         : tushare pro 对象（需提前 ts.pro_api() 初始化）
+    """
+    if pro is None:
+        raise ValueError("请先初始化 pro = ts.pro_api() 并传入")
+    
+    results = []
 
-    ashare_symbols_str = get_config_value("Ashare_symbols") # Ashare_symbols = ETF_25, sse_50
-    module = importlib.import_module("utils.ashare_symbol")
-    ashare_symbols = getattr(module, ashare_symbols_str)
+    if Atype == 'ETF':
+        pro_fun = pro.etf_basic
+        cols_order = [
+            'ts_code', 'csname', 'extname', 'cname', 
+            'index_code', 'index_name', 'setup_date', 'list_date', 'list_status', 
+            'exchange', 'mgr_name', 'custod_name', 'mgt_fee', 'etf_type'
+        ] # 常用字段排序（只保留存在的列）
+    elif Atype == 'Ashare_Date':
+        pro_fun = pro.bak_basic
+        cols_order = ['ts_code', 'trade_date', 'name', 'industry',
+            'area', 'pe', 'float_share', 'total_share',
+            'total_assets', 'liquid_assets', 'fixed_assets',
+            'reserved', 'reserved_pershare', 'eps',
+            'bvps', 'pb', 'list_date', 'undp', 'per_undp',
+            'rev_yoy', 'profit_yoy', 'gpr', 'npr', 'holder_num']
+    else:
+        pro_fun = pro.stock_basic
+        cols_order = [
+            'ts_code', 'symbol', 'name', 'area', 
+            'industry', 'fullname', 'enname', 'cnspell', 'market', 
+            'exchange', 'curr_type', 'list_status', 'list_date', 
+            'delist_date', 'is_hs', 'act_name', 'act_ent_type'
+        ]
+    
+    print(f"开始获取 {len(etf_list)} 个股票信息...")
+    
+    for i, code in enumerate(etf_list, 1):
+        try:
+            df = pro_fun(ts_code=code)
+            if not df.empty:
+                results.append(df)
+                print(f"[{i}/{len(etf_list)}] {code} 成功")
+            else:
+                print(f"[{i}/{len(etf_list)}] {code} 无数据")
+        except Exception as e:
+            print(f"[{i}/{len(etf_list)}] {code} 失败: {str(e)}")
+    
+    if not results:
+        print("没有任何数据获取成功")
+        return None
+    
+    # 合并
+    df_all = pd.concat(results, ignore_index=True)
+    
+
+    available_cols = [c for c in cols_order if c in df_all.columns]
+    df_all = df_all[available_cols]
+    
+    # 简单格式处理
+    for col in ['setup_date', 'list_date']:
+        if col in df_all.columns:
+            df_all[col] = pd.to_datetime(df_all[col], format='%Y%m%d', errors='coerce').dt.strftime('%Y-%m-%d')
+    
+    if 'mgt_fee' in df_all.columns:
+        df_all['mgt_fee'] = df_all['mgt_fee'].round(4)
+    
+    # 保存（utf-8-sig 防止中文乱码）
+    output_path_file = output_path / 'ashare_names.csv'
+    df_all.to_csv(output_path_file, index=False, encoding='utf-8-sig')
+    print(f"\n已保存 {len(df_all)} 条记录 → {output_path_file}")
+    
+    return df_all
+
+if __name__ == "__main__":
+    # ==================== 配置部分 ====================
+    json_config_path = str(Path(__file__).parent / "stocks.json")
+    
+    # === 关键修复：正确读取整个 JSON 文件 ===
+    try:
+        config_file = Path(json_config_path)
+        with open(config_file, "r", encoding="utf-8") as f:
+            config_data = json.load(f)
+        
+        if isinstance(config_data, dict) and config_data:
+            group_names = list(config_data.keys())
+            print(f"✅ 从 stocks.json 中成功读取到 {len(group_names)} 个组：")
+            print(group_names)
+        else:
+            print("❌ stocks.json 格式不正确或为空")
+            group_names = ["sse_50", "ETF_25", "ZSG_17"]
+    except Exception as e:
+        print(f"❌ 读取 stocks.json 失败: {e}")
+        group_names = ["sse_50", "ETF_25", "ZSG_17"]
+
+    print("-" * 90)
 
     token = os.getenv("TUSHARE_TOKEN")
     if not token:
         print("Error: TUSHARE_TOKEN not found")
+        sys.exit(1)
+    
     ts.set_token(token)
     pro = ts.pro_api()
 
-    # 测试sse_50成份股
-    symbols = test_get_index_weight("000016.SH")
-    if symbols:
-        print(f"\n提取到的股票代码示例: {symbols[:5]} ...")
-
-    # --- 参数只需要修改这里 ---
-    FREQ = "Daily"  # 或者 "Daily", "Weekly"
+    FREQ = "Daily"
     suffix = "day" if FREQ == "Daily" else "Weekly"
     START_DATE = "20250101"
-    Ashare_Type = "ETF" # "Ashare"
-    index_code = "000001.SH" # 默认用000001.SH，上证50用000016.SH
-    # ---------------------
 
-    fallback_path = Path(__file__).parent / "A_stock_data" / "{ashare_symbols_str}_weight.csv"
-    base_path = Path(__file__).parent / "A_stock_data" / f"{ashare_symbols_str}_{suffix}"
+    # ==================== 循环处理每个组 ====================
+    for ashare_symbols_str in group_names:
+        print(f"\n{'='*95}")
+        print(f"开始处理组: {ashare_symbols_str}")
 
-    # 1. 获取指数价格 (JSON), 默认用000001.SH，上证50用000016.SH
-    print("=" * 50)
-    print(f"\nFetching index {FREQ} data...")
-    get_benchmark_index_json(index_code=index_code, start_date = START_DATE,freq = FREQ, output_dir=base_path, ts_api = pro) # 000016.SH = SZ50
+        # ashare_symbols = get_config_value(
+        #     key=ashare_symbols_str, 
+        #     json_config_path=json_config_path
+        # )
+        # 把第 896-899 行替换成：
+        ashare_symbols = config_data.get(ashare_symbols_str)
 
-    #2. 获取成分股价格 (CSV), 获取指数数据, 合并保存为csv
-    print("=" * 50)
-    print(f"\nFetching index {FREQ} data...")
-    get_custom_symbols_prices_csv(symbols = ashare_symbols, start_date = START_DATE, freq = FREQ, 
-       output_dir = base_path, ts_api = pro, group_name=ashare_symbols_str, Atype=Ashare_Type)
+        if not ashare_symbols or not isinstance(ashare_symbols, list):
+            print(f"❌ 组 '{ashare_symbols_str}' 数据格式错误或为空，跳过")
+            continue
 
-    #3. 生成个股文件 (JSON), ./each_stock 
-    generate_each_stockfiles(pro, freq=FREQ, Atype=Ashare_Type)
+        print(f"   → 共 {len(ashare_symbols)} 只标的")
 
-    #4. 生成中文简称,ETF需要
-    save_etf_basic_info(ashare_symbols, base_path, pro, Atype=Ashare_Type)
+        base_path = Path(__file__).parent / "A_stock_data" / f"{ashare_symbols_str}_{suffix}"
+        Atype = "ETF" if any(x in ashare_symbols_str.upper() for x in ["ETF"]) else "Ashare"   # TEST也按A股处理
 
-    #5. 生成个股集合文件 (Jsonl)
-    print("=" * 60)
-    print("A-Share Data Converter")
-    convert_a_stock_to_jsonl(freq='day', ashare_symbols_str = ashare_symbols_str, Atype = Ashare_Type) # Ashare新格式，ETF格式，源代码格式
+        # 1. 获取基准指数 JSON
+        print(f"\nFetching benchmark index {FREQ} data...")
+        get_benchmark_index_json(
+            index_code="000016.SH",
+            start_date=START_DATE,
+            freq=FREQ,
+            output_dir=base_path,
+            ts_api=pro
+        )
+
+        # 2. 获取价格 CSV
+        print(f"Fetching prices data...")
+        get_custom_symbols_prices_csv(
+            symbols=ashare_symbols,
+            start_date=START_DATE,
+            freq=FREQ,
+            output_dir=base_path,
+            ts_api=pro,
+            group_name=ashare_symbols_str,
+            Atype=Atype
+        )
+
+        # 3. 生成每个股票单独 JSON
+        generate_each_stockfiles(pro, ashare_symbols, ashare_symbols_str, freq=FREQ, Atype=Atype)
+
+        # 4. 保存名称映射
+        save_etf_basic_info(ashare_symbols, base_path, pro, Atype=Atype)
+
+        # 5. 生成 merged.jsonl
+        print(f"\nGenerating merged.jsonl for {ashare_symbols_str}...")
+        convert_a_stock_to_jsonl(
+            freq='day',
+            ashare_symbols_str=ashare_symbols_str,
+            Atype="Ashare_New" if Atype == "Ashare" else "ETF"
+        )
+
+    print(f"\n{'='*95}")
+    print("✅ 所有组已处理完成！")

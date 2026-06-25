@@ -30,19 +30,19 @@ AGENT_REGISTRY = {
 mcp_service_configs = {            
             "math": {
                 "transport": "streamable_http",
-                "url": f"http://localhost:{os.getenv('MATH_HTTP_PORT', '8000')}/mcp",
+                "url": f"http://127.0.0.1:{os.getenv('MATH_HTTP_PORT', '8000')}/mcp",
             },
             "trade": {
                 "transport": "streamable_http",
-                "url": f"http://localhost:{os.getenv('TRADE_HTTP_PORT', '8001')}/mcp",
+                "url": f"http://127.0.0.1:{os.getenv('TRADE_HTTP_PORT', '8001')}/mcp",
             },
             "price": {
                 "transport": "streamable_http",
-                "url": f"http://localhost:{os.getenv('GETPRICE_HTTP_PORT', '8002')}/mcp",
+                "url": f"http://127.0.0.1:{os.getenv('GETPRICE_HTTP_PORT', '8002')}/mcp",
             },
             "price_online": {
                 "transport": "streamable_http",
-                "url": f"http://localhost:{os.getenv('GETPRICE_ONLINE_HTTP_PORT', '8002')}/mcp",
+                "url": f"http://127.0.0.1:{os.getenv('GETPRICE_ONLINE_HTTP_PORT', '8003')}/mcp",
             }
 }
 
@@ -243,4 +243,3 @@ if __name__ == "__main__":
     else:
         print(f"📄 Using default configuration file: configs/astock_config.json")
     asyncio.run(main(config_path))
-
