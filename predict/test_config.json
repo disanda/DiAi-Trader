@@ -1,0 +1,62 @@
+{
+  "prediction_date": "",
+  "prediction_start_date": "20260824",
+  "prediction_end_date": "20260825",
+  "lookback_days": 10,
+  "request_timeout_seconds": 90,
+  "use_news_search": true,
+  "news_api_pool": "predict/mcp_tools/api.json",
+  "news_max_results": 3,
+  "news_time_range": "week",
+  "news_raw_chars": 800,
+  "news_query": "{name} {ts_code} 最新新闻 A股",
+  "rules": "Forecast the next trading day from only the supplied ten completed sessions. First decide up/down, then choose one of four classes: strong_down (pct_chg <= -1%), down (-1% < pct_chg < 0%), up (0% <= pct_chg < 1%), strong_up (pct_chg >= 1%). Explain the price, range and volume evidence, then state implications for broad market and sectors. Never claim access to the target day.",
+  "models": [
+    {
+      "name": "DeepSeek-V4-Flash",
+      "basemodel": "deepseek-v4-flash",
+      "signature": "deepseek-v4-flash",
+      "enabled": false,
+      "openai_base_url": "https://api.deepseek.com/",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "json_mode": false
+    },
+    {
+      "name": "Kimi-k2.6",
+      "basemodel": "kimi-k2.6",
+      "signature": "kimi-k2.6",
+      "enabled": false,
+      "openai_base_url": "https://api.moonshot.cn/v1",
+      "temperature": 1,
+      "api_key_env": "MOONSHOT_API_KEY",
+      "json_mode": false
+    },
+    {
+      "name": "openai/gpt-oss-20b",
+      "basemodel": "openai/gpt-oss-20b",
+      "signature": "openai/gpt-oss-20b",
+      "enabled": false,
+      "openai_base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "json_mode": false
+    },
+    {
+      "name": "openai/gpt-oss-120b",
+      "basemodel": "openai/gpt-oss-120b",
+      "signature": "openai/gpt-oss-120b",
+      "enabled": true,
+      "openai_base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "json_mode": false
+    },
+    {
+      "name": "glm-5.3",
+      "basemodel": "glm-5.3",
+      "signature": "glm-5.3",
+      "enabled": false,
+      "openai_base_url": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+      "api_key_env": "ZHIPU_API_KEY",
+      "json_mode": false
+    }
+  ]
+}

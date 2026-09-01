@@ -329,7 +329,7 @@ class StockManager {
         this.appendTerminalLine('  脚本: data/1.get_price_tushare.py', 'dim');
 
         try {
-            const response = await fetch('http://127.0.0.1:9999/download-stocks', {
+            const response = await fetch('/download-stocks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -452,7 +452,7 @@ class StockManager {
      */
     async saveStocks(isReset = false) {
         try {
-            const response = await fetch('http://127.0.0.1:9999/save', {
+            const response = await fetch('/save', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.stocks)

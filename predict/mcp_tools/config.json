@@ -1,0 +1,10 @@
+{
+  "mcp": {
+    "command": "python",
+    "args": [
+      "news_search_server.py",
+      "--api-pool",
+      "api.json"
+    ]
+  }
+}

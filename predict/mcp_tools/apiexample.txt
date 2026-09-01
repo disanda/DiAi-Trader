@@ -1,0 +1,12 @@
+[
+    {
+        "id": "freeapi1",
+        "key": "tavily key1"
+    },
+    {
+        "id": "freeapi2",
+        "key": "tavily key2"
+    }
+]
+
+tavily key set file (remove this line, set this file name 'api.json')

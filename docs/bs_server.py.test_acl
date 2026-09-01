@@ -35,7 +35,6 @@ STOCKS_FILE          = DOCS_DIR / 'data' / 'stocks.json'
 ASTOCKS_SYMBOLS_DIR  = PROJECT_DIR / 'data' / 'Astocks' / 'symbols'
 ASTOCKS_STOCKS_DIR   = PROJECT_DIR / 'data' / 'Astocks' / 'stocks'
 ASTOCKS_INDICES_DIR  = PROJECT_DIR / 'data' / 'Astocks' / 'indices'
-ASTOCKS_FACTORS_DIR  = PROJECT_DIR / 'data' / 'Astocks' / 'factors'
 ASTOCKS_DAILY_DIR    = DOCS_DIR / 'data' / 'Astocks' / 'daily'
 ETFS_DATA_DIR        = PROJECT_DIR / 'data' / 'ETFs'
 PREDICT_OUTPUT_DIR   = PROJECT_DIR / 'data' / 'predict'
@@ -112,12 +111,6 @@ class SaveHandler(SimpleHTTPRequestHandler):
 
         elif path == '/astocks-index':
             self._handle_astocks_index(params)
-
-        elif path == '/astocks-factor-index':
-            self._handle_astocks_factor_index(params)
-
-        elif path == '/astocks-factor':
-            self._handle_astocks_factor(params)
 
         elif path == '/market-factors':
             self._handle_market_factors()
@@ -226,58 +219,6 @@ class SaveHandler(SimpleHTTPRequestHandler):
         try:
             with path.open('r', encoding='utf-8') as f:
                 self._json_response(200, {'success': True, 'data': json.load(f)})
-        except (OSError, ValueError, json.JSONDecodeError) as exc:
-            self.send_error_response(500, str(exc))
-
-    def _handle_astocks_factor_index(self, params):
-        """List saved index factor series and their available dates."""
-        items = []
-        if ASTOCKS_FACTORS_DIR.exists():
-            for directory in sorted(ASTOCKS_FACTORS_DIR.iterdir()):
-                if not directory.is_dir() or any(ch not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-' for ch in directory.name):
-                    continue
-                dates = sorted(path.stem for path in directory.glob('*.json') if path.stem.isdigit())
-                if not dates:
-                    continue
-                name = directory.name
-                index_path = ASTOCKS_INDICES_DIR / f'{directory.name}.json'
-                if index_path.exists():
-                    try:
-                        with index_path.open('r', encoding='utf-8') as handle:
-                            name = json.load(handle).get('name') or name
-                    except (OSError, ValueError, json.JSONDecodeError):
-                        pass
-                first_path = directory / f'{dates[-1]}.json'
-                try:
-                    with first_path.open('r', encoding='utf-8') as handle:
-                        payload = json.load(handle)
-                    name = payload.get('name') or name
-                except (OSError, ValueError, json.JSONDecodeError):
-                    pass
-                items.append({'ts_code': directory.name, 'name': name, 'dates': dates})
-        self._json_response(200, {'success': True, 'data': items})
-
-    def _handle_astocks_factor(self, params):
-        symbol = params.get('symbol', [''])[0]
-        requested_date = params.get('date', [''])[0]
-        valid = lambda value: value and all(ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-' for ch in value)
-        if not valid(symbol) or (requested_date and not requested_date.isdigit()):
-            self.send_error_response(400, 'Invalid symbol or date')
-            return
-        directory = ASTOCKS_FACTORS_DIR / symbol
-        if not directory.exists():
-            self.send_error_response(404, f'Factors not found: {symbol}')
-            return
-        dates = sorted(path.stem for path in directory.glob('*.json') if path.stem.isdigit())
-        actual_date = requested_date if requested_date in dates else (dates[-1] if dates else '')
-        if not actual_date:
-            self.send_error_response(404, f'No factor dates found: {symbol}')
-            return
-        path = directory / f'{actual_date}.json'
-        try:
-            with path.open('r', encoding='utf-8') as handle:
-                payload = json.load(handle)
-            self._json_response(200, {'success': True, 'data': payload, 'dates': dates})
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             self.send_error_response(500, str(exc))
 

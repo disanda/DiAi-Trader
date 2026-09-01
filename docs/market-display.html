@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DiAi · 中证2000行情</title>
+<title>DiAi · A股大盘行情</title>
 <link rel="icon" type="image/svg+xml" href="figs/stock.svg">
 <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
@@ -16,10 +16,16 @@
   --mkt-accent:#388bfd;
 }
 .mkt-tabs{display:flex;gap:4px;padding:16px 0 0;border-bottom:1px solid var(--mkt-border);margin-bottom:18px}
+.page-update{position:absolute;right:0;bottom:0}.page-update .btn-update{height:36px;padding:0 14px;border:1px solid rgba(56,139,253,.55);border-radius:6px;background:transparent;color:#58a6ff;cursor:pointer;font:inherit}.page-update .btn-update:hover{background:rgba(56,139,253,.12)}.page-header{position:relative}.index-table{width:100%;border-collapse:collapse}.index-table th,.index-table td{padding:11px 12px;border-bottom:1px solid var(--mkt-border);text-align:right;font-size:13px}.index-table th{text-align:right;color:#8b949e;font-weight:500;background:var(--mkt-bg2)}.index-table th:first-child,.index-table td:first-child,.index-table th:nth-child(2),.index-table td:nth-child(2){text-align:left}.index-table tbody tr{cursor:pointer}.index-table tbody tr:hover{background:var(--mkt-bg3)}.factor-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.factor-card{border:1px solid var(--mkt-border);background:var(--mkt-bg2);padding:14px;border-radius:6px}.factor-card label{display:block;color:#8b949e;font-size:12px;margin-bottom:7px}.factor-card strong{font-size:22px;color:#e6edf3}.factor-card small{display:block;color:#6e7681;margin-top:7px;font-size:11px}.factor-chart{border:1px solid var(--mkt-border);background:#0b1020;padding:0;overflow:hidden}.factor-chart-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--mkt-border)}.factor-chart h3{font-size:13px;margin:0}.factor-controls{display:flex;gap:5px;flex-wrap:wrap}.factor-controls button{border:1px solid #354052;border-radius:4px;background:#141c29;color:#9aa9bd;padding:5px 9px;font:inherit;font-size:11px;cursor:pointer}.factor-controls button.active{color:#fff;background:#263d5c;border-color:#5e9be8}.factor-chart-host{height:360px;position:relative}.factor-tooltip{position:absolute;z-index:5;display:none;pointer-events:none;min-width:190px;padding:9px 11px;border:1px solid #45536a;border-radius:5px;background:rgba(13,19,30,.97);font-size:12px;color:#dce5f0;line-height:1.7}.factor-tooltip b{color:#fff}.factor-foot{padding:8px 14px;color:#718198;font-size:11px;border-top:1px solid var(--mkt-border)}#panel-heatmap,#panel-factor{display:none!important}#panel-table .btn-update{display:none}.mkt-tabs .mkt-tab:nth-child(4),.mkt-tabs .mkt-tab:nth-child(5){display:none}@media(max-width:900px){.factor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.factor-chart-host{height:300px}}
 .mkt-tab{padding:8px 20px;font-size:13px;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;background:transparent;color:var(--mkt-flat);cursor:pointer;position:relative;top:1px;transition:all .15s;font-family:inherit}
 .mkt-tab:hover{color:#e6edf3;background:var(--mkt-bg3)}
 .mkt-tab.active{color:#e6edf3;background:var(--mkt-bg2);border-color:var(--mkt-border);border-bottom-color:var(--mkt-bg2)}
 .mkt-panel{display:none}.mkt-panel.active{display:block}
+.market-layout{display:grid;grid-template-columns:190px minmax(0,1fr);gap:16px;align-items:start}
+.group-sidebar{position:sticky;top:12px;background:var(--mkt-bg2);border:1px solid var(--mkt-border);border-radius:8px;padding:8px;max-height:calc(100vh - 150px);overflow:auto}
+.group-sidebar h3{margin:4px 8px 10px;font-size:13px;color:#e6edf3;font-weight:600}
+.group-list{display:grid;gap:5px}.group-item{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 9px;border:1px solid transparent;border-radius:6px;background:transparent;color:#9aa4b2;text-align:left;font:inherit;font-size:12px;cursor:pointer}.group-item:hover{background:var(--mkt-bg3);color:#e6edf3}.group-item.active{background:rgba(56,139,253,.16);border-color:rgba(56,139,253,.45);color:#58a6ff}.group-count{font-size:10px;color:#6e7681}.group-actions{display:flex;gap:5px;margin-top:8px}.group-actions button{flex:1;height:28px;border:1px solid var(--mkt-border);border-radius:5px;background:transparent;color:#8b949e;cursor:pointer;font:inherit;font-size:11px}.group-actions button:hover{background:var(--mkt-bg3);color:#e6edf3}
+@media(max-width:800px){.market-layout{grid-template-columns:1fr}.group-sidebar{position:static;max-height:none}.group-list{display:flex;overflow:auto}.group-item{min-width:125px}}
 .mkt-stat-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .mkt-stat{background:var(--mkt-bg2);border:.5px solid var(--mkt-border);border-radius:8px;padding:10px 16px;min-width:118px}
 .mkt-stat-label{font-size:11px;color:var(--mkt-flat);margin-bottom:4px}
@@ -74,6 +80,9 @@ thead tr{background:var(--mkt-bg2);position:sticky;top:0;z-index:10}
 .log-error{color:var(--mkt-up)}
 .log-line{color:#8b949e}
 </style>
+<style>
+.factor-browser{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px}.factor-index-list{border:1px solid var(--mkt-border);background:var(--mkt-bg2);border-radius:8px;overflow:auto;max-height:620px}.factor-index-list button{display:flex;width:100%;justify-content:space-between;padding:11px 13px;border:0;border-bottom:1px solid var(--mkt-border);background:transparent;color:#9aa9bd;text-align:left;font:inherit;cursor:pointer}.factor-index-list button:hover{background:var(--mkt-bg3);color:#e6edf3}.factor-index-list button.active{background:rgba(56,139,253,.16);color:#58a6ff}.factor-index-list small{color:#6e7681}.factor-detail{border:1px solid var(--mkt-border);background:var(--mkt-bg2);border-radius:8px;overflow:hidden}.factor-detail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid var(--mkt-border)}.factor-detail-head h3{margin:0;font-size:15px}.factor-detail-head select{height:32px;padding:0 10px;border:1px solid var(--mkt-border);border-radius:6px;background:#0d1117;color:#e6edf3;font:inherit}.factor-table-wrap{overflow:auto;max-height:560px}.factor-table{width:100%;border-collapse:collapse}.factor-table th,.factor-table td{padding:9px 13px;border-bottom:1px solid var(--mkt-border);text-align:left;font-size:12px}.factor-table th{position:sticky;top:0;background:#161b22;color:#8b949e;font-weight:500}.factor-table td:last-child{text-align:right;color:#e6edf3;font-variant-numeric:tabular-nums}.factor-empty{padding:50px;text-align:center;color:#8b949e}.factor-note{padding:9px 14px;color:#6e7681;font-size:11px;border-top:1px solid var(--mkt-border)}@media(max-width:900px){.factor-browser{grid-template-columns:1fr}.factor-index-list{max-height:220px;display:flex}.factor-index-list button{min-width:170px;border-right:1px solid var(--mkt-border);border-bottom:0}}
+</style>
 </head>
 <body>
 <nav class="navbar">
@@ -87,7 +96,8 @@ thead tr{background:var(--mkt-bg2);position:sticky;top:0;z-index:10}
       <li><a href="choose_stock.html"   class="nav-link">标的管理</a></li>
       <li><a href="run_agent.html"      class="nav-link">运行智能体</a></li>
       <li><a href="prompt.html"         class="nav-link">提示词管理</a></li>
-      <li><a href="market-display.html" class="nav-link active">中证2000</a></li>
+      <li><a href="market-display.html" class="nav-link active">A股大盘</a></li>
+      <li><a href="predict-competition.html" class="nav-link">预测竞赛</a></li>
       <a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener noreferrer" class="github-link">
         <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -99,11 +109,14 @@ thead tr{background:var(--mkt-bg2);position:sticky;top:0;z-index:10}
 
 <main class="container">
   <header class="page-header">
-    <h2>中证2000 · 行情展示</h2>
+    <h2>A股大盘 · 行情展示</h2>
     <p class="subtitle" id="mktMeta">加载中…</p>
+    <div class="page-update" id="pageUpdateArea"><button class="btn-update" id="btnUpdate" onclick="triggerUpdate()"><i class="ti ti-cloud-download"></i> 更新数据</button></div>
   </header>
 
   <div class="mkt-tabs">
+    <button class="mkt-tab" onclick="switchTab('indices',this)">指数列表</button>
+    <button class="mkt-tab" onclick="switchTab('factors',this)">市场因子</button>
     <button class="mkt-tab active" onclick="switchTab('table',this)">📋 行情列表</button>
     <button class="mkt-tab"       onclick="switchTab('heatmap',this)">🌡️ 涨跌热力图</button>
     <button class="mkt-tab"       onclick="switchTab('factor',this)">🔢 因子分布</button>
@@ -111,6 +124,12 @@ thead tr{background:var(--mkt-bg2);position:sticky;top:0;z-index:10}
 
   <!-- Tab 1: 行情列表 -->
   <div class="mkt-panel active" id="panel-table">
+    <div class="market-layout">
+      <aside class="group-sidebar" aria-label="股票分组">
+        <h3>股票分组</h3>
+        <div class="group-list" id="stockGroupList"></div>
+      </aside>
+      <section>
     <div class="mkt-stat-row">
       <div class="mkt-stat"><div class="mkt-stat-label">股票总数</div><div class="mkt-stat-val" id="sTot">—</div></div>
       <div class="mkt-stat"><div class="mkt-stat-label">上涨</div><div class="mkt-stat-val mkt-up" id="sUp">—</div></div>
@@ -161,9 +180,31 @@ thead tr{background:var(--mkt-bg2);position:sticky;top:0;z-index:10}
     <div class="update-drawer" id="updateDrawer">
       <div class="update-log" id="updateLog"></div>
     </div>
+      </section>
+    </div>
   </div>
 
   <!-- Tab 2: 热力图 -->
+  <div class="mkt-panel" id="panel-indices">
+    <div class="mkt-tbl-wrap">
+      <table class="index-table">
+        <thead><tr><th>指数代码</th><th>名称</th><th>最新点位</th><th>涨跌额</th><th>涨跌幅</th><th>开盘</th><th>最高</th><th>最低</th><th>成交量</th><th>成交额</th></tr></thead>
+        <tbody id="indexTbody"><tr><td colspan="10" class="mkt-msg">正在加载指数数据…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mkt-panel" id="panel-factors">
+    <div class="factor-browser">
+      <aside class="factor-index-list" id="factorIndexList"><div class="factor-empty">正在加载指数…</div></aside>
+      <section class="factor-detail">
+        <div class="factor-detail-head"><h3 id="factorDetailTitle">请选择指数</h3><select id="factorDateSelect" aria-label="选择因子日期" disabled><option>暂无日期</option></select></div>
+        <div class="factor-table-wrap"><table class="factor-table"><thead><tr><th>因子名称</th><th>因子值</th></tr></thead><tbody id="factorDetailBody"><tr><td colspan="2" class="factor-empty">点击左侧指数查看最新一天因子数据</td></tr></tbody></table></div>
+        <div class="factor-note">数据来源：data/Astocks/factors · 默认展示最新日期，可通过右上角下拉框切换历史日期</div>
+      </section>
+    </div>
+  </div>
+
   <div class="mkt-panel" id="panel-heatmap">
     <div id="heatmapWrap" style="min-height:400px;display:flex;flex-wrap:wrap;gap:3px;align-content:flex-start;padding:4px"></div>
     <p style="font-size:11px;color:#6e7681;margin-top:8px">色块大小 ∝ 总市值；颜色 = 涨跌幅（红涨绿跌）</p>
@@ -192,6 +233,8 @@ thead tr{background:var(--mkt-bg2);position:sticky;top:0;z-index:10}
 <footer class="footer"><p>DiAi &copy; 2026 | 智能体自主交易系统</p></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="assets/js/market-display.js"></script>
+<script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
+<script src="assets/js/chart-card.js?v=20260831-etf"></script>
+<script src="assets/js/market-display.js?v=20260831-etf"></script>
 </body>
 </html>

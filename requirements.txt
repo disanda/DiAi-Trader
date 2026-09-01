@@ -7,3 +7,5 @@ fastmcp==2.12.5
 # A_stock
 tushare
 efinance
+pandas
+python-dotenv

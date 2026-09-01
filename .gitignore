@@ -1,4 +1,8 @@
 .vscode/
+.agents/
+.codex/
 logs/
+data/
 .env
 configs/astock_config_day.json
+api.json

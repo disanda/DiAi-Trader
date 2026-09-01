@@ -1,11 +1,14 @@
 /**
  * market-display.js
- * 中证2000 行情展示前端逻辑
+ * A股大盘行情展示前端逻辑
  * 功能：行情列表（含颜色/拖拽排序/中文名）、热力图、因子分布、数据更新
  */
 
-const API       = 'http://127.0.0.1:9999';
-const DATA_URL  = './data/SCI2K/merged.json';
+const API       = '';
+const DATA_BASE = './data/Astocks';
+const META_URL  = `${DATA_BASE}/meta.json`;
+const DATES_URL = `${DATA_BASE}/dates.json`;
+const LATEST_URL = `${DATA_BASE}/latest.json`;
 
 // ── 列定义（顺序 = 初始显示顺序）────────────────────────────────────────
 // sticky: 固定列类名；badge: 显示徽章；colorFn: 返回颜色类名
@@ -64,10 +67,71 @@ function openClr(open, row){
 }
 
 // ── 状态 ──────────────────────────────────────────────────────────────────
-let rawData={}, allStocks=[], filteredStocks=[];
+let allStocks=[], filteredStocks=[];
 let curDate='', curPage=1, pageSize=50;
 let sortKey='pct_chg', sortAsc=false;
 let factorChartInst=null;
+let marketFactorChart=null;
+let stockGroups = [], activeGroupId = '__all__', activeAssetBase = DATA_BASE;
+function escapeHtml(value){ return String(value).replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch])); }
+
+async function loadStockGroups(){
+  try{
+    const res = await fetch(`${API}/astocks-symbol-groups`);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json();
+    stockGroups = Array.isArray(payload.groups) ? payload.groups : [];
+  }catch(e){
+    stockGroups = [];
+    console.warn('股票分组未加载：', e.message);
+  }
+  renderStockGroups();
+}
+
+function renderStockGroups(){
+  const host = document.getElementById('stockGroupList');
+  if(!host) return;
+  const groups = [{id:'__all__', name:'全部A股', symbols:[]}].concat(stockGroups);
+  host.innerHTML = groups.map(group => `<button type="button" class="group-item ${group.id===activeGroupId?'active':''}" data-group-id="${escapeHtml(group.id)}"><span>${escapeHtml(group.name)}</span><span class="group-count">${group.id==='__all__' ? allStocks.length : group.symbols.length}</span></button>`).join('');
+  host.querySelectorAll('[data-group-id]').forEach(button => {
+    button.onclick = async () => {
+      activeGroupId = button.dataset.groupId;
+      const group = stockGroups.find(item => item.id === activeGroupId);
+      activeAssetBase = activeGroupId === '__all__' ? DATA_BASE : (group && group.data_base ? group.data_base : DATA_BASE);
+      window.ASTOCKS_ACTIVE_ASSET_BASE = activeAssetBase;
+      await loadAssetSnapshot();
+      applyFilter();
+    };
+  });
+}
+
+async function loadAssetSnapshot(){
+  const base = activeAssetBase || DATA_BASE;
+  try{
+    const [latestResponse, datesResponse] = await Promise.all([fetch(`${base}/latest.json`), fetch(`${base}/dates.json`)]);
+    if(!latestResponse.ok) throw new Error(`HTTP ${latestResponse.status}`);
+    const payload = await latestResponse.json();
+    allStocks = payload.data || [];
+    const date = payload.date || '';
+    const selector = document.getElementById('mktDate');
+    if(datesResponse.ok){
+      const datesPayload = await datesResponse.json();
+      const dates = [...(datesPayload.dates || [])].sort().reverse();
+      selector.innerHTML = dates.map(item => `<option value="${item}">${item}</option>`).join('');
+      selector.value = date || dates[0] || '';
+    } else if(date && selector.value !== date){
+      selector.value = date;
+    }
+  }catch(error){
+    allStocks=[];
+    document.getElementById('mktMeta').textContent = `数据加载失败：${error.message}`;
+  }
+}
+
+function activeSymbols(){
+  const group = stockGroups.find(item => item.id === activeGroupId);
+  return activeGroupId === '__all__' ? null : new Set(group ? group.symbols : []);
+}
 
 // ── Tab 切换 ──────────────────────────────────────────────────────────────
 function switchTab(name, btn){
@@ -75,8 +139,81 @@ function switchTab(name, btn){
   document.querySelectorAll('.mkt-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
   btn.classList.add('active');
-  if(name==='heatmap') renderHeatmap();
-  if(name==='factor')  renderFactorChart();
+  if(name==='indices') loadIndices();
+  if(name==='factors') loadMarketFactors();
+}
+
+async function loadMarketFactors(){
+  const cards=document.getElementById('factorCards');
+  try{
+    const res=await fetch('/market-factors'); if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const points=(await res.json()).data||[]; const last=points.at(-1)||{};
+    const defs=[['turnover_ratio','成交额 / 总市值','percent'],['crowding','交易拥挤度','percent'],['margin_ratio','两融余额 / 总市值','percent'],['deposit_ratio','居民存款 / 总市值','percent']];
+    const fmtFactor=(v,kind)=>v==null?'待导入':`${(v*100).toFixed(2)}%`;
+    cards.innerHTML=defs.map(([key,label])=>`<div class="factor-card"><label>${label}</label><strong>${fmtFactor(last[key])}</strong><small>${last.date||'-'} · ${key==='margin_ratio'||key==='deposit_ratio'?'需要导入宏观序列':'由 A 股日行情计算'}</small></div>`).join('');
+    if(!window.Chart||!points.length) return;
+    if(marketFactorChart) marketFactorChart.destroy();
+    marketFactorChart=new Chart(document.getElementById('marketFactorCanvas'),{type:'line',data:{labels:points.map(p=>p.date),datasets:[{label:'成交额/总市值',data:points.map(p=>p.turnover_ratio==null?null:p.turnover_ratio*100),borderColor:'#58a6ff',tension:.25},{label:'交易拥挤度',data:points.map(p=>p.crowding==null?null:p.crowding*100),borderColor:'#f2cc60',tension:.25},{label:'两融/总市值',data:points.map(p=>p.margin_ratio==null?null:p.margin_ratio*100),borderColor:'#f85149',tension:.25},{label:'居民存款/总市值',data:points.map(p=>p.deposit_ratio==null?null:p.deposit_ratio*100),borderColor:'#3fb950',tension:.25}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#c9d1d9'}}},scales:{x:{ticks:{color:'#8b949e',maxTicksLimit:12},grid:{color:'#30363d'}},y:{ticks:{color:'#8b949e',callback:v=>v+'%'},grid:{color:'#30363d'}}}}});
+  }catch(error){ cards.innerHTML=`<div class="factor-card"><label>市场因子</label><strong>加载失败</strong><small>${escapeHtml(error.message)}</small></div>`; }
+}
+
+let marketFactorPoints = [];
+let activeMarketFactor = 'turnover_ratio';
+
+async function loadMarketFactors(){
+  const cards = document.getElementById('factorCards');
+  try{
+    const response = await fetch('/market-factors');
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    marketFactorPoints = (await response.json()).data || [];
+    const last = marketFactorPoints.at(-1) || {};
+    const defs = [
+      ['turnover_ratio','成交额 / 总市值','#58a6ff','由 A 股日行情计算'],
+      ['crowding','交易拥挤度','#f2cc60','成交额前 5% 个股占比'],
+      ['margin_ratio','两融余额 / 总市值','#f85149','待导入宏观序列'],
+      ['deposit_ratio','居民存款 / 总市值','#3fb950','待导入宏观序列']
+    ];
+    cards.innerHTML = defs.map(([key,label,color,note]) => `<div class="factor-card"><label>${label}</label><strong style="color:${last[key]==null?'#8b949e':color}">${last[key]==null?'待导入':(last[key]*100).toFixed(2)+'%'}</strong><small>${last.date||'-'} · ${note}</small></div>`).join('');
+    const controls = document.getElementById('factorControls');
+    controls.innerHTML = defs.map(([key,label,color]) => `<button type="button" data-factor="${key}" style="--factor-color:${color}">${label}</button>`).join('');
+    controls.querySelectorAll('[data-factor]').forEach(button => button.onclick = () => { activeMarketFactor=button.dataset.factor; renderMarketFactorChart(); });
+    renderMarketFactorChart();
+  }catch(error){ cards.innerHTML=`<div class="factor-card"><label>市场因子</label><strong>加载失败</strong><small>${escapeHtml(error.message)}</small></div>`; }
+}
+
+function renderMarketFactorChart(){
+  const config = {
+    turnover_ratio:{label:'成交额 / 总市值',color:'#58a6ff',note:'市场整体交易活跃度'},
+    crowding:{label:'交易拥挤度',color:'#f2cc60',note:'成交额前 5% 个股的成交额占比'},
+    margin_ratio:{label:'两融余额 / 总市值',color:'#f85149',note:'待导入两融余额宏观时间序列'},
+    deposit_ratio:{label:'居民存款 / 总市值',color:'#3fb950',note:'待导入居民存款宏观时间序列'}
+  }[activeMarketFactor];
+  const host=document.getElementById('marketFactorHost'), tip=document.getElementById('marketFactorTooltip');
+  document.getElementById('marketFactorTitle').textContent=config.label;
+  document.getElementById('marketFactorFoot').textContent=`${config.note} · 鼠标滚轮缩放，拖动平移`;
+  document.querySelectorAll('[data-factor]').forEach(button=>button.classList.toggle('active',button.dataset.factor===activeMarketFactor));
+  if(marketFactorChart && marketFactorChart.remove) marketFactorChart.remove();
+  if(!window.LightweightCharts || !host) return;
+  marketFactorChart=LightweightCharts.createChart(host,{width:host.clientWidth,height:host.clientHeight,layout:{background:{color:'#0b1020'},textColor:'#9aa9bd'},grid:{vertLines:{color:'rgba(139,148,158,.12)'},horzLines:{color:'rgba(139,148,158,.12)'}},rightPriceScale:{borderColor:'#303846'},timeScale:{borderColor:'#303846'},crosshair:{mode:LightweightCharts.CrosshairMode.Normal}});
+  const series=marketFactorChart.addLineSeries({color:config.color,lineWidth:2,priceFormat:{type:'custom',formatter:value=>`${value.toFixed(2)}%`},priceLineVisible:false});
+  const values=marketFactorPoints.filter(point=>point[activeMarketFactor]!=null).map(point=>({time:`${point.date.slice(0,4)}-${point.date.slice(4,6)}-${point.date.slice(6)}`,value:point[activeMarketFactor]*100}));
+  series.setData(values); marketFactorChart.timeScale().fitContent();
+  const byTime=new Map(marketFactorPoints.map(point=>[`${point.date.slice(0,4)}-${point.date.slice(4,6)}-${point.date.slice(6)}`,point]));
+  marketFactorChart.subscribeCrosshairMove(param=>{const point=byTime.get(String(param.time));if(!param.point||!point||point[activeMarketFactor]==null){tip.style.display='none';return;}tip.innerHTML=`<b>${point.date}</b><br>${config.label}: <strong style="color:${config.color}">${(point[activeMarketFactor]*100).toFixed(2)}%</strong><br><span>数据口径：${config.note}</span>`;tip.style.display='block';tip.style.left=`${Math.min(host.clientWidth-tip.offsetWidth-10,Math.max(10,param.point.x+14))}px`;tip.style.top=`${Math.min(host.clientHeight-tip.offsetHeight-10,Math.max(10,param.point.y+14))}px`;});
+}
+
+async function loadIndices(){
+  const body = document.getElementById('indexTbody');
+  if(!body) return;
+  body.innerHTML='<tr><td colspan="10" class="mkt-msg">正在加载指数数据…</td></tr>';
+  try{
+    const res = await fetch(`${API}/astocks-indices`);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json();
+    const rows = payload.data || [];
+    if(!rows.length){ body.innerHTML='<tr><td colspan="10" class="mkt-msg">暂无指数数据，请点击更新数据。</td></tr>'; return; }
+    body.innerHTML = rows.map(row=>`<tr onclick="window.ASTOCKSChartCard && window.ASTOCKSChartCard.openIndex('${row.ts_code}')"><td>${row.ts_code}</td><td>${row.name||'-'}</td><td class="${clr(row.pct_chg)}">${fmtN(row.close)}</td><td class="${clr(row.change)}">${fmtN(row.change)}</td><td><span class="badge ${row.pct_chg>0?'badge-up':row.pct_chg<0?'badge-dn':'badge-fl'}">${fmtPct(row.pct_chg)}</span></td><td>${fmtN(row.open)}</td><td class="mkt-up">${fmtN(row.high)}</td><td class="mkt-dn">${fmtN(row.low)}</td><td>${fmtBig(row.vol)}</td><td>${fmtBig(row.amount)}</td></tr>`).join('');
+  }catch(error){ body.innerHTML=`<tr><td colspan="10" class="mkt-msg">指数数据加载失败：${escapeHtml(error.message)}</td></tr>`; }
 }
 
 // ── 初始化列切换栏（支持拖拽排序）────────────────────────────────────────
@@ -148,44 +285,49 @@ function rebuildColOrder(){
 async function loadData(){
   document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">加载中…</td></tr>';
   try{
-    const r = await fetch(DATA_URL);
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const json = await r.json();
+    const [metaRes, datesRes, latestRes] = await Promise.all([fetch(META_URL), fetch(DATES_URL), fetch(LATEST_URL)]);
+    if(!metaRes.ok || !datesRes.ok || !latestRes.ok) throw new Error('Market data partitions are unavailable');
+    if(false)
+      throw new Error('分段数据未生成，请先运行 --build-partitions');
 
-    const meta = json.meta||{};
+    const [meta, datesPayload, latestPayload] = await Promise.all([metaRes.json(), datesRes.json(), latestRes.json()]);
     document.getElementById('mktMeta').textContent =
-      `${meta.index_code||'CSI2000'} · 成分股 ${meta.stock_count||'—'} 只 · 更新于 ${meta.updated_at||'—'}`;
+      `A股大盘 · 上市股票 ${meta.stock_count||'—'} 只 · 更新于 ${meta.updated_at||'—'}`;
 
-    rawData = json.data||{};
-
-    // 收集所有交易日
-    const dates = new Set();
-    for(const recs of Object.values(rawData))
-      for(const rec of recs) if(rec.trade_date) dates.add(rec.trade_date);
-
-    const sortedDates = [...dates].sort().reverse();
+    const sortedDates = [...(datesPayload.dates||[])].sort().reverse();
     const sel = document.getElementById('mktDate');
     sel.innerHTML = sortedDates.map(d=>`<option value="${d}">${d}</option>`).join('');
-    curDate = sortedDates[0]||'';
-    sel.onchange = ()=>{ curDate=sel.value; buildList(); };
+    curDate = latestPayload.date || sortedDates[0] || '';
+    sel.value = curDate;
+    sel.onchange = async ()=>{
+      curDate=sel.value;
+      await loadDate(curDate);
+    };
 
     initColToggleBar();
-    buildList();
+    await loadStockGroups();
+    allStocks = latestPayload.data||[];
+    applyFilter();
   } catch(e){
     document.getElementById('mktTbody').innerHTML=
       `<tr><td colspan="20" class="mkt-msg" style="color:var(--mkt-up)">
         加载失败：${e.message}<br>
-        <small style="color:#8b949e">请确认 data/SCI2K/merged.json 存在</small>
+        <small style="color:#8b949e">请先生成 data/Astocks/dates.json 和 daily/ 分段文件</small>
       </td></tr>`;
     document.getElementById('mktMeta').textContent='加载失败';
   }
 }
 
-function buildList(){
-  allStocks=[];
-  for(const [code, recs] of Object.entries(rawData)){
-    const rec = recs.find(r=>r.trade_date===curDate) || recs[recs.length-1];
-    if(rec) allStocks.push({ts_code:code, ...rec});
+async function loadDate(date){
+  document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">加载行情中…</td></tr>';
+  try{
+    const response = await fetch(`${activeAssetBase || DATA_BASE}/daily/${date}.json`);
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    allStocks = payload.data||[];
+  } catch(e){
+    allStocks=[];
+    document.getElementById('mktMeta').textContent = `日期 ${date} 加载失败：${e.message}`;
   }
   applyFilter();
 }
@@ -193,14 +335,16 @@ function buildList(){
 function applyFilter(){
   const q   = document.getElementById('mktSearch').value.toLowerCase().trim();
   const dir = document.getElementById('mktDir').value;
+  const symbols = activeSymbols();
   filteredStocks = allStocks.filter(s=>{
+    if(symbols && !symbols.has(s.ts_code)) return false;
     if(q && !s.ts_code.toLowerCase().includes(q) && !(s.name||'').toLowerCase().includes(q)) return false;
     if(dir==='up'   && !(s.pct_chg>0))  return false;
     if(dir==='down' && !(s.pct_chg<0))  return false;
     if(dir==='flat' && s.pct_chg!==0)   return false;
     return true;
   });
-  doSort(); updateStats(); curPage=1; render();
+  doSort(); updateStats(); curPage=1; render(); renderStockGroups();
 }
 
 function doSort(){
@@ -252,7 +396,7 @@ function render(){
   if(!slice.length){
     document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">暂无数据</td></tr>';
   } else {
-    document.getElementById('mktTbody').innerHTML = slice.map(row=>`<tr>${
+    document.getElementById('mktTbody').innerHTML = slice.map(row=>`<tr class="stock-click-row" data-symbol="${row.ts_code}" onclick="window.ASTOCKSChartCard && window.ASTOCKSChartCard.openStock('${row.ts_code}')">${
       colOrder.map(col=>{
         const v = row[col.key];
         const cc = col.colorFn(v, row);
@@ -290,7 +434,7 @@ function exportCSV(){
   const blob = new Blob(['\uFEFF'+[header,...rows].join('\n')],{type:'text/csv;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `CSI2000_${curDate}.csv`;
+  a.download = `A股大盘_${curDate}.csv`;
   a.click();
 }
 
@@ -302,9 +446,8 @@ function triggerUpdate(){
 
   if(btn.classList.contains('running')) return;
 
-  // 本月初作为 start_date
   const today = new Date();
-  const start = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}01`;
+  const start = '20250101';
 
   btn.classList.add('running');
   btn.innerHTML = '<i class="ti ti-loader"></i> 更新中…';
@@ -321,13 +464,13 @@ function triggerUpdate(){
 
   appendLog('log-stage', `▶ 开始更新 ${start} → ${today.toISOString().slice(0,10).replace(/-/g,'')}`);
 
-  const es = new EventSource(API+'/update-sci2k-sse?start='+start);
+  const es = new EventSource(API+'/update-astocks-sse?start='+start);
   // 由于 EventSource 不支持 POST，改用 fetch + ReadableStream
   es.close();
 
-  fetch(API+'/update-sci2k', {
+  fetch(API+'/update-astocks', {
     method:'POST',
-    headers:{'Content-Type':'application/json'},
+    headers:{'Content-Type':'text/plain;charset=UTF-8'},
     body: JSON.stringify({start_date: start})
   }).then(res=>{
     const reader = res.body.getReader();
@@ -393,9 +536,9 @@ function renderHeatmap(){
       const b = 40;
       const bg = `rgb(${r},${g},${b})`;
       const txt = pct===0?'#aaa':pct>0?'#ffb3b0':'#b3ffbe';
-      return `<div style="width:${sz}px;height:${sz}px;background:${bg};border-radius:4px;
+      return `<div onclick="window.ASTOCKSChartCard && window.ASTOCKSChartCard.openStock('${s.ts_code}')" style="width:${sz}px;height:${sz}px;background:${bg};border-radius:4px;
         display:flex;flex-direction:column;align-items:center;justify-content:center;
-        font-size:${sz<40?9:11}px;color:${txt};overflow:hidden;cursor:default;flex-shrink:0"
+        font-size:${sz<40?9:11}px;color:${txt};overflow:hidden;cursor:pointer;flex-shrink:0"
         title="${s.ts_code} ${s.name||''} ${fmtPct(pct)}">
         <div style="font-weight:600;white-space:nowrap;overflow:hidden;max-width:90%;text-overflow:ellipsis">${s.name||s.ts_code}</div>
         ${sz>=40?`<div style="font-size:10px;margin-top:2px">${fmtPct(pct)}</div>`:''}
@@ -462,6 +605,63 @@ function renderFactorChart(){
 // ── 事件绑定 ──────────────────────────────────────────────────────────────
 document.getElementById('mktSearch').addEventListener('input', applyFilter);
 document.getElementById('mktDir').addEventListener('change', applyFilter);
+const updateDrawer = document.getElementById('updateDrawer');
+if(updateDrawer) document.querySelector('.mkt-tabs').after(updateDrawer);
 
 // ── 启动 ──────────────────────────────────────────────────────────────────
+// Index factor browser
+let factorIndexItems = [];
+let activeFactorIndex = null;
+const factorLabels = {
+  close:'收盘价', open:'开盘价', high:'最高价', low:'最低价', pre_close:'昨收价', change:'涨跌额', pct_chg:'涨跌幅(%)',
+  vol:'成交量', amount:'成交额', amount_ratio_5d:'成交额/5日均值', volume_ratio:'成交量比', turnover_ma5:'成交额5日均值', liangbi:'量比',
+  ma_5:'MA5', ma_10:'MA10', ma_20:'MA20', ma_60:'MA60', ma_120:'MA120', ma_250:'MA250', change_5d_pct:'5日涨幅(%)',
+  change_10d_pct:'10日涨幅(%)', change_20d_pct:'20日涨幅(%)', change_60d_pct:'60日涨幅(%)', change_120d_pct:'120日涨幅(%)', change_250d_pct:'250日涨幅(%)',
+  ytd_pct:'年初至今(%)', macd_dif:'MACD DIF', macd_dea:'MACD DEA', macd_hist:'MACD 柱', kdj_k:'KDJ K', kdj_d:'KDJ D', kdj_j:'KDJ J',
+  rsi_6:'RSI6', rsi_12:'RSI12', boll_mid:'布林中轨', boll_upper:'布林上轨', boll_lower:'布林下轨', boll_pct_b:'布林位置', amplitude_pct:'振幅(%)',
+  realized_vol_20d_pct:'20日实现波动率(%)', rps_20:'RPS20', rps_120:'RPS120', rps_250:'RPS250', above_ma20:'站上MA20', above_ma60:'站上MA60', ma20_above_ma60:'MA20>MA60',
+  macd_golden_cross:'MACD金叉', macd_dead_cross:'MACD死叉', up_streak:'连续上涨天数', down_streak:'连续下跌天数', n_day_high_20:'20日新高', n_day_low_20:'20日新低'
+};
+function formatFactorValue(value){
+  if(value == null || value === '') return '-';
+  if(typeof value === 'number') return Number.isInteger(value) ? String(value) : value.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+  return String(value);
+}
+async function loadMarketFactors(){
+  const list = document.getElementById('factorIndexList');
+  if(!list) return;
+  list.innerHTML = '<div class="factor-empty">正在加载指数…</div>';
+  try{
+    const response = await fetch('/astocks-factor-index');
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    factorIndexItems = (await response.json()).data || [];
+    list.innerHTML = factorIndexItems.length ? factorIndexItems.map((item,index)=>`<button type="button" data-factor-symbol="${escapeHtml(item.ts_code)}" class="${index===0?'active':''}"><span><b>${escapeHtml(item.name||item.ts_code)}</b><small>${escapeHtml(item.ts_code)}</small></span><small>${item.dates.length}日</small></button>`).join('') : '<div class="factor-empty">暂无已保存指数因子</div>';
+    list.querySelectorAll('[data-factor-symbol]').forEach(button=>button.onclick=()=>selectFactorIndex(button.dataset.factorSymbol));
+    if(factorIndexItems.length) selectFactorIndex(factorIndexItems[0].ts_code);
+  }catch(error){ list.innerHTML = `<div class="factor-empty">加载失败：${escapeHtml(error.message)}</div>`; }
+}
+async function selectFactorIndex(symbol){
+  activeFactorIndex = factorIndexItems.find(item=>item.ts_code===symbol) || null;
+  if(!activeFactorIndex) return;
+  document.querySelectorAll('[data-factor-symbol]').forEach(button=>button.classList.toggle('active',button.dataset.factorSymbol===symbol));
+  const title = document.getElementById('factorDetailTitle');
+  const selector = document.getElementById('factorDateSelect');
+  selector.disabled = false;
+  selector.innerHTML = activeFactorIndex.dates.slice().reverse().map(date=>`<option value="${date}">${date}</option>`).join('');
+  title.textContent = `${activeFactorIndex.name || symbol} (${symbol})`;
+  selector.onchange = ()=>loadFactorDetail(symbol, selector.value);
+  await loadFactorDetail(symbol, selector.value);
+}
+async function loadFactorDetail(symbol,date){
+  const body = document.getElementById('factorDetailBody');
+  body.innerHTML = '<tr><td colspan="2" class="factor-empty">正在加载因子…</td></tr>';
+  try{
+    const response = await fetch(`/astocks-factor?symbol=${encodeURIComponent(symbol)}&date=${encodeURIComponent(date)}`);
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    const factors = payload.data && payload.data.factors ? payload.data.factors : {};
+    const rows = Object.entries(factors);
+    body.innerHTML = rows.length ? rows.map(([key,value])=>`<tr><td>${escapeHtml(factorLabels[key] || key)}</td><td>${escapeHtml(formatFactorValue(value))}</td></tr>`).join('') : '<tr><td colspan="2" class="factor-empty">该日期没有因子数据</td></tr>';
+  }catch(error){ body.innerHTML = `<tr><td colspan="2" class="factor-empty">加载失败：${escapeHtml(error.message)}</td></tr>`; }
+}
 loadData();
