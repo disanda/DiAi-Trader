@@ -1,0 +1,63 @@
+{
+  "agent_name": "Kimi-k2.6",
+  "prediction_date": "20260804",
+  "generated_at": "2026-08-24T07:49:59.949617+00:00",
+  "lookback_days": 10,
+  "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "上证指数",
+      "as_of_date": "20260803",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "ts_code": "000016.SH",
+      "name": "上证50",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000300.SH",
+      "name": "沪深300",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "科创50",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000852.SH",
+      "name": "中证1000",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000905.SH",
+      "name": "中证500",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "深证成指",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "创业板指",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "932000.CSI",
+      "name": "中证2000",
+      "as_of_date": "20260803",
+      "error": "The read operation timed out"
+    }
+  ]
+}

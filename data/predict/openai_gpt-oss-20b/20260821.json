@@ -1,0 +1,1170 @@
+{
+  "agent_name": "openai/gpt-oss-20b",
+  "prediction_date": "20260821",
+  "generated_at": "2026-08-24T10:07:15.734831+00:00",
+  "lookback_days": 10,
+  "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "上证指数",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 3896.4854,
+          "high": 3940.9347,
+          "low": 3885.6248,
+          "close": 3940.0371,
+          "pct_chg": 1.0175,
+          "vol": 564988582.0,
+          "amount": 1209543573.2944
+        },
+        {
+          "trade_date": "20260810",
+          "open": 3943.816,
+          "high": 3967.5919,
+          "low": 3938.625,
+          "close": 3966.5935,
+          "pct_chg": 0.674,
+          "vol": 542118110.0,
+          "amount": 1166893282.3538
+        },
+        {
+          "trade_date": "20260811",
+          "open": 3950.7078,
+          "high": 3966.391,
+          "low": 3930.6386,
+          "close": 3934.0929,
+          "pct_chg": -0.8194,
+          "vol": 529490944.0,
+          "amount": 1066737091.8231
+        },
+        {
+          "trade_date": "20260812",
+          "open": 3933.5533,
+          "high": 3950.6213,
+          "low": 3927.5489,
+          "close": 3946.6752,
+          "pct_chg": 0.3198,
+          "vol": 503257011.0,
+          "amount": 986122393.8171
+        },
+        {
+          "trade_date": "20260813",
+          "open": 3957.1612,
+          "high": 3968.4758,
+          "low": 3924.6418,
+          "close": 3926.9648,
+          "pct_chg": -0.4994,
+          "vol": 572793677.0,
+          "amount": 1164203068.5298
+        },
+        {
+          "trade_date": "20260814",
+          "open": 3930.0215,
+          "high": 3932.6405,
+          "low": 3903.7048,
+          "close": 3927.1764,
+          "pct_chg": 0.0054,
+          "vol": 499525613.0,
+          "amount": 990371924.2377
+        },
+        {
+          "trade_date": "20260817",
+          "open": 3930.1044,
+          "high": 3983.5066,
+          "low": 3924.4738,
+          "close": 3982.6535,
+          "pct_chg": 1.4126,
+          "vol": 489834027.0,
+          "amount": 1112818620.627
+        },
+        {
+          "trade_date": "20260818",
+          "open": 3979.4898,
+          "high": 3994.1812,
+          "low": 3955.6012,
+          "close": 3990.3037,
+          "pct_chg": 0.1921,
+          "vol": 511234287.0,
+          "amount": 1135187666.3953
+        },
+        {
+          "trade_date": "20260819",
+          "open": 3952.1219,
+          "high": 3961.1368,
+          "low": 3879.5785,
+          "close": 3894.4224,
+          "pct_chg": -2.4029,
+          "vol": 572191213.0,
+          "amount": 1218107974.0561
+        },
+        {
+          "trade_date": "20260820",
+          "open": 3907.2058,
+          "high": 3925.0615,
+          "low": 3888.0989,
+          "close": 3903.721,
+          "pct_chg": 0.2388,
+          "vol": 506633954.0,
+          "amount": 1018568353.1768
+        }
+      ],
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 55.0,
+        "expected_pct_change": 0.3,
+        "rationale": "The index closed 20 Aug at 3903.7, up 0.24% from 19 Aug, and the day's high (3925.1) is still below the 19 Aug peak (3961.1). The recent 2‑day swing shows a small rebound after a sharp drop, indicating a possible short‑term recovery. Volume has remained steady (~500‑570m), suggesting no major sell‑off pressure. The price is near the lower end of the 20 Aug range, so a modest upside is plausible.",
+        "market_analysis": "A modest uptick would signal that large‑cap stocks are regaining some confidence after the 19 Aug correction, likely benefiting defensive sectors such as consumer staples and utilities. Technology and financials may see modest gains if the rally continues, but overall volatility remains high, so investors may still weigh caution."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.038,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 3891.1751,
+        "high": 3912.1314,
+        "low": 3883.787,
+        "close": 3905.2026
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": true
+      }
+    },
+    {
+      "ts_code": "000016.SH",
+      "name": "上证50",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 2917.4444,
+          "high": 2960.9448,
+          "low": 2913.5931,
+          "close": 2960.4242,
+          "pct_chg": 1.3797,
+          "vol": 51340661.0,
+          "amount": 203484735.764
+        },
+        {
+          "trade_date": "20260810",
+          "open": 2963.2384,
+          "high": 2980.6361,
+          "low": 2954.6221,
+          "close": 2967.7332,
+          "pct_chg": 0.2469,
+          "vol": 47915780.0,
+          "amount": 209769474.23
+        },
+        {
+          "trade_date": "20260811",
+          "open": 2956.6033,
+          "high": 2971.4021,
+          "low": 2928.1904,
+          "close": 2929.9291,
+          "pct_chg": -1.2738,
+          "vol": 49597706.0,
+          "amount": 181512240.624
+        },
+        {
+          "trade_date": "20260812",
+          "open": 2931.3179,
+          "high": 2943.999,
+          "low": 2925.039,
+          "close": 2938.385,
+          "pct_chg": 0.2886,
+          "vol": 44165531.0,
+          "amount": 155842126.262
+        },
+        {
+          "trade_date": "20260813",
+          "open": 2945.4952,
+          "high": 2960.2418,
+          "low": 2925.7969,
+          "close": 2928.1207,
+          "pct_chg": -0.3493,
+          "vol": 51964381.0,
+          "amount": 190177260.859
+        },
+        {
+          "trade_date": "20260814",
+          "open": 2931.9405,
+          "high": 2932.8397,
+          "low": 2905.1105,
+          "close": 2916.128,
+          "pct_chg": -0.4096,
+          "vol": 41361259.0,
+          "amount": 152371929.566
+        },
+        {
+          "trade_date": "20260817",
+          "open": 2913.6765,
+          "high": 2946.4204,
+          "low": 2907.7085,
+          "close": 2945.4115,
+          "pct_chg": 1.0042,
+          "vol": 40713066.0,
+          "amount": 178915942.798
+        },
+        {
+          "trade_date": "20260818",
+          "open": 2940.5292,
+          "high": 2944.6032,
+          "low": 2917.3324,
+          "close": 2940.7008,
+          "pct_chg": -0.1599,
+          "vol": 44218552.0,
+          "amount": 167377099.177
+        },
+        {
+          "trade_date": "20260819",
+          "open": 2913.7509,
+          "high": 2918.0602,
+          "low": 2875.7508,
+          "close": 2895.5667,
+          "pct_chg": -1.5348,
+          "vol": 58808786.0,
+          "amount": 193574003.858
+        },
+        {
+          "trade_date": "20260820",
+          "open": 2902.9561,
+          "high": 2911.7203,
+          "low": 2872.9694,
+          "close": 2881.4428,
+          "pct_chg": -0.4878,
+          "vol": 50439961.0,
+          "amount": 169233700.578
+        }
+      ],
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 70.0,
+        "expected_pct_change": -0.7,
+        "rationale": "The index has been below both its 5‑day (≈2921) and 10‑day (≈2930) averages for the past week, with a sharp sell‑off on 2026‑08‑19 that saw volume spike to 58.8M. The close on 2026‑08‑20 (2881.44) is still 49 points below the 10‑day average and near the low of the recent 30‑point range, indicating continued downward pressure. No strong bullish catalysts are evident in the supplied data, so a modest decline is most likely.",
+        "market_analysis": "If the index continues to fall, the broader market will likely stay in a bearish stance, with higher‑beta sectors such as technology, consumer discretionary, and industrials expected to underperform. Defensive sectors like utilities, consumer staples, and healthcare may provide relative support, but overall sentiment will remain cautious."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.0731,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 2875.6524,
+        "high": 2891.5903,
+        "low": 2872.1341,
+        "close": 2883.5477
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000300.SH",
+      "name": "沪深300",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 4656.0976,
+          "high": 4706.7288,
+          "low": 4649.5763,
+          "close": 4694.4365,
+          "pct_chg": 0.9272,
+          "vol": 239072020.0,
+          "amount": 788405762.4297
+        },
+        {
+          "trade_date": "20260810",
+          "open": 4698.8162,
+          "high": 4714.4648,
+          "low": 4659.47,
+          "close": 4702.0247,
+          "pct_chg": 0.1616,
+          "vol": 213075996.0,
+          "amount": 733103396.9122
+        },
+        {
+          "trade_date": "20260811",
+          "open": 4689.4493,
+          "high": 4715.8812,
+          "low": 4660.4742,
+          "close": 4663.7887,
+          "pct_chg": -0.8132,
+          "vol": 209699098.0,
+          "amount": 645384756.1362
+        },
+        {
+          "trade_date": "20260812",
+          "open": 4660.4658,
+          "high": 4700.4347,
+          "low": 4657.6933,
+          "close": 4690.9165,
+          "pct_chg": 0.5817,
+          "vol": 184939148.0,
+          "amount": 575326282.0084
+        },
+        {
+          "trade_date": "20260813",
+          "open": 4716.9748,
+          "high": 4727.2344,
+          "low": 4661.8816,
+          "close": 4663.9513,
+          "pct_chg": -0.5748,
+          "vol": 215499615.0,
+          "amount": 690715960.8965
+        },
+        {
+          "trade_date": "20260814",
+          "open": 4672.9752,
+          "high": 4676.7124,
+          "low": 4637.1282,
+          "close": 4665.8812,
+          "pct_chg": 0.0414,
+          "vol": 178430696.0,
+          "amount": 549769606.2844
+        },
+        {
+          "trade_date": "20260817",
+          "open": 4672.2756,
+          "high": 4742.4043,
+          "low": 4662.715,
+          "close": 4741.0981,
+          "pct_chg": 1.6121,
+          "vol": 190569286.0,
+          "amount": 657601745.9875
+        },
+        {
+          "trade_date": "20260818",
+          "open": 4734.0733,
+          "high": 4744.0054,
+          "low": 4687.5259,
+          "close": 4725.8134,
+          "pct_chg": -0.3224,
+          "vol": 204245514.0,
+          "amount": 619828730.1765
+        },
+        {
+          "trade_date": "20260819",
+          "open": 4660.055,
+          "high": 4674.3751,
+          "low": 4568.0659,
+          "close": 4588.6955,
+          "pct_chg": -2.9015,
+          "vol": 244070090.0,
+          "amount": 705253505.4107
+        },
+        {
+          "trade_date": "20260820",
+          "open": 4613.2975,
+          "high": 4631.126,
+          "low": 4569.2282,
+          "close": 4592.7504,
+          "pct_chg": 0.0884,
+          "vol": 200874189.0,
+          "amount": 554021067.1451
+        }
+      ],
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 55.0,
+        "expected_pct_change": 0.12,
+        "rationale": "The index closed 4592.75 on 2026‑08‑20, a modest 0.09% gain from the previous day but still 75 points below the 5‑day average and 1.5% below the 10‑day high. Volume on 08‑20 (200M) is lower than the 244M peak on the sharp 2.9% drop of 08‑19, suggesting weaker selling pressure. The close sits above the 5‑day low, indicating a potential short‑term support. These factors point to a small rebound rather than a sustained move.",
+        "market_analysis": "If the index nudges higher, it may signal a brief recovery in risk‑seeking sentiment, but the overall negative trend and recent volatility suggest caution. Defensive sectors such as utilities and consumer staples could provide support, while growth‑heavy sectors like technology may remain pressured. Market participants should monitor volume and any new macro data for a clearer direction."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.5693,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 4585.4354,
+        "high": 4628.9996,
+        "low": 4579.2608,
+        "close": 4618.8952
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": true
+      }
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "科创50",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 1697.3702,
+          "high": 1747.7367,
+          "low": 1686.6608,
+          "close": 1744.0236,
+          "pct_chg": 2.5117,
+          "vol": 12141418.0,
+          "amount": 136268941.852
+        },
+        {
+          "trade_date": "20260810",
+          "open": 1740.1356,
+          "high": 1752.9311,
+          "low": 1704.0841,
+          "close": 1737.7737,
+          "pct_chg": -0.3584,
+          "vol": 10817174.0,
+          "amount": 128470941.791
+        },
+        {
+          "trade_date": "20260811",
+          "open": 1713.2581,
+          "high": 1753.1365,
+          "low": 1699.9151,
+          "close": 1709.5026,
+          "pct_chg": -1.6269,
+          "vol": 11830175.0,
+          "amount": 110405794.278
+        },
+        {
+          "trade_date": "20260812",
+          "open": 1720.3639,
+          "high": 1747.9447,
+          "low": 1709.1635,
+          "close": 1736.9912,
+          "pct_chg": 1.608,
+          "vol": 9742544.0,
+          "amount": 103281012.641
+        },
+        {
+          "trade_date": "20260813",
+          "open": 1763.4555,
+          "high": 1782.7817,
+          "low": 1715.335,
+          "close": 1717.7477,
+          "pct_chg": -1.1079,
+          "vol": 10577525.0,
+          "amount": 125676864.68
+        },
+        {
+          "trade_date": "20260814",
+          "open": 1738.8165,
+          "high": 1741.3474,
+          "low": 1690.6753,
+          "close": 1717.6793,
+          "pct_chg": -0.004,
+          "vol": 8685139.0,
+          "amount": 98891045.019
+        },
+        {
+          "trade_date": "20260817",
+          "open": 1721.5456,
+          "high": 1788.8502,
+          "low": 1718.6051,
+          "close": 1788.8502,
+          "pct_chg": 4.1434,
+          "vol": 10847565.0,
+          "amount": 127195598.002
+        },
+        {
+          "trade_date": "20260818",
+          "open": 1786.3686,
+          "high": 1798.7793,
+          "low": 1753.9714,
+          "close": 1790.8743,
+          "pct_chg": 0.1132,
+          "vol": 11179921.0,
+          "amount": 122525786.736
+        },
+        {
+          "trade_date": "20260819",
+          "open": 1738.9127,
+          "high": 1748.5228,
+          "low": 1653.6677,
+          "close": 1667.5155,
+          "pct_chg": -6.8882,
+          "vol": 12227985.0,
+          "amount": 132458968.168
+        },
+        {
+          "trade_date": "20260820",
+          "open": 1685.4833,
+          "high": 1694.3644,
+          "low": 1638.2945,
+          "close": 1652.9721,
+          "pct_chg": -0.8722,
+          "vol": 9144025.0,
+          "amount": 99785814.001
+        }
+      ],
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 65.0,
+        "expected_pct_change": -0.5,
+        "rationale": "The index has been in a short‑term downtrend after a sharp 6.9% drop on 2026‑08‑19. The current close (1652.97) sits below the 5‑day moving average (~1723.58) and volume is lower than the previous session, indicating weak buying pressure. Recent daily changes have been modest declines (‑0.36%, ‑1.63%, ‑1.11%, ‑0.87%) with only a brief 0.11% rally on 2026‑08‑18, suggesting the market is still consolidating on the downside. Therefore a slight decline (≈‑0.5%) is the most likely outcome.",
+        "market_analysis": "If the index continues to dip, it will likely weigh on high‑growth sectors such as technology, biotech, and semiconductors that dominate the 科创50. Broad market sentiment may turn cautious, potentially leading to a pullback in related A‑share indices. Investors might shift to defensive or value stocks, and liquidity could tighten as trading volume remains subdued."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.0353,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 1649.2832,
+        "high": 1675.8225,
+        "low": 1640.6231,
+        "close": 1653.5551
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000852.SH",
+      "name": "中证1000",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 7534.2423,
+          "high": 7685.5698,
+          "low": 7448.4592,
+          "close": 7679.5285,
+          "pct_chg": 1.98,
+          "vol": 282600105.0,
+          "amount": 568415439.3302
+        },
+        {
+          "trade_date": "20260810",
+          "open": 7723.3802,
+          "high": 7736.1023,
+          "low": 7621.6501,
+          "close": 7733.8995,
+          "pct_chg": 0.708,
+          "vol": 256496918.0,
+          "amount": 529904419.0973
+        },
+        {
+          "trade_date": "20260811",
+          "open": 7686.0417,
+          "high": 7789.2101,
+          "low": 7642.4368,
+          "close": 7698.0479,
+          "pct_chg": -0.4636,
+          "vol": 253137973.0,
+          "amount": 515282077.8015
+        },
+        {
+          "trade_date": "20260812",
+          "open": 7704.9586,
+          "high": 7805.2723,
+          "low": 7692.438,
+          "close": 7793.7165,
+          "pct_chg": 1.2428,
+          "vol": 241881894.0,
+          "amount": 479805234.3974
+        },
+        {
+          "trade_date": "20260813",
+          "open": 7847.2382,
+          "high": 7880.217,
+          "low": 7714.3674,
+          "close": 7715.8946,
+          "pct_chg": -0.9985,
+          "vol": 281525686.0,
+          "amount": 564757582.8329
+        },
+        {
+          "trade_date": "20260814",
+          "open": 7750.9873,
+          "high": 7784.3767,
+          "low": 7673.4408,
+          "close": 7769.8204,
+          "pct_chg": 0.6989,
+          "vol": 250317817.0,
+          "amount": 482267627.3975
+        },
+        {
+          "trade_date": "20260817",
+          "open": 7797.1841,
+          "high": 7968.383,
+          "low": 7750.4327,
+          "close": 7968.383,
+          "pct_chg": 2.5556,
+          "vol": 248445471.0,
+          "amount": 523862481.0119
+        },
+        {
+          "trade_date": "20260818",
+          "open": 7969.3738,
+          "high": 7995.501,
+          "low": 7842.2464,
+          "close": 7945.9644,
+          "pct_chg": -0.2813,
+          "vol": 251232903.0,
+          "amount": 539221917.7939
+        },
+        {
+          "trade_date": "20260819",
+          "open": 7795.2592,
+          "high": 7821.1765,
+          "low": 7490.2116,
+          "close": 7517.7684,
+          "pct_chg": -5.3888,
+          "vol": 265195094.0,
+          "amount": 534762702.043
+        },
+        {
+          "trade_date": "20260820",
+          "open": 7602.4984,
+          "high": 7656.6133,
+          "low": 7541.4752,
+          "close": 7589.7793,
+          "pct_chg": 0.9579,
+          "vol": 241047990.0,
+          "amount": 468735987.6146
+        }
+      ],
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 60.0,
+        "expected_pct_change": 0.5,
+        "rationale": "The index closed 7589.78 after a sharp 5.39% drop on 2026‑08‑19, rebounding 0.96% on 2026‑08‑20. Current price sits roughly 100 points above the recent low (7490.21) and well below the 08‑17 high (7968.38), indicating a potential support zone. Trading volume on 08‑20 (241M) is typical of the last week, suggesting no new liquidity pressure. The recent pattern of a sharp pullback followed by a modest recovery often precedes a continuation of the rebound, but the magnitude is likely modest. Thus a small upside (0–1%) is the most plausible outcome.",
+        "market_analysis": "A modest uptrend would lift the broader market, with defensive sectors such as consumer staples, utilities and healthcare likely to lead gains. Growth-oriented sectors may lag slightly due to lingering volatility, but overall sentiment would remain cautiously optimistic."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.1584,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 7555.5478,
+        "high": 7634.0839,
+        "low": 7472.4948,
+        "close": 7601.8044
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": true
+      }
+    },
+    {
+      "ts_code": "000905.SH",
+      "name": "中证500",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 7828.7906,
+          "high": 7983.1726,
+          "low": 7763.5287,
+          "close": 7980.1245,
+          "pct_chg": 1.9256,
+          "vol": 206575632.0,
+          "amount": 525281484.4315
+        },
+        {
+          "trade_date": "20260810",
+          "open": 8003.9204,
+          "high": 8031.1557,
+          "low": 7910.8357,
+          "close": 8030.9483,
+          "pct_chg": 0.6369,
+          "vol": 200579907.0,
+          "amount": 490434040.5313
+        },
+        {
+          "trade_date": "20260811",
+          "open": 7979.276,
+          "high": 8078.361,
+          "low": 7947.6668,
+          "close": 7967.5386,
+          "pct_chg": -0.7896,
+          "vol": 195083693.0,
+          "amount": 452799545.7016
+        },
+        {
+          "trade_date": "20260812",
+          "open": 7978.0412,
+          "high": 8067.5276,
+          "low": 7961.8285,
+          "close": 8045.3099,
+          "pct_chg": 0.9761,
+          "vol": 180742697.0,
+          "amount": 408869420.3884
+        },
+        {
+          "trade_date": "20260813",
+          "open": 8096.8517,
+          "high": 8142.3265,
+          "low": 7966.8665,
+          "close": 7968.3809,
+          "pct_chg": -0.9562,
+          "vol": 223203298.0,
+          "amount": 497028095.3311
+        },
+        {
+          "trade_date": "20260814",
+          "open": 7989.6469,
+          "high": 8005.1484,
+          "low": 7897.2428,
+          "close": 7990.3277,
+          "pct_chg": 0.2754,
+          "vol": 183327915.0,
+          "amount": 408994310.8424
+        },
+        {
+          "trade_date": "20260817",
+          "open": 8007.8703,
+          "high": 8184.6407,
+          "low": 7992.3579,
+          "close": 8184.6407,
+          "pct_chg": 2.4319,
+          "vol": 175730619.0,
+          "amount": 448608373.1438
+        },
+        {
+          "trade_date": "20260818",
+          "open": 8178.8426,
+          "high": 8211.307,
+          "low": 8069.8215,
+          "close": 8177.1762,
+          "pct_chg": -0.0912,
+          "vol": 181523209.0,
+          "amount": 458687600.3413
+        },
+        {
+          "trade_date": "20260819",
+          "open": 8029.5224,
+          "high": 8050.079,
+          "low": 7762.2919,
+          "close": 7783.4558,
+          "pct_chg": -4.8149,
+          "vol": 190963318.0,
+          "amount": 478344926.6849
+        },
+        {
+          "trade_date": "20260820",
+          "open": 7864.677,
+          "high": 7923.9109,
+          "low": 7796.2776,
+          "close": 7850.4006,
+          "pct_chg": 0.8601,
+          "vol": 161390106.0,
+          "amount": 393484559.8345
+        }
+      ],
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 60.0,
+        "expected_pct_change": -0.4,
+        "rationale": "On 2026‑08‑20 the index closed near the low end of its intraday range (7850 vs 7923 high) and traded on lower volume (161 M vs ~190 M average). The prior day (19 Aug) saw a sharp 4.8% drop, and the 20 Aug session was a weak rebound that ended bearish. The price is still below the 19 Aug high (8184) and the recent trend shows limited upside, suggesting a modest decline rather than a strong move.",
+        "market_analysis": "If the index turns down, the broader market may see continued weakness in small‑cap and consumer‑discretionary sectors, while defensive names (utilities, consumer staples) could provide relative support. A modest pullback would likely keep volatility moderate but could signal caution ahead of upcoming macro data releases."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.0501,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 7812.2612,
+        "high": 7877.3388,
+        "low": 7756.2751,
+        "close": 7854.3336
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "深证成指",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 14152.7826,
+          "high": 14396.0749,
+          "low": 14049.3419,
+          "close": 14311.0078,
+          "pct_chg": 1.4237,
+          "vol": 269966196.36,
+          "amount": 873258682.41163
+        },
+        {
+          "trade_date": "20260810",
+          "open": 14348.9506,
+          "high": 14373.7724,
+          "low": 14102.6559,
+          "close": 14316.9612,
+          "pct_chg": 0.0416,
+          "vol": 243874178.99,
+          "amount": 790790193.08282
+        },
+        {
+          "trade_date": "20260811",
+          "open": 14266.4421,
+          "high": 14447.0978,
+          "low": 14201.2932,
+          "close": 14259.4404,
+          "pct_chg": -0.4018,
+          "vol": 229211600.65,
+          "amount": 704868765.78296
+        },
+        {
+          "trade_date": "20260812",
+          "open": 14253.1194,
+          "high": 14467.0033,
+          "low": 14237.1957,
+          "close": 14414.4267,
+          "pct_chg": 1.0869,
+          "vol": 210564657.41,
+          "amount": 645244616.86863
+        },
+        {
+          "trade_date": "20260813",
+          "open": 14536.4792,
+          "high": 14584.2998,
+          "low": 14289.0104,
+          "close": 14289.4424,
+          "pct_chg": -0.8671,
+          "vol": 259630139.39,
+          "amount": 781328643.45719
+        },
+        {
+          "trade_date": "20260814",
+          "open": 14335.4096,
+          "high": 14384.1781,
+          "low": 14203.9949,
+          "close": 14354.3052,
+          "pct_chg": 0.4539,
+          "vol": 210371989.46,
+          "amount": 617699243.85095
+        },
+        {
+          "trade_date": "20260817",
+          "open": 14399.1983,
+          "high": 14704.5508,
+          "low": 14348.4674,
+          "close": 14704.2749,
+          "pct_chg": 2.4381,
+          "vol": 219717354.24,
+          "amount": 723077556.97764
+        },
+        {
+          "trade_date": "20260818",
+          "open": 14692.0295,
+          "high": 14733.9041,
+          "low": 14459.7184,
+          "close": 14622.4951,
+          "pct_chg": -0.5562,
+          "vol": 233685439.76,
+          "amount": 698438252.49447
+        },
+        {
+          "trade_date": "20260819",
+          "open": 14316.9799,
+          "high": 14367.3724,
+          "low": 13842.3198,
+          "close": 13890.1523,
+          "pct_chg": -5.0083,
+          "vol": 243453962.81,
+          "amount": 735131805.65698
+        },
+        {
+          "trade_date": "20260820",
+          "open": 14032.9668,
+          "high": 14101.1402,
+          "low": 13870.1765,
+          "close": 13972.7807,
+          "pct_chg": 0.5949,
+          "vol": 199951423.03,
+          "amount": 579958579.87062
+        }
+      ],
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 60.0,
+        "expected_pct_change": 0.3,
+        "rationale": "After a sharp 5% plunge on 2026‑08‑19, the index rebounded modestly (+0.59%) on 2026‑08‑20 with a moderate intraday range and volume (~200 M). The recent swing suggests a short‑term recovery rather than a sustained rally; the 20th’s close near the 20‑day low and the absence of a new high point support a small positive move rather than a strong uptrend.",
+        "market_analysis": "A modest uptick indicates that the market is still digesting the 19th‑day shock but shows resilience. Tech and consumer discretionary sectors, which likely drove the 19th decline, may see a quick rebound as investors reassess valuations. Financials and utilities could provide stability, while the overall market remains cautious, with volatility expected to stay elevated. Investors may look for short‑term gains but remain wary of a potential pullback if negative sentiment resurges."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.8687,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 13935.6374,
+        "high": 14132.0408,
+        "low": 13866.3937,
+        "close": 14094.1681
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": true
+      }
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "创业板指",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 3537.44,
+          "high": 3613.8713,
+          "low": 3507.6151,
+          "close": 3563.1165,
+          "pct_chg": 1.3527,
+          "vol": 48597660.72,
+          "amount": 364542516.96345
+        },
+        {
+          "trade_date": "20260810",
+          "open": 3567.0459,
+          "high": 3575.5891,
+          "low": 3470.9529,
+          "close": 3537.2136,
+          "pct_chg": -0.727,
+          "vol": 42734504.43,
+          "amount": 321024921.0952
+        },
+        {
+          "trade_date": "20260811",
+          "open": 3533.8936,
+          "high": 3601.59,
+          "low": 3517.5721,
+          "close": 3549.1641,
+          "pct_chg": 0.3379,
+          "vol": 37710191.8,
+          "amount": 277100165.1908
+        },
+        {
+          "trade_date": "20260812",
+          "open": 3542.1326,
+          "high": 3625.2678,
+          "low": 3540.9478,
+          "close": 3602.0835,
+          "pct_chg": 1.491,
+          "vol": 33744555.03,
+          "amount": 253921038.03782
+        },
+        {
+          "trade_date": "20260813",
+          "open": 3656.876,
+          "high": 3681.7994,
+          "low": 3585.2719,
+          "close": 3586.0427,
+          "pct_chg": -0.4453,
+          "vol": 43565817.81,
+          "amount": 304868946.25679
+        },
+        {
+          "trade_date": "20260814",
+          "open": 3610.1936,
+          "high": 3633.0339,
+          "low": 3578.614,
+          "close": 3626.2965,
+          "pct_chg": 1.1225,
+          "vol": 37385894.12,
+          "amount": 238035015.79733
+        },
+        {
+          "trade_date": "20260817",
+          "open": 3632.7768,
+          "high": 3740.1568,
+          "low": 3604.166,
+          "close": 3740.1568,
+          "pct_chg": 3.1399,
+          "vol": 36902890.08,
+          "amount": 294722551.26426
+        },
+        {
+          "trade_date": "20260818",
+          "open": 3730.9868,
+          "high": 3747.5284,
+          "low": 3662.4482,
+          "close": 3705.5645,
+          "pct_chg": -0.9249,
+          "vol": 37010071.49,
+          "amount": 269022110.1
+        },
+        {
+          "trade_date": "20260819",
+          "open": 3605.5183,
+          "high": 3622.5033,
+          "low": 3455.4776,
+          "close": 3473.4932,
+          "pct_chg": -6.2628,
+          "vol": 37940034.85,
+          "amount": 291759990.37243
+        },
+        {
+          "trade_date": "20260820",
+          "open": 3517.6522,
+          "high": 3531.923,
+          "low": 3459.5692,
+          "close": 3495.5886,
+          "pct_chg": 0.6361,
+          "vol": 32755768.74,
+          "amount": 220047125.29824
+        }
+      ],
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 60.0,
+        "expected_pct_change": -0.4,
+        "rationale": "The index ended 19 Aug with a sharp 6.26% plunge and 20 Aug only a modest 0.64% rebound on lower volume (32.8 M vs 35‑45 M typical). The 20 Aug close (3495.59) sits near the day's low and below the 19 Aug high, indicating a weak recovery. Recent trend shows two consecutive down days (18 Aug and 19 Aug) followed by a small up, suggesting a possible continuation of the negative swing rather than a strong reversal. The price range on 20 Aug was narrow (high 3531.92, low 3459.57), and the volume dip signals limited conviction. Therefore a moderate down move is the most plausible next‑day outcome.",
+        "market_analysis": "A modest down move would likely reinforce a bearish sentiment across the broader market, especially in growth‑oriented sectors such as technology, biotech, and consumer discretionary that have been sensitive to the recent volatility. Defensive sectors like utilities and consumer staples may absorb some of the selling pressure, but overall market breadth could narrow as volatility remains elevated."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 1.4301,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 3495.113,
+        "high": 3563.0592,
+        "low": 3478.5173,
+        "close": 3545.5775
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "932000.CSI",
+      "name": "中证2000",
+      "as_of_date": "20260820",
+      "lookback": [
+        {
+          "trade_date": "20260807",
+          "open": 3037.3191,
+          "high": 3085.257,
+          "low": 2987.7218,
+          "close": 3085.257,
+          "pct_chg": 1.6068,
+          "vol": 303675417.59,
+          "amount": 449499824.193
+        },
+        {
+          "trade_date": "20260810",
+          "open": 3096.2316,
+          "high": 3120.8289,
+          "low": 3067.3155,
+          "close": 3120.8289,
+          "pct_chg": 1.153,
+          "vol": 308270018.71,
+          "amount": 442731174.083
+        },
+        {
+          "trade_date": "20260811",
+          "open": 3104.4221,
+          "high": 3134.8449,
+          "low": 3074.3655,
+          "close": 3105.7378,
+          "pct_chg": -0.4836,
+          "vol": 277606623.36,
+          "amount": 409064359.552
+        },
+        {
+          "trade_date": "20260812",
+          "open": 3108.2789,
+          "high": 3160.1714,
+          "low": 3108.2789,
+          "close": 3159.9817,
+          "pct_chg": 1.7466,
+          "vol": 279565189.95,
+          "amount": 394230743.341
+        },
+        {
+          "trade_date": "20260813",
+          "open": 3176.389,
+          "high": 3184.4131,
+          "low": 3124.7932,
+          "close": 3124.7932,
+          "pct_chg": -1.1136,
+          "vol": 328127322.62,
+          "amount": 468631644.067
+        },
+        {
+          "trade_date": "20260814",
+          "open": 3132.8166,
+          "high": 3149.1394,
+          "low": 3101.1589,
+          "close": 3149.1391,
+          "pct_chg": 0.7791,
+          "vol": 296445077.38,
+          "amount": 417101338.223
+        },
+        {
+          "trade_date": "20260817",
+          "open": 3156.9745,
+          "high": 3225.6361,
+          "low": 3137.4284,
+          "close": 3225.6361,
+          "pct_chg": 2.4291,
+          "vol": 296347509.01,
+          "amount": 445115012.38
+        },
+        {
+          "trade_date": "20260818",
+          "open": 3227.6389,
+          "high": 3234.9058,
+          "low": 3178.2297,
+          "close": 3217.1122,
+          "pct_chg": -0.2643,
+          "vol": 307484551.15,
+          "amount": 453233824.805
+        },
+        {
+          "trade_date": "20260819",
+          "open": 3169.0538,
+          "high": 3169.0538,
+          "low": 3027.9139,
+          "close": 3037.1112,
+          "pct_chg": -5.5951,
+          "vol": 325735646.56,
+          "amount": 452839138.0
+        },
+        {
+          "trade_date": "20260820",
+          "open": 3074.9188,
+          "high": 3106.0033,
+          "low": 3047.5605,
+          "close": 3084.5852,
+          "pct_chg": 1.5631,
+          "vol": 284555358.04,
+          "amount": 389553015.048
+        }
+      ],
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 60.0,
+        "expected_pct_change": 0.5,
+        "rationale": "The index rebounded sharply after a 5.6% crash on 2026‑08‑19, closing 1.56% higher on 2026‑08‑20. Volume on 20 (284 M) is still high but slightly lower than the preceding days, indicating a moderate but sustained buying pressure. The 10‑day moving average sits at ~3131, and the 20th close (3084) is still below it, suggesting the index is still in a recovery phase rather than a breakout. The price range on 20 (3047–3106) is narrower than the 19th range, pointing to a consolidation of gains rather than a new surge. These factors support a modest upward move rather than a strong rally or a further decline.",
+        "market_analysis": "A moderate uptrend is likely to lift the broader mid‑cap market, boosting sectors that are sensitive to investor sentiment such as consumer discretionary and technology. Defensive sectors may see less impact. The recent volatility suggests caution for risk‑averse investors, but the rebound indicates resilience in the mid‑cap space."
+      },
+      "actual": {
+        "trade_date": "20260821",
+        "pct_chg": 0.2199,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 3066.1217,
+        "high": 3098.5503,
+        "low": 3021.4374,
+        "close": 3091.3694
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": true
+      }
+    }
+  ]
+}
