@@ -1,0 +1,838 @@
+{
+  "agent_name": "gpt-oss-20b-predictV2",
+  "prediction_date": "20260818",
+  "generated_at": "2026-09-14T09:20:09.780317+00:00",
+  "lookback_days": 60,
+  "data_policy": "Point-in-time validated; return-based features; model output accepted only through submit_prediction tool",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "000001.SH",
+      "as_of_date": "20260817",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 402,
+        "selected_count": 60,
+        "excluded_target_or_future": 9,
+        "coverage_start": "20260525",
+        "coverage_end": "20260817",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 60,
+          "start": "20260525",
+          "end": "20260817"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 60,
+          "return_1d_pct": 1.4126459916595557,
+          "return_3d_pct": 0.911610360031645,
+          "return_5d_pct": 0.4048814177706861,
+          "return_10d_pct": 4.540837458348346,
+          "return_20d_pct": 4.909333117402737,
+          "return_60d_pct": null,
+          "mean_return_5d_pct": 0.08381715773335685,
+          "volatility_5d_pct": 0.772466991662451,
+          "downside_volatility_5d_pct": 0.42913067050652465,
+          "max_drawdown_5d_pct": -0.9990612852060377,
+          "close_vs_mean_5d_pct": 0.9925400110808669,
+          "mean_return_10d_pct": 0.4476007070632959,
+          "volatility_10d_pct": 0.7135557038318395,
+          "downside_volatility_10d_pct": 0.3034412071302935,
+          "max_drawdown_10d_pct": -0.9990612852060377,
+          "close_vs_mean_10d_pct": 1.5328772875766061,
+          "mean_return_20d_pct": 0.24389073710917422,
+          "volatility_20d_pct": 0.8916887839247097,
+          "downside_volatility_20d_pct": 0.5299080243267019,
+          "max_drawdown_20d_pct": -1.8594000264240074,
+          "close_vs_mean_20d_pct": 2.653272430615683,
+          "mean_return_60d_pct": null,
+          "volatility_60d_pct": null,
+          "downside_volatility_60d_pct": null,
+          "max_drawdown_60d_pct": null,
+          "close_vs_mean_60d_pct": -0.025005964066138198,
+          "gap_return_pct": 0.07455738428252534,
+          "intraday_return_pct": 1.3370917067750065,
+          "high_excursion_pct": 1.4343689781798563,
+          "low_excursion_pct": -0.06881789165364971,
+          "range_pct": 1.5031868698335007,
+          "volume_change_pct": -1.9401579714391937,
+          "volume_relative_20": 0.8633469641258364,
+          "rsi_14_simple": 73.10136865652944,
+          "positive_session_ratio_20": 0.7,
+          "return_skew_20": -0.24428364452964063,
+          "return_autocorrelation_20": -0.30273477747670635,
+          "price_volume_correlation_20": 0.2601952480356933,
+          "consecutive_up": 2,
+          "consecutive_down": 0
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.4909,
+            "evidence": {
+              "return_20d_pct": 4.909333117402737
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.3543,
+            "evidence": {
+              "return_5d_pct": 0.4048814177706861,
+              "return_20d_pct": 4.909333117402737
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "neutral",
+            "strength": 0.1783,
+            "evidence": {
+              "volatility_20d_pct": 0.8916887839247097
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.1367,
+            "evidence": {
+              "volume_relative_20": 0.8633469641258364,
+              "return_1d_pct": 1.4126459916595557
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "negative",
+            "strength": 0.462,
+            "evidence": {
+              "rsi_14_simple": 73.10136865652944
+            }
+          }
+        ],
+        "input_sha256": "83bea08f6e5ad7d39012c55733e8c14f6f11e8cf0c4ce3921c46d19ff2cdb6f3"
+      },
+      "news_status": "disabled",
+      "news_audit": [],
+      "news_context": null,
+      "prompt_sha256": "e1021aaeda3e010f80818e5ed11d6ce9e167a222f6cb9896ab48a04499d42fb6",
+      "prediction": {
+        "expected_return_pct": 0.5,
+        "return_interval": {
+          "lower_pct": 0.1,
+          "upper_pct": 0.9
+        },
+        "probability_positive": 0.65,
+        "confidence_level": "medium",
+        "analysis": "The 20‑day trend signal (4.91% cumulative return) and the multi‑horizon alignment signal (positive 5‑day and 20‑day returns) both point to a bullish bias.  The RSI is at 73, an over‑bought level, which is a mean‑reversion cue that could temper the upside.  Volatility is neutral and volume is slightly below 20‑day average, neither strongly supporting nor opposing the trend.  The most recent close returns show a mixed pattern: a sharp drop on 2026‑08‑13, a small rebound on 2026‑08‑14, and a strong gain on 2026‑08‑17.  The overall evidence suggests a modest positive expectation, but the RSI and recent volatility/volume signals introduce uncertainty.\n\nSignal relationships: trend_20d and multi_horizon_alignment reinforce each other, while rsi_extreme conflicts.  Volume_confirmation and volatility_regime are neutral, so they do not alter the bias.\n\nPositive evidence: trend_20d, multi_horizon_alignment, recent positive close returns (2026‑08‑14, 2026‑08‑17).  Negative evidence: rsi_extreme, recent negative close return (2026‑08‑13), slight volume contraction.\n\nUncertainties: the strength of the RSI over‑bought signal, potential continuation of the 20‑day trend, and the impact of the slight volume contraction.\n\nCounter view: If the RSI over‑bought condition triggers a mean‑reversion, the index could pull back, leading to a negative return.\n\nRisk scenarios: 1) Market‑wide sell‑off or macro shock; 2) Liquidity tightening; 3) Unexpected negative news (none currently available).",
+        "signal_relationships": [
+          "trend_20d and multi_horizon_alignment are consistent bullish signals; rsi_extreme provides a bearish mean‑reversion cue; volume_confirmation and volatility_regime are neutral and do not alter the bias."
+        ],
+        "positive_evidence": [
+          "trend_20d (positive direction, strength 0.49)",
+          "multi_horizon_alignment (positive direction, strength 0.35)",
+          "recent close returns on 2026‑08‑14 (+0.005%) and 2026‑08‑17 (+1.413%)"
+        ],
+        "negative_evidence": [
+          "rsi_extreme (negative direction, strength 0.46)",
+          "recent close return on 2026‑08‑13 (-0.499%)",
+          "volume relative 20 below 1 indicating slight contraction"
+        ],
+        "uncertainties": [
+          "RSI over‑bought may not trigger a reversal",
+          "trend could continue despite RSI",
+          "volume contraction may limit upside"
+        ],
+        "counter_view": "If the RSI over‑bought condition is strong enough, the index may experience a short‑term pullback, potentially yielding a negative return on 2026‑08‑18.",
+        "risk_scenarios": [
+          "Market‑wide sell‑off or macro shock",
+          "Liquidity tightening",
+          "Unexpected negative news (none currently available)"
+        ],
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 65.0,
+        "probability_up": 0.65,
+        "probability_down": 0.35,
+        "expected_pct_change": 0.5,
+        "rationale": "The 20‑day trend signal (4.91% cumulative return) and the multi‑horizon alignment signal (positive 5‑day and 20‑day returns) both point to a bullish bias.  The RSI is at 73, an over‑bought level, which is a mean‑reversion cue that could temper the upside.  Volatility is neutral and volume is slightly below 20‑day average, neither strongly supporting nor opposing the trend.  The most recent close returns show a mixed pattern: a sharp drop on 2026‑08‑13, a small rebound on 2026‑08‑14, and a strong gain on 2026‑08‑17.  The overall evidence suggests a modest positive expectation, but the RSI and recent volatility/volume signals introduce uncertainty.\n\nSignal relationships: trend_20d and multi_horizon_alignment reinforce each other, while rsi_extreme conflicts.  Volume_confirmation and volatility_regime are neutral, so they do not alter the bias.\n\nPositive evidence: trend_20d, multi_horizon_alignment, recent positive close returns (2026‑08‑14, 2026‑08‑17).  Negative evidence: rsi_extreme, recent negative close return (2026‑08‑13), slight volume contraction.\n\nUncertainties: the strength of the RSI over‑bought signal, potential continuation of the 20‑day trend, and the impact of the slight volume contraction.\n\nCounter view: If the RSI over‑bought condition triggers a mean‑reversion, the index could pull back, leading to a negative return.\n\nRisk scenarios: 1) Market‑wide sell‑off or macro shock; 2) Liquidity tightening; 3) Unexpected negative news (none currently available).",
+        "market_analysis": "trend_20d and multi_horizon_alignment are consistent bullish signals; rsi_extreme provides a bearish mean‑reversion cue; volume_confirmation and volatility_regime are neutral and do not alter the bias."
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-14T09:15:26.390304+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 79500,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 3188,
+            "total_tokens": 4669,
+            "completion_tokens": 1481
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260818",
+        "pct_chg": 0.1921,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 3979.4898,
+        "high": 3994.1812,
+        "low": 3955.6012,
+        "close": 3990.3037
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": true
+      }
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "399001.SZ",
+      "as_of_date": "20260817",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 402,
+        "selected_count": 60,
+        "excluded_target_or_future": 9,
+        "coverage_start": "20260525",
+        "coverage_end": "20260817",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 60,
+          "start": "20260525",
+          "end": "20260817"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 60,
+          "return_1d_pct": 2.4380817819033007,
+          "return_3d_pct": 2.0108201736528386,
+          "return_5d_pct": 2.7052786872119317,
+          "return_10d_pct": 9.339374835555292,
+          "return_20d_pct": 8.03838935436183,
+          "return_60d_pct": null,
+          "mean_return_5d_pct": 0.5420122721349752,
+          "volatility_5d_pct": 1.164130540626448,
+          "downside_volatility_5d_pct": 0.4273735049416465,
+          "max_drawdown_5d_pct": -0.867077842228714,
+          "close_vs_mean_5d_pct": 2.081984946976445,
+          "mean_return_10d_pct": 0.9048599841108073,
+          "volatility_10d_pct": 1.2723583449268696,
+          "downside_volatility_10d_pct": 0.3116582267426447,
+          "max_drawdown_10d_pct": -0.867077842228714,
+          "close_vs_mean_10d_pct": 2.9783996928096412,
+          "mean_return_20d_pct": 0.4109813793277817,
+          "volatility_20d_pct": 2.1751604338179806,
+          "downside_volatility_20d_pct": 1.3758040001653777,
+          "max_drawdown_20d_pct": -6.859723106471815,
+          "close_vs_mean_20d_pct": 4.789714314443372,
+          "mean_return_60d_pct": null,
+          "volatility_60d_pct": null,
+          "downside_volatility_60d_pct": null,
+          "max_drawdown_60d_pct": null,
+          "close_vs_mean_60d_pct": -1.6258547455126782,
+          "gap_return_pct": 0.3127500730582211,
+          "intraday_return_pct": 2.118705455983627,
+          "high_excursion_pct": 2.4400038533387125,
+          "low_excursion_pct": -0.040669331734710656,
+          "range_pct": 2.4806731850734325,
+          "volume_change_pct": 4.442304702250732,
+          "volume_relative_20": 0.8708559988195522,
+          "rsi_14_simple": 72.67351462383715,
+          "positive_session_ratio_20": 0.6,
+          "return_skew_20": -0.2296078773373669,
+          "return_autocorrelation_20": -0.5269633871039975,
+          "price_volume_correlation_20": 0.3086211334996701,
+          "consecutive_up": 2,
+          "consecutive_down": 0
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.8038,
+            "evidence": {
+              "return_20d_pct": 8.03838935436183
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.7162,
+            "evidence": {
+              "return_5d_pct": 2.7052786872119317,
+              "return_20d_pct": 8.03838935436183
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "neutral",
+            "strength": 0.435,
+            "evidence": {
+              "volatility_20d_pct": 2.1751604338179806
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.1291,
+            "evidence": {
+              "volume_relative_20": 0.8708559988195522,
+              "return_1d_pct": 2.4380817819033007
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "negative",
+            "strength": 0.4535,
+            "evidence": {
+              "rsi_14_simple": 72.67351462383715
+            }
+          }
+        ],
+        "input_sha256": "e01da39f919e998b83e3d04be5aac00a7905ac6bd31f7806b0f228d9a87c1416"
+      },
+      "news_status": "disabled",
+      "news_audit": [],
+      "news_context": null,
+      "prompt_sha256": "8e4c0077ab82b55b084879bac95855622e2849d9bca7b484eef682c08fc802c5",
+      "prediction": {
+        "expected_return_pct": 1.5,
+        "return_interval": {
+          "lower_pct": 0.5,
+          "upper_pct": 2.5
+        },
+        "probability_positive": 0.65,
+        "confidence_level": "medium",
+        "analysis": "The 20‑day trend and multi‑horizon alignment signals are strongly positive (0.80 and 0.72 respectively) and are reinforced by the recent 3‑day sequence of gains (‑0.87% on 13th, +0.45% on 14th, +2.44% on 17th). The index is currently 4.8% above its 20‑day mean and 2.1% above its 5‑day mean, suggesting a continuation bias. However, the RSI is 72.7, well above the 70 threshold, indicating an over‑bought condition that could trigger a short‑term mean‑reversion. Volatility over the past 20 days is 2.18%, higher than the 5‑day volatility, implying a risk of a pull‑back. Volume is only 0.87 relative to the 20‑day average, so the upward momentum is not strongly supported by volume. Balancing these factors, a modest positive return is expected, but the range is widened to accommodate the potential reversal.\n\nSignal relationships: trend_20d and multi_horizon_alignment are consistent and reinforce each other. The RSI signal conflicts with the trend signals, suggesting a possible short‑term reversal. Volatility and volume signals are neutral, providing no strong bias.\n\nPositive evidence: strong trend signals, recent upward returns, price above multi‑day means, recent intraday gains.\n\nNegative evidence: high RSI, high volatility, recent 13th‑day drawdown, low relative volume.\n\nUncertainties: macro‑economic developments, sector‑specific news, liquidity conditions.\n\nCounter view: mean‑reversion could bring the index back to its 20‑day mean, leading to a small negative return.\n\nRisk scenarios: sudden macro shock, earnings miss, regulatory change, liquidity squeeze.",
+        "signal_relationships": [
+          "trend_20d positive aligns with multi_horizon_alignment positive",
+          "rsi_extreme negative conflicts with trend signals",
+          "volatility_regime neutral",
+          "volume_confirmation neutral"
+        ],
+        "positive_evidence": [
+          "trend_20d",
+          "multi_horizon_alignment",
+          "recent 3‑day gains",
+          "close_vs_mean_20d",
+          "close_vs_mean_5d"
+        ],
+        "negative_evidence": [
+          "rsi_extreme",
+          "volatility_20d",
+          "recent 13th drawdown",
+          "volume_relative_20"
+        ],
+        "uncertainties": [
+          "macro events",
+          "sector news",
+          "liquidity"
+        ],
+        "counter_view": "Mean reversion to 20‑day mean could produce a small negative return",
+        "risk_scenarios": [
+          "macro downturn",
+          "regulatory shock",
+          "liquidity squeeze"
+        ],
+        "direction": "up",
+        "candle_class": "strong_up",
+        "confidence": 65.0,
+        "probability_up": 0.65,
+        "probability_down": 0.35,
+        "expected_pct_change": 1.5,
+        "rationale": "The 20‑day trend and multi‑horizon alignment signals are strongly positive (0.80 and 0.72 respectively) and are reinforced by the recent 3‑day sequence of gains (‑0.87% on 13th, +0.45% on 14th, +2.44% on 17th). The index is currently 4.8% above its 20‑day mean and 2.1% above its 5‑day mean, suggesting a continuation bias. However, the RSI is 72.7, well above the 70 threshold, indicating an over‑bought condition that could trigger a short‑term mean‑reversion. Volatility over the past 20 days is 2.18%, higher than the 5‑day volatility, implying a risk of a pull‑back. Volume is only 0.87 relative to the 20‑day average, so the upward momentum is not strongly supported by volume. Balancing these factors, a modest positive return is expected, but the range is widened to accommodate the potential reversal.\n\nSignal relationships: trend_20d and multi_horizon_alignment are consistent and reinforce each other. The RSI signal conflicts with the trend signals, suggesting a possible short‑term reversal. Volatility and volume signals are neutral, providing no strong bias.\n\nPositive evidence: strong trend signals, recent upward returns, price above multi‑day means, recent intraday gains.\n\nNegative evidence: high RSI, high volatility, recent 13th‑day drawdown, low relative volume.\n\nUncertainties: macro‑economic developments, sector‑specific news, liquidity conditions.\n\nCounter view: mean‑reversion could bring the index back to its 20‑day mean, leading to a small negative return.\n\nRisk scenarios: sudden macro shock, earnings miss, regulatory change, liquidity squeeze.",
+        "market_analysis": "trend_20d positive aligns with multi_horizon_alignment positive；rsi_extreme negative conflicts with trend signals；volatility_regime neutral；volume_confirmation neutral"
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-14T09:16:45.909542+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 88484,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 3167,
+            "total_tokens": 4371,
+            "completion_tokens": 1204
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260818",
+        "pct_chg": -0.5562,
+        "direction": "down",
+        "candle_class": "down",
+        "open": 14692.0295,
+        "high": 14733.9041,
+        "low": 14459.7184,
+        "close": 14622.4951
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "399006.SZ",
+      "as_of_date": "20260817",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 402,
+        "selected_count": 60,
+        "excluded_target_or_future": 9,
+        "coverage_start": "20260525",
+        "coverage_end": "20260817",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 60,
+          "start": "20260525",
+          "end": "20260817"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 60,
+          "return_1d_pct": 3.139850809220923,
+          "return_3d_pct": 3.8331510082983966,
+          "return_5d_pct": 5.737374751697222,
+          "return_10d_pct": 13.250456449848791,
+          "return_20d_pct": 8.62754989941481,
+          "return_60d_pct": null,
+          "mean_return_5d_pct": 1.1291865942834356,
+          "volatility_5d_pct": 1.2065683208994786,
+          "downside_volatility_5d_pct": 0.19915318017185707,
+          "max_drawdown_5d_pct": -0.4453200487995357,
+          "close_vs_mean_5d_pct": 3.297883648771971,
+          "mean_return_10d_pct": 1.2685765718475617,
+          "volatility_10d_pct": 1.8395344719138274,
+          "downside_volatility_10d_pct": 0.3215052993130544,
+          "max_drawdown_10d_pct": -0.7269731427529846,
+          "close_vs_mean_10d_pct": 4.638083318380137,
+          "mean_return_20d_pct": 0.46621429648857904,
+          "volatility_20d_pct": 3.2083204564937753,
+          "downside_volatility_20d_pct": 2.118273517063505,
+          "max_drawdown_20d_pct": -11.973800426503923,
+          "close_vs_mean_20d_pct": 6.495759262522061,
+          "mean_return_60d_pct": null,
+          "volatility_60d_pct": null,
+          "downside_volatility_60d_pct": null,
+          "max_drawdown_60d_pct": null,
+          "close_vs_mean_60d_pct": -2.5379384094918134,
+          "gap_return_pct": 0.17870298250570738,
+          "intraday_return_pct": 2.9558656067171674,
+          "high_excursion_pct": 3.139850809220923,
+          "low_excursion_pct": -0.6102782825397668,
+          "range_pct": 3.7501290917606998,
+          "volume_change_pct": -1.2919419245388863,
+          "volume_relative_20": 0.8854763567636594,
+          "rsi_14_simple": 73.2837225009649,
+          "positive_session_ratio_20": 0.6,
+          "return_skew_20": -0.25504096399556364,
+          "return_autocorrelation_20": -0.5017685494440997,
+          "price_volume_correlation_20": 0.3594909590127996,
+          "consecutive_up": 2,
+          "consecutive_down": 0
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.8628,
+            "evidence": {
+              "return_20d_pct": 8.62754989941481
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.9577,
+            "evidence": {
+              "return_5d_pct": 5.737374751697222,
+              "return_20d_pct": 8.62754989941481
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "negative",
+            "strength": 0.6417,
+            "evidence": {
+              "volatility_20d_pct": 3.2083204564937753
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.1145,
+            "evidence": {
+              "volume_relative_20": 0.8854763567636594,
+              "return_1d_pct": 3.139850809220923
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "negative",
+            "strength": 0.4657,
+            "evidence": {
+              "rsi_14_simple": 73.2837225009649
+            }
+          },
+          {
+            "signal_id": "drawdown_risk",
+            "family": "risk",
+            "direction": "negative",
+            "strength": 0.5987,
+            "evidence": {
+              "max_drawdown_20d_pct": -11.973800426503923
+            }
+          }
+        ],
+        "input_sha256": "20fc009e6d4082b70f58b7b6988fb3fc0056ae8c5f5e0ff3e84d74ac854a0852"
+      },
+      "news_status": "disabled",
+      "news_audit": [],
+      "news_context": null,
+      "prompt_sha256": "c2622dbe9272b77f6eb3421d9dc633d59ed6bccf802eb02e66f45919024179e2",
+      "prediction": {
+        "expected_return_pct": 1.5,
+        "return_interval": {
+          "lower_pct": 0.5,
+          "upper_pct": 2.5
+        },
+        "probability_positive": 0.65,
+        "confidence_level": "medium",
+        "analysis": "The 20‑day trend signal (8.63% cumulative) and the multi‑horizon alignment (5‑day 5.74% and 20‑day 8.63%) both point strongly to a bullish bias.  The recent compact return bars show a short‑term up‑trend: 14th Aug +1.12%, 17th Aug +3.14%, with only one negative bar (13th Aug –0.45%) in the last week.  Volume is slightly below the 20‑day average (volume_relative_20 = 0.89) and the intraday return on the last day is +2.96%, supporting momentum.  However, risk signals are not aligned: volatility over the last 20 days is 3.21% (high), downside volatility 2.12% and a 20‑day drawdown of –11.97% indicate a fragile position.  The RSI is 73.28, well into overbought territory, which is a mean‑reversion cue.  Thus, while trend and momentum are positive, volatility, RSI, and drawdown risk introduce a moderate chance of reversal.  The net assessment is a modest bullish outlook with a 65% chance of a positive return, but the confidence is only medium due to the conflicting risk signals and lack of recent news.",
+        "signal_relationships": [
+          "trend_20d aligns with multi_horizon_alignment",
+          "volatility_regime conflicts with trend signals",
+          "rsi_extreme conflicts with trend signals",
+          "drawdown_risk conflicts with trend signals",
+          "volume_confirmation is neutral"
+        ],
+        "positive_evidence": [
+          "trend_20d positive (8.63%)",
+          "multi_horizon_alignment positive (5‑day 5.74%, 20‑day 8.63%)",
+          "recent positive bars on 14th and 17th August",
+          "close_vs_mean_20d high (6.50%)",
+          "positive_session_ratio_20 0.6"
+        ],
+        "negative_evidence": [
+          "volatility_regime negative (20‑day vol 3.21%)",
+          "rsi_extreme negative (RSI 73.28)",
+          "drawdown_risk negative (20‑day max drawdown –11.97%)",
+          "negative bar on 13th August",
+          "downside_volatility_20d 2.12%"
+        ],
+        "uncertainties": [
+          "high volatility may trigger a reversal",
+          "RSI overbought may lead to a pullback",
+          "lack of recent news context",
+          "possible macro event",
+          "volume confirmation neutral"
+        ],
+        "counter_view": "Given the high volatility and overbought RSI, the index may correct and yield a negative return.",
+        "risk_scenarios": [
+          "Sudden market sell‑off",
+          "Liquidity crunch",
+          "Macro policy shift",
+          "Unexpected earnings downturn",
+          "Geopolitical tension"
+        ],
+        "direction": "up",
+        "candle_class": "strong_up",
+        "confidence": 65.0,
+        "probability_up": 0.65,
+        "probability_down": 0.35,
+        "expected_pct_change": 1.5,
+        "rationale": "The 20‑day trend signal (8.63% cumulative) and the multi‑horizon alignment (5‑day 5.74% and 20‑day 8.63%) both point strongly to a bullish bias.  The recent compact return bars show a short‑term up‑trend: 14th Aug +1.12%, 17th Aug +3.14%, with only one negative bar (13th Aug –0.45%) in the last week.  Volume is slightly below the 20‑day average (volume_relative_20 = 0.89) and the intraday return on the last day is +2.96%, supporting momentum.  However, risk signals are not aligned: volatility over the last 20 days is 3.21% (high), downside volatility 2.12% and a 20‑day drawdown of –11.97% indicate a fragile position.  The RSI is 73.28, well into overbought territory, which is a mean‑reversion cue.  Thus, while trend and momentum are positive, volatility, RSI, and drawdown risk introduce a moderate chance of reversal.  The net assessment is a modest bullish outlook with a 65% chance of a positive return, but the confidence is only medium due to the conflicting risk signals and lack of recent news.",
+        "market_analysis": "trend_20d aligns with multi_horizon_alignment；volatility_regime conflicts with trend signals；rsi_extreme conflicts with trend signals；drawdown_risk conflicts with trend signals；volume_confirmation is neutral"
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-14T09:18:14.426429+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 55735,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 3198,
+            "total_tokens": 4643,
+            "completion_tokens": 1445
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260818",
+        "pct_chg": -0.9249,
+        "direction": "down",
+        "candle_class": "down",
+        "open": 3730.9868,
+        "high": 3747.5284,
+        "low": 3662.4482,
+        "close": 3705.5645
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "000688.SH",
+      "as_of_date": "20260817",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 402,
+        "selected_count": 60,
+        "excluded_target_or_future": 9,
+        "coverage_start": "20260525",
+        "coverage_end": "20260817",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 60,
+          "start": "20260525",
+          "end": "20260817"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 60,
+          "return_1d_pct": 4.143433526852203,
+          "return_3d_pct": 2.9855649239904025,
+          "return_5d_pct": 2.9391916795610484,
+          "return_10d_pct": 15.19488530516291,
+          "return_20d_pct": 4.082220785080737,
+          "return_60d_pct": null,
+          "mean_return_5d_pct": 0.6025436752147706,
+          "volatility_5d_pct": 2.088655859250271,
+          "downside_volatility_5d_pct": 0.8802321816584545,
+          "max_drawdown_5d_pct": -1.6268573980605106,
+          "close_vs_mean_5d_pct": 3.1540447787169246,
+          "mean_return_10d_pct": 1.448626309552865,
+          "volatility_10d_pct": 2.2105021722625287,
+          "downside_volatility_10d_pct": 0.6326504609558392,
+          "max_drawdown_10d_pct": -1.9793883523135825,
+          "close_vs_mean_10d_pct": 4.221749133287767,
+          "mean_return_20d_pct": 0.27633233034433047,
+          "volatility_20d_pct": 3.929868437364533,
+          "downside_volatility_20d_pct": 2.439735210204239,
+          "max_drawdown_20d_pct": -18.404693285850225,
+          "close_vs_mean_20d_pct": 3.817445719923507,
+          "mean_return_60d_pct": null,
+          "volatility_60d_pct": null,
+          "downside_volatility_60d_pct": null,
+          "max_drawdown_60d_pct": null,
+          "close_vs_mean_60d_pct": -1.977850689994931,
+          "gap_return_pct": 0.22508858318313063,
+          "intraday_return_pct": 3.909545004210191,
+          "high_excursion_pct": 4.143433526852203,
+          "low_excursion_pct": 0.05389830336779422,
+          "range_pct": 4.089535223484389,
+          "volume_change_pct": 24.89800105674762,
+          "volume_relative_20": 0.8577260407101895,
+          "rsi_14_simple": 58.23149648978354,
+          "positive_session_ratio_20": 0.45,
+          "return_skew_20": 0.5475621732616529,
+          "return_autocorrelation_20": -0.193409364431751,
+          "price_volume_correlation_20": 0.2820915546479011,
+          "consecutive_up": 1,
+          "consecutive_down": 0
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.4082,
+            "evidence": {
+              "return_20d_pct": 4.082220785080737
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.4681,
+            "evidence": {
+              "return_5d_pct": 2.9391916795610484,
+              "return_20d_pct": 4.082220785080737
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "negative",
+            "strength": 0.786,
+            "evidence": {
+              "volatility_20d_pct": 3.929868437364533
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.1423,
+            "evidence": {
+              "volume_relative_20": 0.8577260407101895,
+              "return_1d_pct": 4.143433526852203
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "neutral",
+            "strength": 0.1646,
+            "evidence": {
+              "rsi_14_simple": 58.23149648978354
+            }
+          },
+          {
+            "signal_id": "drawdown_risk",
+            "family": "risk",
+            "direction": "negative",
+            "strength": 0.9202,
+            "evidence": {
+              "max_drawdown_20d_pct": -18.404693285850225
+            }
+          }
+        ],
+        "input_sha256": "d0eef5cd2b973ec65c63ff1cb628403c62a02f363725108d6fa3d5f5b1275f3e"
+      },
+      "news_status": "disabled",
+      "news_audit": [],
+      "news_context": null,
+      "prompt_sha256": "8626de74847f64ce43da7858d904d9e6d53cab93c32f2988997660f201c21c5c",
+      "prediction": {
+        "expected_return_pct": 2.5,
+        "return_interval": {
+          "lower_pct": 0.5,
+          "upper_pct": 5.5
+        },
+        "probability_positive": 0.65,
+        "confidence_level": "medium",
+        "analysis": "The 20‑day trend signal (4.08% cumulative return) and the multi‑horizon alignment (positive 5‑day and 20‑day returns) both point to a continuation of the up‑trend. Recent daily returns are strongly positive (4.14% on 2026‑08‑17, 2.99% on 2026‑08‑31, and 4.08% on 2026‑08‑04), and the intraday return on 2026‑08‑17 was 3.91%, indicating momentum. A 24.9% volume spike on the last day further supports a short‑term rally. However, the risk signals are strong: the 20‑day volatility is 3.93% (high), and the 20‑day max drawdown is –18.4%, suggesting that the market is still exposed to significant downside risk. The RSI is 58.2, which is not extreme, and the volume confirmation signal is neutral. Overall, the positive trend and momentum outweigh the risk signals, but the high volatility and drawdown risk temper the confidence.\n\nSignal relationships: trend_20d and multi_horizon_alignment reinforce each other; volatility_regime and drawdown_risk conflict with the trend signals; volume_confirmation and rsi_extreme are neutral and do not alter the consensus.\n\nPositive evidence: trend_20d, multi_horizon_alignment, recent positive daily returns, high intraday return, volume spike.\nNegative evidence: volatility_regime, drawdown_risk.\nUncertainties: high volatility, potential reversal, lack of recent news.\nCounter view: a sudden market correction could reverse the short‑term rally.\nRisk scenarios: market-wide sell‑off, volatility spike, negative macro news.",
+        "signal_relationships": [
+          "trend_20d aligns with multi_horizon_alignment",
+          "volatility_regime conflicts with trend signals",
+          "drawdown_risk conflicts with trend signals",
+          "volume_confirmation neutral",
+          "rsi_extreme neutral"
+        ],
+        "positive_evidence": [
+          "trend_20d",
+          "multi_horizon_alignment",
+          "recent positive daily returns",
+          "high intraday return",
+          "volume spike"
+        ],
+        "negative_evidence": [
+          "volatility_regime",
+          "drawdown_risk"
+        ],
+        "uncertainties": [
+          "high volatility",
+          "potential reversal",
+          "lack of news"
+        ],
+        "counter_view": "A sudden market correction could reverse the short‑term rally",
+        "risk_scenarios": [
+          "market-wide sell‑off",
+          "volatility spike",
+          "negative macro news"
+        ],
+        "direction": "up",
+        "candle_class": "strong_up",
+        "confidence": 65.0,
+        "probability_up": 0.65,
+        "probability_down": 0.35,
+        "expected_pct_change": 2.5,
+        "rationale": "The 20‑day trend signal (4.08% cumulative return) and the multi‑horizon alignment (positive 5‑day and 20‑day returns) both point to a continuation of the up‑trend. Recent daily returns are strongly positive (4.14% on 2026‑08‑17, 2.99% on 2026‑08‑31, and 4.08% on 2026‑08‑04), and the intraday return on 2026‑08‑17 was 3.91%, indicating momentum. A 24.9% volume spike on the last day further supports a short‑term rally. However, the risk signals are strong: the 20‑day volatility is 3.93% (high), and the 20‑day max drawdown is –18.4%, suggesting that the market is still exposed to significant downside risk. The RSI is 58.2, which is not extreme, and the volume confirmation signal is neutral. Overall, the positive trend and momentum outweigh the risk signals, but the high volatility and drawdown risk temper the confidence.\n\nSignal relationships: trend_20d and multi_horizon_alignment reinforce each other; volatility_regime and drawdown_risk conflict with the trend signals; volume_confirmation and rsi_extreme are neutral and do not alter the consensus.\n\nPositive evidence: trend_20d, multi_horizon_alignment, recent positive daily returns, high intraday return, volume spike.\nNegative evidence: volatility_regime, drawdown_risk.\nUncertainties: high volatility, potential reversal, lack of recent news.\nCounter view: a sudden market correction could reverse the short‑term rally.\nRisk scenarios: market-wide sell‑off, volatility spike, negative macro news.",
+        "market_analysis": "trend_20d aligns with multi_horizon_alignment；volatility_regime conflicts with trend signals；drawdown_risk conflicts with trend signals；volume_confirmation neutral；rsi_extreme neutral"
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-14T09:19:10.207866+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 59563,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 3186,
+            "total_tokens": 4570,
+            "completion_tokens": 1384
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260818",
+        "pct_chg": 0.1132,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 1786.3686,
+        "high": 1798.7793,
+        "low": 1753.9714,
+        "close": 1790.8743
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    }
+  ],
+  "schema_version": "predict-v2.0",
+  "run_id": "536bfb1dd46e42218bab715ef1a5ee5d",
+  "model_name": "openai/gpt-oss-20b",
+  "prompt_profile": "balanced"
+}

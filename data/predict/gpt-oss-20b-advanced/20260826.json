@@ -1,0 +1,37 @@
+{
+  "agent_name": "gpt-oss-20b-advanced",
+  "prediction_date": "20260826",
+  "generated_at": "2026-09-16T04:45:56.770441+00:00",
+  "lookback_days": 120,
+  "data_policy": "Point-in-time validated; return-based features; model output accepted only through submit_prediction tool",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "000001.SH",
+      "error": "news_api_pool_exhausted:transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error",
+      "error_type": "data_or_tool_error"
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "399001.SZ",
+      "error": "news_api_pool_exhausted:transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error",
+      "error_type": "data_or_tool_error"
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "399006.SZ",
+      "error": "news_api_pool_exhausted:transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error",
+      "error_type": "data_or_tool_error"
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "000688.SH",
+      "error": "news_api_pool_exhausted:transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error,transport_or_response_error",
+      "error_type": "data_or_tool_error"
+    }
+  ],
+  "schema_version": "predict-v2.0",
+  "run_id": "f1f5e3e47cfe4306aaea8dcdf2eb01fd",
+  "model_name": "openai/gpt-oss-20b",
+  "prompt_profile": "balanced"
+}

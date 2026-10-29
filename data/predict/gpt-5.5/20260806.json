@@ -1,0 +1,187 @@
+{
+  "agent_name": "gpt-5.5",
+  "prediction_date": "20260806",
+  "generated_at": "2026-09-11T06:19:12.635860+00:00",
+  "lookback_days": 10,
+  "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "上证指数",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000016.SH",
+      "name": "上证50",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000300.SH",
+      "name": "沪深300",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "科创50",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000852.SH",
+      "name": "中证1000",
+      "as_of_date": "20260805",
+      "lookback": [
+        {
+          "trade_date": "20260723",
+          "open": 7169.5427,
+          "high": 7247.1412,
+          "low": 7113.4977,
+          "close": 7195.4997,
+          "pct_chg": 0.5132,
+          "vol": 250502727.0,
+          "amount": 422221092.3518
+        },
+        {
+          "trade_date": "20260724",
+          "open": 7109.2475,
+          "high": 7174.5521,
+          "low": 6995.6931,
+          "close": 6995.6931,
+          "pct_chg": -2.7768,
+          "vol": 229026635.0,
+          "amount": 379813289.8295
+        },
+        {
+          "trade_date": "20260727",
+          "open": 6981.1649,
+          "high": 7228.7845,
+          "low": 6972.2815,
+          "close": 7228.7845,
+          "pct_chg": 3.3319,
+          "vol": 225960825.0,
+          "amount": 390089645.4517
+        },
+        {
+          "trade_date": "20260728",
+          "open": 7135.7349,
+          "high": 7189.1772,
+          "low": 6992.9441,
+          "close": 7026.2761,
+          "pct_chg": -2.8014,
+          "vol": 225776735.0,
+          "amount": 393766907.5445
+        },
+        {
+          "trade_date": "20260729",
+          "open": 7020.2233,
+          "high": 7132.3518,
+          "low": 6897.3922,
+          "close": 7095.1863,
+          "pct_chg": 0.9807,
+          "vol": 271374083.0,
+          "amount": 458880097.3953
+        },
+        {
+          "trade_date": "20260730",
+          "open": 7053.0899,
+          "high": 7121.523,
+          "low": 6841.751,
+          "close": 6900.6579,
+          "pct_chg": -2.7417,
+          "vol": 259507814.0,
+          "amount": 436231656.9888
+        },
+        {
+          "trade_date": "20260731",
+          "open": 7082.7535,
+          "high": 7218.0614,
+          "low": 7071.0481,
+          "close": 7075.5065,
+          "pct_chg": 2.5338,
+          "vol": 283219421.0,
+          "amount": 498602137.1765
+        },
+        {
+          "trade_date": "20260803",
+          "open": 7055.2711,
+          "high": 7118.0967,
+          "low": 7042.8894,
+          "close": 7079.7761,
+          "pct_chg": 0.0603,
+          "vol": 233392381.0,
+          "amount": 391183027.5697
+        },
+        {
+          "trade_date": "20260804",
+          "open": 7128.4935,
+          "high": 7307.1712,
+          "low": 7102.4603,
+          "close": 7279.1927,
+          "pct_chg": 2.8167,
+          "vol": 250083613.0,
+          "amount": 434310206.456
+        },
+        {
+          "trade_date": "20260805",
+          "open": 7253.2245,
+          "high": 7523.4982,
+          "low": 7253.2245,
+          "close": 7493.0481,
+          "pct_chg": 2.9379,
+          "vol": 272396847.0,
+          "amount": 511649034.5316
+        }
+      ],
+      "news_context": "- Two major Chinese state banks announce $39 bln capital-raising plans - Reuters: Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Markets. REUTERS/Dado Ruvic/Illustration Purchase Licensing Rights, opens new tab. BEIJING, Sept 6 (Reuters) - Agricultural Bank of China (601288.SS), opens new tab ​plans to raise ‌up to 160 billion yuan ($24 billion) ​through a ​private placement of A-shares ⁠to replenish ​its capital, according ​to a filing with the Shanghai Stock Exchange ​on Sunday (https://www.reuters.com/world/asia-pacific/two-major-chinese-state-banks-announce-39-bln-capital-raising-plans-2026-09-06/)\n- Shenzhen 100-Billion-Yuan Storage Chip Company Lists on HKEX, Net Profit Surges 71528.66% in H1 - 36Kr: # Net profit surged by 71528.66% in the first half of the year, the Shenzhen-based 100-billion-yuan storage chip company rang the listing bell on the Hong Kong Stock Exchange. As of 10:00, its share price fell slightly by 1.19% to HK$233.2 per share (approximately RMB 199.62), with a total market value of **HK$107.192 billion (approximately RMB 91.758 billion)**. Its prospectus discloses unaudited financial data for the first half of 2026: revenue reached RMB 240.88 billion, a year-on-year incre (https://eu.36kr.com/en/p/3974142285099527)\n- CGN Mining Company Limited(SEHK:1164) added to Hang Seng China Affiliated Corporations Index - marketscreener.com: ## CGN Mining Company Limited. | Aug. 27 | CGN Mining Company Limited Reports Earnings Results for the Half Year Ended June 30, 2026 | CI |. CGN Mining Company Limited has been added in the Hang Seng China Affiliated Corporations Index. | Jul. 21 | CGN Mining Company Limited Reports Production Results for the Second Quarter of 2026 | CI |. | Apr. 23 | CGN Mining Company Limited Reports Production Results for the First Quarter of 2026 | CI |. | Mar. 26 | CGN Mining Company Limited Reports Earning (https://www.marketscreener.com/news/cgn-mining-company-limited-sehk-1164-added-to-hang-seng-china-affiliated-corporations-index-ce785bd8da81f42d)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "strong_up",
+        "confidence": 68.0,
+        "expected_pct_change": 1.4,
+        "rationale": "The index advanced 2.82% and 2.94% on the last two sessions, closing near each day's high. The 20260805 close at 7493.05 decisively exceeded the prior 7307.17 high, while volume rose to 272.4 million from 250.1 million and 233.4 million in the preceding sessions. This combination indicates strong upward momentum, although the two-day surge raises the risk of short-term profit taking.",
+        "market_analysis": "The view implies continued risk-on conditions for the broad A-share market, with higher-beta small- and mid-cap shares likely to outperform. Technology, semiconductors, advanced manufacturing, and other growth-oriented sectors may remain strong, while defensive sectors could lag. The extended move also increases the chance of intraday volatility and rotation rather than a uniformly broad advance."
+      },
+      "actual": {
+        "trade_date": "20260806",
+        "pct_chg": 0.4988,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 7440.008,
+        "high": 7564.6916,
+        "low": 7434.4936,
+        "close": 7530.4251
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000905.SH",
+      "name": "中证500",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "深证成指",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "创业板指",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "932000.CSI",
+      "name": "中证2000",
+      "as_of_date": "20260805",
+      "error": "The read operation timed out"
+    }
+  ]
+}

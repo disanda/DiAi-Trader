@@ -263,7 +263,7 @@ def main():
     print(f"Loading position data from {args.model}")
     PROJECT_ROOT = Path(__file__).resolve().parents[2]
     final_position_path = PROJECT_ROOT / "data" / "agent_data_astock" / args.model / "position" /"position.jsonl"
-    final_stock_path = PROJECT_ROOT / "data" / "a_stock_data" /  "each_stock" 
+    final_stock_path = PROJECT_ROOT / "data" / "Astocks" / "stocks"
 
     positions = load_position_data(final_position_path)
     print(f"Loaded {len(positions)} position entries")

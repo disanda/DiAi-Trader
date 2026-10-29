@@ -11,9 +11,38 @@ from agent.general_tools import get_config_value, write_config_value, _resolve_r
 import importlib
 import sys
 
-ashare_symbols_str = get_config_value("Ashare_symbols") # Ashare_symbols = ETF_25, all_nasdaq_100_symbols
-module = importlib.import_module("utils.ashare_symbol")
-ashare_symbols = getattr(module, ashare_symbols_str)
+def load_symbols(group_name):
+    """Load the agent universe from the same market symbol groups as the UI."""
+    requested = str(group_name or "").strip()
+    normalized = requested.lower().replace("_", "").replace("-", "")
+    roots = [Path("data/Astocks/symbols"), Path("data/ETFs/symbols"), Path("data/USstocks/symbols")]
+    for root in roots:
+        if not root.exists():
+            continue
+        for path in root.glob("*.json"):
+            if path.stem.lower().replace("_", "").replace("-", "") != normalized:
+                continue
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            blocks = payload if isinstance(payload, list) else [payload]
+            values = []
+            for block in blocks:
+                if isinstance(block, str):
+                    values.append(block)
+                elif isinstance(block, dict):
+                    values.extend(block.get("symbols") or block.get("ts_codes") or [])
+            symbols = list(dict.fromkeys(str(value).strip().upper() for value in values if str(value).strip()))
+            if symbols:
+                return symbols
+
+    # Compatibility for configurations that still name a built-in Python list.
+    module = importlib.import_module("utils.ashare_symbol")
+    if requested and hasattr(module, requested):
+        return getattr(module, requested)
+    raise ValueError(f"未找到标的组: {requested}")
+
+
+ashare_symbols_str = get_config_value("Ashare_symbols")
+ashare_symbols = load_symbols(ashare_symbols_str)
 
 # Agent class mapping table - for dynamic import and instantiation
 AGENT_REGISTRY = {
@@ -154,7 +183,8 @@ async def main(config_path=None): # config_path: Configuration file path, if Non
     initial_cash = agent_config.get("initial_cash", 10000.0)
     verbose = agent_config.get("verbose", False)
     model_data_path = log_config.get("model_data_path", "./data/agent_data_astock/sse_50_day")
-    Ashare_data_path = log_config.get("Ashare_data_path", "./data/a_stock_data/sse_50_day/merged.jsonl")
+    Ashare_data_path = log_config.get("Ashare_data_path", "./data/Astocks")
+    prompt_selection = config.get("prompt_selection", {})
 
     model_names = [m.get("name", m.get("signature")) for m in enabled_models] # Display enabled model information
 
@@ -166,7 +196,9 @@ async def main(config_path=None): # config_path: Configuration file path, if Non
         basemodel = model_config.get("basemodel")
         signature = model_config.get("signature")
         openai_base_url = model_config.get("openai_base_url",None)
-        openai_api_key = model_config.get("openai_api_key",None)
+        # API credentials are kept in the project .env, never in model JSON.
+        api_key_env = model_config.get("api_key_env")
+        openai_api_key = os.getenv(api_key_env) if api_key_env else model_config.get("openai_api_key")
         
         if not basemodel: # Validate required fields
             print(f"❌ Model {model_name} missing basemodel field")
@@ -193,6 +225,8 @@ async def main(config_path=None): # config_path: Configuration file path, if Non
         write_config_value("MARKET", market)
         write_config_value("MODEL_DATA_PATH", model_data_path)
         write_config_value("Ashare_DATA_PATH", Ashare_data_path)
+        write_config_value("TRADING_STRATEGY_PROMPT_IDS", prompt_selection.get("strategy", []))
+        write_config_value("TRADING_JOURNAL_PROMPT_IDS", prompt_selection.get("journal", []))
         print(f"✅ Runtime config initialized: SIGNATURE={signature}, MARKET={market}")
 
         # Select symbols based on agent type and market, Crypto agents don't use stock_symbols parameter

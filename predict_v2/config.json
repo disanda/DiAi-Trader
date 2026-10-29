@@ -1,0 +1,54 @@
+{
+  "mode": "predict",
+  "prediction_date": "",
+  "prediction_start_date": "2026-06-01",
+  "prediction_end_date": "2026-06-10",
+  "prediction_cutoff_datetime": null,
+  "asset_type": "index",
+  "symbols": [
+    "000001.SH",
+    "399001.SZ",
+    "399006.SZ",
+    "000688.SH"
+  ],
+  "history_days": 120,
+  "compact_days": 20,
+  "data_paths": {
+    "stock": "data/Astocks/stocks",
+    "index": "data/Astocks/indices",
+    "etf": "data/ETFs/stocks"
+  },
+  "output_dir": "data/predict",
+  "prompt_profile": "balanced",
+  "news": {
+    "mode": "tavily_live",
+    "env_file": ".env",
+    "max_results": 8,
+    "max_content_chars": 600,
+    "tavily_api_key_env": "TAVILY_API_KEY",
+    "timeout_seconds": 45
+  },
+  "model": {
+    "name": "gpt-oss-20b-advanced",
+    "basemodel": "openai/gpt-oss-20b",
+    "openai_base_url": "https://integrate.api.nvidia.com/v1",
+    "api_key_env": "NVIDIA_API_KEY",
+    "temperature": 0.01,
+    "timeout_seconds": 90,
+    "max_retries": 2,
+    "enabled": true,
+    "signature": "",
+    "json_mode": false
+  },
+  "logging": {
+    "level": "INFO",
+    "directory": "predict_v2/logs_layer/logs"
+  },
+  "lookback_days": null,
+  "request_timeout_seconds": null,
+  "use_news_search": "",
+  "news_max_results": null,
+  "news_time_range": "",
+  "news_raw_chars": null,
+  "news_query": ""
+}

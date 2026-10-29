@@ -505,6 +505,23 @@ ZXG_30 = [
 
 # 4.web-ui部署
 
+## 3.4 美股与美股指数数据
+
+美股个股和指数统一使用 `data/get_us_market_data.py` 下载。脚本内置腾讯、新浪、东方财富、AkShare、yfinance、Tushare，并在单个数据源不可用时自动切换。
+
+```bash
+# 同时下载个股与指数
+python data/get_us_market_data.py --stocks AAPL MSFT NVDA --indices DJI SPX NDX HXC --start 20260101
+
+# 从混合代码文件读取，自动区分个股与指数
+python data/get_us_market_data.py --symbols-file data/USstocks/symbols/us_market.json --start 20260101
+
+# 自动发现个股，小规模测试
+python data/get_us_market_data.py --discover-stocks --limit 10 --start 20260101
+```
+
+默认数据源顺序为 `Tencent -> Sina -> Eastmoney -> AkShare -> yfinance -> Tushare`，可通过 `--providers` 调整。个股写入 `data/USstocks/stocks/`，指数写入 `data/USstocks/indices/`。支持的规范指数代码包括 `DJI`、`SPX`、`NDX`、`IXIC`、`HXC`。完整参数和目录说明见 [data/DATA_SCRIPTS.md](data/DATA_SCRIPTS.md)。
+
 ## 4.1 使用方式
 
 * 运行服务器：

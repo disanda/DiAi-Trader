@@ -1,0 +1,19 @@
+{
+  "asset_type": "US_MARKET",
+  "stock_count": 0,
+  "index_count": 4,
+  "symbols": [],
+  "indices": [
+    "DJI",
+    "DJIA",
+    "NDX",
+    "SPX"
+  ],
+  "name_map": {
+    "DJI": "Dow Jones Industrial Average",
+    "DJIA": "道琼斯工业平均指数",
+    "NDX": "Nasdaq 100",
+    "SPX": "标普500指数"
+  },
+  "updated_at": "2026-10-24T21:40:45"
+}

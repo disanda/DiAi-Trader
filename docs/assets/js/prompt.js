@@ -59,29 +59,18 @@ const SYSTEM_PROMPTS = {
 };
 
 // ── State ──────────────────────────────────────────────────────────────────
-let currentTab = 'strategy';   // 'strategy' | 'journal'
+let currentTab = 'strategy';
+const READONLY_TABS = new Set(['system_trading', 'system_prediction']);
 let prompts = [];               // 当前 tab 的提示词列表
 let selectedIdx = null;         // 当前选中条目的索引（null = 无选中）
 let isDirty = false;            // 编辑器是否有未保存改动
 
 // ── Init ───────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    renderSysPrompt();
     loadPrompts();
 });
 
 // ── System prompt (read-only display) ─────────────────────────────────────
-function renderSysPrompt() {
-    document.getElementById('sysPromptText').textContent = SYSTEM_PROMPTS[currentTab];
-}
-
-function toggleSysPanel() {
-    const body = document.getElementById('sysPanelBody');
-    const icon = document.getElementById('sysToggleIcon');
-    const isOpen = body.classList.toggle('open');
-    icon.textContent = isOpen ? '▼ 收起' : '▶ 展开查看';
-}
-
 // ── Tab switching ──────────────────────────────────────────────────────────
 function switchTab(tab) {
     if (isDirty && !confirmDiscard()) return;
@@ -94,7 +83,6 @@ function switchTab(tab) {
         b.classList.toggle('active', b.dataset.tab === tab);
     });
 
-    renderSysPrompt();
     loadPrompts();
 }
 
@@ -116,6 +104,12 @@ async function loadPrompts() {
 
     renderList(prompts);
     showEditor(null);
+    const readonly = READONLY_TABS.has(currentTab);
+    document.querySelector('.btn-new').style.display = readonly ? 'none' : '';
+    document.querySelector('#editorWrap .btn-primary').style.display = readonly ? 'none' : '';
+    document.querySelector('#editorWrap .btn-danger').style.display = readonly ? 'none' : '';
+    document.getElementById('editTitle').readOnly = readonly;
+    document.getElementById('editContent').readOnly = readonly;
 }
 
 // ── Render sidebar list ────────────────────────────────────────────────────
@@ -132,9 +126,6 @@ function renderList(list) {
                 <div class="prompt-item-title">${escHtml(p.title || '未命名')}</div>
                 <div class="prompt-item-preview">${escHtml((p.content || '').slice(0, 60)) || '（无内容）'}</div>
             </div>
-            ${p.active
-                ? '<span class="badge-active">已启用</span>'
-                : '<span class="badge-off">未启用</span>'}
         </li>
     `).join('');
 }
@@ -164,10 +155,7 @@ function showEditor(prompt) {
     document.getElementById('editTitle').value   = prompt.title   || '';
     document.getElementById('editContent').value = prompt.content || '';
 
-    updateToggleBtn(prompt.active);
-
-    document.getElementById('metaStatus').textContent =
-        prompt.active ? '✅ 已启用 — 将追加到系统提示词末尾' : '⚪ 未启用';
+    document.getElementById('metaStatus').textContent = '在“启动模拟”页面选择运行时使用的提示词';
 
     // mark dirty on input
     ['editTitle', 'editContent'].forEach(id => {
@@ -176,26 +164,15 @@ function showEditor(prompt) {
     });
 }
 
-function updateToggleBtn(active) {
-    const btn = document.getElementById('btnToggle');
-    if (active) {
-        btn.textContent = '✅ 已启用';
-        btn.className   = 'btn btn-toggle-active';
-    } else {
-        btn.textContent = '启用';
-        btn.className   = 'btn btn-toggle-off';
-    }
-}
-
 // ── New prompt ─────────────────────────────────────────────────────────────
 function newPrompt() {
+    if (READONLY_TABS.has(currentTab)) return;
     if (isDirty && !confirmDiscard()) return;
 
     const newItem = {
         id:      Date.now(),
         title:   '',
         content: '',
-        active:  false,
     };
     prompts.push(newItem);
     selectedIdx = prompts.length - 1;
@@ -209,20 +186,9 @@ function newPrompt() {
 }
 
 // ── Toggle active state ────────────────────────────────────────────────────
-function toggleActive() {
-    if (selectedIdx === null) return;
-    prompts[selectedIdx].active = !prompts[selectedIdx].active;
-    updateToggleBtn(prompts[selectedIdx].active);
-    document.getElementById('metaStatus').textContent =
-        prompts[selectedIdx].active
-            ? '✅ 已启用 — 将追加到系统提示词末尾'
-            : '⚪ 未启用';
-    isDirty = true;
-    renderList(prompts);
-}
-
 // ── Save prompt ────────────────────────────────────────────────────────────
 async function savePrompt() {
+    if (READONLY_TABS.has(currentTab)) return;
     if (selectedIdx === null) return;
 
     const title   = document.getElementById('editTitle').value.trim();
@@ -237,12 +203,12 @@ async function savePrompt() {
     isDirty = false;
     renderList(prompts);
 
-    document.getElementById('metaStatus').textContent =
-        prompts[selectedIdx].active ? '✅ 已启用 — 将追加到系统提示词末尾' : '⚪ 未启用';
+    document.getElementById('metaStatus').textContent = '已保存；运行时选择请前往“启动模拟”页面';
 }
 
 // ── Delete prompt ──────────────────────────────────────────────────────────
 async function deletePrompt() {
+    if (READONLY_TABS.has(currentTab)) return;
     if (selectedIdx === null) return;
     const name = prompts[selectedIdx].title || '该提示词';
     if (!confirm(`确定要删除「${name}」吗？`)) return;

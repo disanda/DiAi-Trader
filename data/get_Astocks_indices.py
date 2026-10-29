@@ -44,6 +44,7 @@ def main():
     parser.add_argument("--start", default="20250101")
     parser.add_argument("--end", default=datetime.now().strftime("%Y%m%d"))
     parser.add_argument("--token", default=os.getenv("TUSHARE_TOKEN"))
+    parser.add_argument("--symbols", nargs="*", help="仅更新指定指数代码")
     args = parser.parse_args()
     if not args.token:
         raise SystemExit("TUSHARE_TOKEN is required")
@@ -51,7 +52,13 @@ def main():
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     pro = ts.pro_api(args.token)
+    selected = set(args.symbols or INDICES)
+    unsupported = sorted(selected - set(INDICES))
+    if unsupported:
+        raise SystemExit(f"Unsupported index symbols: {', '.join(unsupported)}")
     for code, name in INDICES.items():
+        if code not in selected:
+            continue
         path = output / f"{code}.json"
         records = load_records(path)
         latest = max((normalize_date(row.get("trade_date")) for row in records), default="")

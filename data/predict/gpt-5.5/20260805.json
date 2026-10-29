@@ -1,0 +1,311 @@
+{
+  "agent_name": "gpt-5.5",
+  "prediction_date": "20260805",
+  "generated_at": "2026-09-11T05:48:00.224659+00:00",
+  "lookback_days": 10,
+  "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "上证指数",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000016.SH",
+      "name": "上证50",
+      "as_of_date": "20260804",
+      "lookback": [
+        {
+          "trade_date": "20260722",
+          "open": 2954.8808,
+          "high": 3008.3756,
+          "low": 2954.8808,
+          "close": 2991.0474,
+          "pct_chg": 0.5795,
+          "vol": 68932547.0,
+          "amount": 268344451.434
+        },
+        {
+          "trade_date": "20260723",
+          "open": 3003.5027,
+          "high": 3003.5027,
+          "low": 2966.8973,
+          "close": 2978.7704,
+          "pct_chg": -0.4105,
+          "vol": 57487362.0,
+          "amount": 204207137.403
+        },
+        {
+          "trade_date": "20260724",
+          "open": 2971.5092,
+          "high": 2971.9493,
+          "low": 2941.3012,
+          "close": 2956.3456,
+          "pct_chg": -0.7528,
+          "vol": 58354918.0,
+          "amount": 189578557.27
+        },
+        {
+          "trade_date": "20260727",
+          "open": 2976.9204,
+          "high": 2976.9204,
+          "low": 2919.4611,
+          "close": 2950.4324,
+          "pct_chg": -0.2,
+          "vol": 50914045.0,
+          "amount": 174000929.147
+        },
+        {
+          "trade_date": "20260728",
+          "open": 2921.3106,
+          "high": 2931.1498,
+          "low": 2901.7347,
+          "close": 2923.2051,
+          "pct_chg": -0.9228,
+          "vol": 57573435.0,
+          "amount": 180631703.865
+        },
+        {
+          "trade_date": "20260729",
+          "open": 2948.7051,
+          "high": 2948.7051,
+          "low": 2885.1871,
+          "close": 2915.1879,
+          "pct_chg": -0.2743,
+          "vol": 59101624.0,
+          "amount": 219910761.712
+        },
+        {
+          "trade_date": "20260730",
+          "open": 2902.3806,
+          "high": 2932.7174,
+          "low": 2881.5228,
+          "close": 2926.4751,
+          "pct_chg": 0.3872,
+          "vol": 67933842.0,
+          "amount": 237811808.511
+        },
+        {
+          "trade_date": "20260731",
+          "open": 2944.9381,
+          "high": 2946.1722,
+          "low": 2919.4057,
+          "close": 2922.9673,
+          "pct_chg": -0.1199,
+          "vol": 71093350.0,
+          "amount": 240401383.484
+        },
+        {
+          "trade_date": "20260803",
+          "open": 2908.5094,
+          "high": 2912.207,
+          "low": 2873.557,
+          "close": 2887.0539,
+          "pct_chg": -1.2287,
+          "vol": 56922898.0,
+          "amount": 185011288.111
+        },
+        {
+          "trade_date": "20260804",
+          "open": 2890.9853,
+          "high": 2892.3969,
+          "low": 2867.9273,
+          "close": 2878.6693,
+          "pct_chg": -0.2904,
+          "vol": 61034778.0,
+          "amount": 195111348.624
+        }
+      ],
+      "news_context": "- 主力榜丨同类流出金额最大！上证50ETF华夏（510050）流出4.87亿元: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 主力榜丨同类流出金额最大！上证50ETF华夏（510050）流出4.87亿元 主力榜丨同类流出金额最大！上证50ETF华夏（510050）流出4.87亿元 2026年09月07日 15:25 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月7日，上证50ETF华夏（510050）报收3.018元，收跌0.63%，成交金额16.79亿元。主力资金（单笔成交额100万元以上）流出金额达4.87亿元，同类基金流出金额最大。 上证50ETF华夏跟踪的指数为上证50（000016.SH）。上证50指数以上证180指数样本股为样本空间，挑选上海证券市场规模大、流动性好的最具代表性的50只股票组成样本股，综合反映上海证券市场最具市场影响力的一批龙头企业的整体表现。 [...] 上证50ETF华夏（510050）的场外联接基金为：华夏上证50ETF联接A（001051.OF）、华夏上 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kyou?from=finance)\n- 跌幅榜丨同类跌幅最大！上证50ETF易方达（510100）跌0.6%: 上证50ETF易方达跟踪的指数为上证50（000016.SH）。上证50指数以上证180指数样本股为样本空间，挑选上海证券市场规模大、流动性好的最具代表性的50只股票组成样本股，综合反映上海证券市场最具市场影响力的一批龙头企业的整体表现。 上证50ETF易方达（510100）的场外联接基金为：易方达上证50ETF联接A（007379.OF）、易方达上证50ETF联接C（007380.OF）。 相关新闻 加载中 点击加载更多 ## 头条号入驻 财中社 以价值致敬价值 ## 缩表百亿，逾期反增三成：天津银行万亿门前遭遇“降速不降险” ## 德业股份：董事长提议回购1亿元-2亿元股份 ## 中航高科：董事长王健辞职 肖世宏接任 ## 财经自媒体联盟更多自媒体作者 今日推荐 优秀作者 看点月榜 排行 看点昵称 看点指数 ## 热文排行榜 日榜 周榜 月榜 [...] 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 跌幅榜丨同类跌幅最大！上证50ETF易方达（ (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kz40?from=finance)\n- 基金市场概况与资产配置观点（08.31—09.06）: 一、市场概况（一）宏观市场总览海外市场方面，美国8月非农就业新增大幅低于预期，失业率上行，劳动力市场降温信号明确。市场将美联储9月加息概率大幅下调， (https://www.moomoo.com/hans/news/post/76055677)",
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 72.0,
+        "expected_pct_change": -0.4,
+        "rationale": "近10个交易日收盘价由2991.05降至2878.67，形成持续的低点和高点下移，7日下跌且累计跌幅约3.76%。8月3日出现-1.23%的强跌，8月4日虽跌幅收窄至-0.29%，但仍未收复前一日失地；成交量较前一日回升至6103万手，显示弱势下卖压仍在。预计下个交易日延续偏弱震荡，跌幅更可能低于1%。",
+        "market_analysis": "该判断意味着大盘蓝筹和权重股继续承压，上证50对沪市指数形成拖累；金融、消费龙头和周期权重可能相对偏弱。若出现技术性反弹，更可能是超跌修复而非趋势反转，成长及中小盘板块或相对占优但难以完全抵消权重下行影响。"
+      },
+      "actual": {
+        "trade_date": "20260805",
+        "pct_chg": 1.5769,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 2882.5093,
+        "high": 2932.3971,
+        "low": 2882.5093,
+        "close": 2924.0627
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000300.SH",
+      "name": "沪深300",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "科创50",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000852.SH",
+      "name": "中证1000",
+      "as_of_date": "20260804",
+      "lookback": [
+        {
+          "trade_date": "20260722",
+          "open": 7196.8632,
+          "high": 7302.4544,
+          "low": 7118.6602,
+          "close": 7158.7622,
+          "pct_chg": -1.3926,
+          "vol": 291582470.0,
+          "amount": 518357580.3913
+        },
+        {
+          "trade_date": "20260723",
+          "open": 7169.5427,
+          "high": 7247.1412,
+          "low": 7113.4977,
+          "close": 7195.4997,
+          "pct_chg": 0.5132,
+          "vol": 250502727.0,
+          "amount": 422221092.3518
+        },
+        {
+          "trade_date": "20260724",
+          "open": 7109.2475,
+          "high": 7174.5521,
+          "low": 6995.6931,
+          "close": 6995.6931,
+          "pct_chg": -2.7768,
+          "vol": 229026635.0,
+          "amount": 379813289.8295
+        },
+        {
+          "trade_date": "20260727",
+          "open": 6981.1649,
+          "high": 7228.7845,
+          "low": 6972.2815,
+          "close": 7228.7845,
+          "pct_chg": 3.3319,
+          "vol": 225960825.0,
+          "amount": 390089645.4517
+        },
+        {
+          "trade_date": "20260728",
+          "open": 7135.7349,
+          "high": 7189.1772,
+          "low": 6992.9441,
+          "close": 7026.2761,
+          "pct_chg": -2.8014,
+          "vol": 225776735.0,
+          "amount": 393766907.5445
+        },
+        {
+          "trade_date": "20260729",
+          "open": 7020.2233,
+          "high": 7132.3518,
+          "low": 6897.3922,
+          "close": 7095.1863,
+          "pct_chg": 0.9807,
+          "vol": 271374083.0,
+          "amount": 458880097.3953
+        },
+        {
+          "trade_date": "20260730",
+          "open": 7053.0899,
+          "high": 7121.523,
+          "low": 6841.751,
+          "close": 6900.6579,
+          "pct_chg": -2.7417,
+          "vol": 259507814.0,
+          "amount": 436231656.9888
+        },
+        {
+          "trade_date": "20260731",
+          "open": 7082.7535,
+          "high": 7218.0614,
+          "low": 7071.0481,
+          "close": 7075.5065,
+          "pct_chg": 2.5338,
+          "vol": 283219421.0,
+          "amount": 498602137.1765
+        },
+        {
+          "trade_date": "20260803",
+          "open": 7055.2711,
+          "high": 7118.0967,
+          "low": 7042.8894,
+          "close": 7079.7761,
+          "pct_chg": 0.0603,
+          "vol": 233392381.0,
+          "amount": 391183027.5697
+        },
+        {
+          "trade_date": "20260804",
+          "open": 7128.4935,
+          "high": 7307.1712,
+          "low": 7102.4603,
+          "close": 7279.1927,
+          "pct_chg": 2.8167,
+          "vol": 250083613.0,
+          "amount": 434310206.456
+        }
+      ],
+      "news_context": "- 广发基金赵杰： 追求可持续超额收益 打造“底仓型”产品: 今年以来，A股市场演绎了一轮结构性行情：上半年科技成长方向一枝独秀，7月市场出现回调，前期强势板块明显回撤，风格再平衡的预期随之升温。经历了这一轮起伏后， (https://www.moomoo.com/hans/news/post/75864289)\n- Two major Chinese state banks announce $39 bln capital-raising plans - Reuters: Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Markets. REUTERS/Dado Ruvic/Illustration Purchase Licensing Rights, opens new tab. BEIJING, Sept 6 (Reuters) - Agricultural Bank of China (601288.SS), opens new tab ​plans to raise ‌up to 160 billion yuan ($24 billion) ​through a ​private placement of A-shares ⁠to replenish ​its capital, according ​to a filing with the Shanghai Stock Exchange ​on Sunday (https://www.reuters.com/world/asia-pacific/two-major-chinese-state-banks-announce-39-bln-capital-raising-plans-2026-09-06/)\n- Shenzhen 100-Billion-Yuan Storage Chip Company Lists on HKEX, Net Profit Surges 71528.66% in H1 - 36Kr: # Net profit surged by 71528.66% in the first half of the year, the Shenzhen-based 100-billion-yuan storage chip company rang the listing bell on the Hong Kong Stock Exchange. As of 10:00, its share price fell slightly by 1.19% to HK$233.2 per share (approximately RMB 199.62), with a total market value of **HK$107.192 billion (approximately RMB 91.758 billion)**. Its prospectus discloses unaudited financial data for the first half of 2026: revenue reached RMB 240.88 billion, a year-on-year incre (https://eu.36kr.com/en/p/3974142285099527)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 58.0,
+        "expected_pct_change": 0.7,
+        "rationale": "The index closed at 7279.19 on 20260804, up 2.82% and near the session high of 7307.17, breaking above the prior recent high of 7218.06. The 204.71-point intraday range shows strong momentum, while volume of 250.08 million and amount of 434.31 billion exceeded 20260803 activity, though volume remained below the 283.22 million peak on 20260731. After repeated sharp alternating moves, a positive follow-through is favored but volatility and profit-taking limit conviction.",
+        "market_analysis": "This view implies a mildly risk-on broad market with continued support for small-cap and growth-oriented segments, especially technology and other high-beta sectors. The index's wide recent ranges suggest rotation rather than uniformly broad strength, so defensive sectors and low-volatility leaders may lag while short-term gains remain vulnerable to reversal."
+      },
+      "actual": {
+        "trade_date": "20260805",
+        "pct_chg": 2.9379,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 7253.2245,
+        "high": 7523.4982,
+        "low": 7253.2245,
+        "close": 7493.0481
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000905.SH",
+      "name": "中证500",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "深证成指",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "创业板指",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "932000.CSI",
+      "name": "中证2000",
+      "as_of_date": "20260804",
+      "error": "The read operation timed out"
+    }
+  ]
+}

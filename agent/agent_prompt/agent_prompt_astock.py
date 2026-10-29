@@ -91,7 +91,7 @@ agent_system_prompt_astock = """
 
 # ── 自定义提示词加载工具函数 ──────────────────────────────────────────────
 
-def _load_active_custom_prompt(filepath: Path) -> str:
+def _load_selected_custom_prompt(filepath: Path, config_key: str) -> str:
     """
     从单个 JSON 文件中读取「已启用」的自定义提示词并拼接返回。
 
@@ -106,14 +106,15 @@ def _load_active_custom_prompt(filepath: Path) -> str:
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             data = json.load(f)
-        active_parts = []
+        selected_ids = {str(value) for value in (get_config_value(config_key, []) or [])}
+        selected_parts = []
         for item in data.get("prompts", []):
-            if item.get("active", False):
+            if str(item.get("id")) in selected_ids:
                 text = item.get("content", "").strip()
                 if text:
                     title = item.get("title", "")
-                    active_parts.append(f"### {title}\n{text}" if title else text)
-        return "\n\n".join(active_parts)
+                    selected_parts.append(f"### {title}\n{text}" if title else text)
+        return "\n\n".join(selected_parts)
     except Exception as e:
         print(f"⚠️  加载自定义提示词失败 ({filepath.name}): {e}")
         return ""
@@ -121,12 +122,12 @@ def _load_active_custom_prompt(filepath: Path) -> str:
 
 def get_active_strategy_prompt() -> str:
     """返回当前启用的交易策略自定义提示词"""
-    return _load_active_custom_prompt(STRATEGY_PROMPT_FILE)
+    return _load_selected_custom_prompt(STRATEGY_PROMPT_FILE, "TRADING_STRATEGY_PROMPT_IDS")
 
 
 def get_active_journal_prompt() -> str:
     """返回当前启用的日志格式自定义提示词"""
-    return _load_active_custom_prompt(JOURNAL_PROMPT_FILE)
+    return _load_selected_custom_prompt(JOURNAL_PROMPT_FILE, "TRADING_JOURNAL_PROMPT_IDS")
 
 
 # ── 主提示词生成函数 ──────────────────────────────────────────────────────

@@ -103,7 +103,7 @@ def load_price_data_cn(market_config=None):
     if market_config and market_config.get('price_data_file'):
         price_data_file = market_config['price_data_file']
     else:
-        price_data_file = './data/a_stock_data/merged.jsonl'
+        price_data_file = './data/Astocks/merged.json'
 
     merged_file = Path(__file__).parent.parent / 'docs' / 'data' / price_data_file
 
@@ -500,7 +500,7 @@ def process_benchmark_cn(market_config, agents_data=None):
     """Process SSE 50 benchmark data for A-share market."""
     print("  Processing SSE 50 benchmark...")
 
-    benchmark_file = market_config.get('benchmark_file', 'a_stock_data/index_daily_sse_50.json')
+    benchmark_file = market_config.get('benchmark_file', 'Astocks/indices/000016.SH.json')
     benchmark_path = Path(__file__).parent.parent / 'docs' / 'data' / benchmark_file
 
     if not benchmark_path.exists():

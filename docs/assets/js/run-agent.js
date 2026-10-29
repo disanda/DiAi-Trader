@@ -49,7 +49,7 @@ class AgentManager {
             agent_config: { max_steps: 3, max_retries: 3, base_delay: 1.0, initial_cash: 1000000.0 },
             log_config: {
                 model_data_path: './data/agent_data_astock/ZSG_17_day',
-                Ashare_data_path: './data/a_stock_data/ZSG_17_day/merged.jsonl',
+                Ashare_data_path: './data/Astocks',
                 Ashare_symbols: 'ZSG_17',
                 BAR_MODE: 'daily'
             }

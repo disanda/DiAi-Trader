@@ -1,6 +1,6 @@
 // Data Loader Utility
 // Handles loading and processing all trading data
-// ./data/a_stock_data/sse_50_day
+// Canonical market data lives under ./data/Astocks, ./data/ETFs and ./data/USstocks.
 // ./data/agent_data_astock/sse_50_day/glm-4.5-air
 
 const chineseMarkets = ['sse50', 'zxg_17', 'zxg_30', 'etf_30']; //'cn', 'zxg', 'csi300', 'zz500', 'gem', 
@@ -148,7 +148,7 @@ class DataLoader {
         try {
             const marketConfig = this.getMarketConfig();
             // Default to merged.jsonl if not specified
-            const priceFile = marketConfig && marketConfig.price_data_file ? marketConfig.price_data_file : 'data/a_stock_data/sse_50_day/merged.jsonl';
+            const priceFile = marketConfig && marketConfig.price_data_file ? marketConfig.price_data_file : 'a_stock_data/sse_50_day/merged.jsonl';
             
             console.log(`Loading A-share prices from ${priceFile}...`);
             const response = await fetch(`${this.baseDataPath}/${priceFile}`);
@@ -160,6 +160,31 @@ class DataLoader {
             for (const line of lines) {
                 if (!line.trim()) continue;
                 const data = JSON.parse(line);
+                if (data.data && Array.isArray(data.data)) {
+                    for (const row of data.data) {
+                        const symbol = row.ts_code;
+                        if (!symbol) continue;
+                        this.nameCache[symbol] = row.name || symbol;
+                        (this.priceCache[symbol] ||= {})[row.trade_date] = row;
+                    }
+                    continue;
+                }
+                // Canonical merged.json uses data: {"000001.SZ": [records...]}
+                if (data.data && !Array.isArray(data.data) && typeof data.data === 'object') {
+                    const names = data.names || data.name_map || (data.meta && data.meta.name_map) || {};
+                    for (const [symbol, records] of Object.entries(data.data)) {
+                        if (!Array.isArray(records)) continue;
+                        this.priceCache[symbol] ||= {};
+                        if (names[symbol]) this.nameCache[symbol] = names[symbol];
+                        for (const row of records) {
+                            const date = row.trade_date || row.date;
+                            if (!date) continue;
+                            this.nameCache[symbol] = row.name || this.nameCache[symbol] || symbol;
+                            this.priceCache[symbol][date] = row;
+                        }
+                    }
+                    continue;
+                }
 
                 // 统一提取 Meta Data 引用
                 const metaData = data['Meta Data']; 
@@ -193,8 +218,20 @@ class DataLoader {
         const isChinaMarket = this.currentMarket.startsWith('cn') || chineseMarkets.includes(this.currentMarket);
         
         if (isChinaMarket) {
-            // For A-shares, load all prices at once from merged.jsonl
+            // Load the lightweight latest snapshot first; fetch full symbol history lazily.
             await this.loadAStockPrices();
+            if (this.priceCache[symbol] && Object.keys(this.priceCache[symbol]).length > 1) return this.priceCache[symbol];
+            try {
+                const marketConfig = this.getMarketConfig();
+                const root = marketConfig?.price_data_file?.startsWith('ETFs/') ? 'ETFs/stocks' : 'Astocks/stocks';
+                const response = await fetch(`${this.baseDataPath}/${root}/${encodeURIComponent(symbol)}.json`, { cache: 'no-store' });
+                if (response.ok) {
+                    const payload = await response.json();
+                    const records = payload.records || [];
+                    this.priceCache[symbol] = Object.fromEntries(records.map(row => [row.trade_date || row.date, row]));
+                    if (payload.name) this.nameCache[symbol] = payload.name;
+                }
+            } catch (error) { console.warn(`[loadStockPrice] history unavailable for ${symbol}`, error); }
             return this.priceCache[symbol] || null;
         }
 
@@ -600,7 +637,7 @@ class DataLoader {
             const candidates = [];
             if (benchmarkFile) candidates.push(benchmarkFile);
             // derive directory
-            const dir = benchmarkFile ? benchmarkFile.split('/').slice(0, -1).join('/') : 'a_stock_data/sse_50_day';
+            const dir = benchmarkFile ? benchmarkFile.split('/').slice(0, -1).join('/') : 'data/Astocks/indices';
             candidates.push(`${dir}/index_daily_sh000001.json`);
             candidates.push(`${dir}/index_daily_sse_50.json`);
             candidates.push(`${dir}/index_daily_000016.SH.json`);

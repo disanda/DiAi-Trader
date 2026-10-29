@@ -371,6 +371,17 @@
         .dot-pulse { width:6px; height:6px; border-radius:50%; background:var(--accent); animation: pulse 1.2s infinite; }
         @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
     </style>
+<style>
+/* 行情工作台风格：提示词分类导航 + 右侧编辑面板 */
+body{background:#0d1117;color:#e6edf3}.page-header{max-width:1440px;margin:0 auto;padding:22px 20px 8px!important}.page-header h2{font-size:22px;letter-spacing:.01em}.page-header .subtitle{color:#8b949e;font-size:12px}
+.pm-layout{max-width:1440px;margin:0 auto;padding:0 20px 26px;display:grid;grid-template-columns:210px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:14px;min-height:calc(100vh - 170px)}
+.tab-bar{grid-column:1/-1;padding:10px 0 0;margin:0;border-bottom:1px solid #30363d;display:flex;gap:4px}.tab-btn{padding:9px 15px;border:1px solid transparent;border-bottom:0;border-radius:6px 6px 0 0;background:transparent;color:#8b949e;font-size:12px}.tab-btn:hover{background:#1c2333;color:#e6edf3}.tab-btn.active{background:#161b22;border-color:#30363d;color:#58a6ff}.tab-btn .tab-dot{width:6px;height:6px;background:#6e7681}.tab-btn.active .tab-dot{background:#388bfd}
+.sidebar{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px;overflow:auto;max-height:calc(100vh - 245px)}.sidebar-header{padding:8px 8px 12px;border-bottom:1px solid #30363d}.sidebar-header h3{font-size:12px;color:#e6edf3}.btn-new{height:28px;padding:0 9px;border-color:#30363d;background:transparent;color:#8b949e}.btn-new:hover{border-color:#388bfd;color:#58a6ff;background:#172235}.prompt-item{margin:4px 0;padding:10px;border:1px solid transparent;border-radius:6px;border-bottom:0}.prompt-item.selected{padding-left:9px;background:rgba(56,139,253,.16);border:1px solid rgba(56,139,253,.45)}.prompt-item:hover{background:#1c2333}.prompt-item-title{font-size:12px}.prompt-item-preview{font-size:10px;color:#6e7681}
+.edit-panel{background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden;min-height:0}.edit-panel-header{padding:13px 16px;background:#161b22;border-bottom:1px solid #30363d}.edit-title-input{font-size:16px}.edit-body{padding:16px;gap:12px;background:#0d1117}.edit-meta{font-size:11px;color:#8b949e}.content-textarea{min-height:360px;background:#0b1020;border-color:#30363d;border-radius:6px}.header-actions .btn{height:31px;padding:0 11px;font-size:12px}.sys-panel{max-width:1400px;margin:0 auto 20px;border-color:#2ea04355;background:#0d1f0d}.sys-panel-body{background:#0d1117}.sys-prompt-text{max-height:360px;color:#8b949e}
+@media(max-width:800px){.pm-layout{grid-template-columns:1fr;padding:0 13px 20px;width:100%}.sidebar{max-height:190px}.prompt-list{display:flex;overflow:auto}.prompt-item{min-width:180px}.tab-bar{overflow:auto}.tab-btn{white-space:nowrap}.page-header{padding-left:13px!important;padding-right:13px!important}}
+.pm-layout{max-width:none;width:calc(100vw - 48px);grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 150px);margin:0 auto}.edit-panel{width:100%;box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.btn-primary{background:#388bfd;border-color:#388bfd;color:#fff}.btn-primary:hover{background:#58a6ff;border-color:#58a6ff}.btn-ghost,.btn-new{border-color:#30363d;background:transparent;color:#8b949e}.btn-ghost:hover,.btn-new:hover{background:#1c2333;border-color:#388bfd;color:#58a6ff}.btn-toggle-active{background:rgba(63,185,80,.15);border-color:rgba(63,185,80,.45);color:#3fb950}.btn-danger{background:transparent;border-color:rgba(248,81,73,.45);color:#f85149}.btn-danger:hover{background:rgba(248,81,73,.12)}
+</style>
 </head>
 <body>
     <nav class="navbar">
@@ -383,7 +394,7 @@
                 <li><a href="index.html" class="nav-link">行情展示</a></li>
                 <li><a href="portfolio.html" class="nav-link">持仓分析</a></li>
                 <li><a href="choose_stock.html" class="nav-link">标的管理</a></li>
-                <li><a href="run_agent.html" class="nav-link">运行智能体</a></li>
+                <li><a href="run_agent.html" class="nav-link">启动模拟</a></li>
                 <li><a href="prompt.html" class="nav-link active">提示词管理</a></li>
                 <li><a href="market-display.html" class="nav-link ">A股大盘</a></li>
                 <li><a href="predict-competition.html" class="nav-link">预测竞赛</a></li>
@@ -411,6 +422,9 @@
                 <button class="tab-btn" data-tab="journal" onclick="switchTab('journal')">
                     <span class="tab-dot"></span>日志格式提示词
                 </button>
+                <button class="tab-btn" data-tab="system_trading" onclick="switchTab('system_trading')"><span class="tab-dot"></span>交易系统提示词</button>
+                <button class="tab-btn" data-tab="prediction_style" onclick="switchTab('prediction_style')"><span class="tab-dot"></span>预测风格提示词</button>
+                <button class="tab-btn" data-tab="system_prediction" onclick="switchTab('system_prediction')"><span class="tab-dot"></span>预测系统提示词</button>
             </div>
 
             <!-- Sidebar -->
@@ -439,7 +453,6 @@
                     <div class="edit-panel-header">
                         <input type="text" class="edit-title-input" id="editTitle" placeholder="提示词标题…">
                         <div class="header-actions">
-                            <button class="btn btn-toggle-off" id="btnToggle" onclick="toggleActive()">启用</button>
                             <button class="btn btn-primary" onclick="savePrompt()">保存</button>
                             <button class="btn btn-danger" onclick="deletePrompt()">删除</button>
                         </div>
@@ -460,18 +473,6 @@
             </section>
         </div>
 
-        <!-- System prompt collapsible panel (below main layout) -->
-        <div style="padding: 0 0 32px">
-            <div class="sys-panel">
-                <div class="sys-panel-header" onclick="toggleSysPanel()">
-                    <h4><span class="sys-lock-icon">🔒</span> 系统提示词（只读）</h4>
-                    <span class="sys-toggle-icon" id="sysToggleIcon">▶ 展开查看</span>
-                </div>
-                <div class="sys-panel-body" id="sysPanelBody">
-                    <pre class="sys-prompt-text" id="sysPromptText">正在加载…</pre>
-                </div>
-            </div>
-        </div>
     </main>
 
     <footer class="footer">

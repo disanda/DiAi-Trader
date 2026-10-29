@@ -15,6 +15,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 from agent.general_tools import get_config_value
+from agent.market_data import get_record, load_symbol
 
 # 运行时变量， "model_data_path": "./data/agent_data_astock/sse_50_hour"
 #model_data_path = get_config_value("MODEL_DATA_PATH", "./data/agent_data_astock/sse_50_day") 
@@ -157,14 +158,28 @@ def get_price_local_daily(symbol: str, date: str) -> Dict[str, Any]:
     """
 
     try:
-        data_path = get_config_value("Ashare_DATA_PATH", "./data/a_stock_data/sse_50_day/merged.jsonl")
         _validate_date_daily(date)
     except Exception as e:
         return {"error": str(e), "symbol": symbol, "date": date}
 
-    data_path = Path(data_path)
-    if not data_path.exists():
-        return {"error": f"Data file not found: {data_path}", "symbol": symbol, "date": date}
+    row = get_record(symbol, date)
+    if row is not None:
+        return {
+            "symbol": symbol, "date": date,
+            "ohlcv": {
+                "open": row.get("open"), "high": row.get("high"),
+                "low": row.get("low"), "close": row.get("close"),
+                "volume": row.get("vol", row.get("volume")),
+            },
+        }
+    payload = load_symbol(symbol)
+    if payload is not None:
+        dates = [str(item.get("trade_date") or item.get("date")) for item in payload.get("records") or []]
+        return {"error": f"Data not found for date {date}. Sample available dates: {sorted(dates, reverse=True)[:5]}", "symbol": symbol, "date": date}
+
+    data_path = Path(get_config_value("Ashare_DATA_PATH", "./data/Astocks"))
+    if data_path.is_dir() or not data_path.exists():
+        return {"error": f"No canonical market data found for {symbol}", "symbol": symbol, "date": date}
 
     with data_path.open("r", encoding="utf-8") as f:
         for line in f:

@@ -1,7 +1,0 @@
-{
-    "SIGNATURE": "glm-4.6",
-    "IF_TRADE": false,
-    "MARKET": "cn",
-    "LOG_PATH": "./data/agent_data_astock",
-    "TODAY_DATE": "2025-12-11"
-}

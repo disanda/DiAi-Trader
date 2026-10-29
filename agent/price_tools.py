@@ -12,6 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 from agent.general_tools import get_config_value
+from agent.market_data import available_dates, get_record, name_mapping
 
 # 运行时变量， "model_data_path": "./data/agent_data_astock/sse_50_hour"
 #model_data_path = get_config_value("MODEL_DATA_PATH", "./data/agent_data_astock/sse_50_day") 
@@ -60,7 +61,11 @@ def is_trading_day(date: str, market: str = "cn") -> bool:
         True if the date exists in merged.jsonl (is a trading day), False otherwise
     """
 
-    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/agent_data_astock/sse_50_day/merged.jsonl")
+    canonical_dates = available_dates(market)
+    if canonical_dates:
+        return date[:10] in canonical_dates
+
+    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/Astocks")
     merged_file_path = Path(merged_file_path)
     if not merged_file_path.exists():
         print(f"⚠️  Warning: {merged_file_path} not found, cannot validate trading day")
@@ -103,7 +108,11 @@ def get_all_trading_days(market: str = "cn") -> List[str]:
         Sorted list of trading dates in "YYYY-MM-DD" format
     """
 
-    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/agent_data_astock/sse_50_day/merged.jsonl")
+    canonical_dates = available_dates(market)
+    if canonical_dates:
+        return canonical_dates
+
+    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/Astocks")
     merged_file_path = Path(merged_file_path)
     if not merged_file_path.exists():
         print(f"⚠️  Warning: {merged_file_path} not found")
@@ -137,7 +146,11 @@ def get_stock_name_mapping(market: str = "cn") -> Dict[str, str]:
         Dictionary mapping symbols to names, e.g. {"600519.SH": "贵州茅台"}
     """
 
-    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/agent_data_astock/sse_50_day/merged.jsonl")
+    canonical_names = name_mapping(market)
+    if canonical_names:
+        return canonical_names
+
+    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/Astocks")
     merged_file_path = Path(merged_file_path)
     if not merged_file_path.exists():
         return {}
@@ -217,8 +230,13 @@ def get_yesterday_date(today_date: str, merged_path: Optional[str] = None, marke
         input_dt = datetime.strptime(today_date, "%Y-%m-%d")
         date_only = True
     
-    # 获取 merged.jsonl 文件路径
-    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/agent_data_astock/sse_50_day/merged.jsonl")
+    if date_only:
+        earlier = [value for value in available_dates(market) if value < today_date[:10]]
+        if earlier:
+            return earlier[-1]
+
+    # Hourly simulations can still use an explicitly configured legacy JSONL file.
+    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/Astocks")
     merged_file_path = Path(merged_file_path)
     if not merged_file_path.exists():
         # 如果文件不存在，根据输入类型回退
@@ -306,9 +324,20 @@ def get_open_prices(
     wanted = set(symbols)
     results: Dict[str, Optional[float]] = {f"{s}_price": None for s in symbols}
 
+    if len(today_date.strip()) <= 10:
+        for symbol in symbols:
+            row = get_record(symbol, today_date, market)
+            if row:
+                value = row.get("open")
+                try:
+                    results[f"{symbol}_price"] = float(value) if value is not None else None
+                except (TypeError, ValueError):
+                    pass
+        return results
+
     merged_file_path = get_config_value(
         "Ashare_DATA_PATH",
-        "./data/agent_data_astock/sse_50_day/merged.jsonl",
+        "./data/Astocks",
     )
     merged_file_path = Path(merged_file_path)
     print(merged_file_path)
@@ -422,12 +451,27 @@ def get_yesterday_open_and_close_price(
     buy_results: Dict[str, Optional[float]] = {}
     sell_results: Dict[str, Optional[float]] = {}
 
-    merged_file_path = get_config_value("Ashare_DATA_PATH", "./data/agent_data_astock/sse_50_day/merged.jsonl")
-    merged_file_path = Path(merged_file_path)
-    if not merged_file_path.exists():
+    yesterday_date = get_yesterday_date(today_date, merged_path=merged_path, market=market)
+
+    if len(today_date.strip()) <= 10:
+        for symbol in symbols:
+            row = get_record(symbol, yesterday_date, market)
+            buy_results[f'{symbol}_price'] = None
+            sell_results[f'{symbol}_price'] = None
+            if not row:
+                continue
+            try:
+                buy = row.get('open')
+                close = row.get('close')
+                buy_results[f'{symbol}_price'] = float(buy) if buy is not None else None
+                sell_results[f'{symbol}_price'] = float(close) if close is not None else None
+            except (TypeError, ValueError):
+                pass
         return buy_results, sell_results
 
-    yesterday_date = get_yesterday_date(today_date, merged_path=merged_path, market=market)
+    merged_file_path = Path(get_config_value("Ashare_DATA_PATH", "./data/Astocks"))
+    if not merged_file_path.is_file():
+        return buy_results, sell_results
 
     with merged_file_path.open("r", encoding="utf-8") as f:
         for line in f:

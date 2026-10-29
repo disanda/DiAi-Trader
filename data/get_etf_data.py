@@ -3,8 +3,8 @@
 
 Storage mirrors the A-share layout but is kept under data/ETFs so ETF records
 are not mixed with ordinary stocks:
-  ETFs/stocks/<ts_code>.json, ETFs/daily/<date>.json, ETFs/latest.json,
-  ETFs/dates.json and ETFs/meta.json.
+  ETFs/stocks/<ts_code>.json, ETFs/latest.json, ETFs/dates.json and ETFs/meta.json.
+Legacy ETFs/daily/<date>.json partitions are generated only with --write-daily.
 """
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ import argparse
 import json
 import math
 import os
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -55,10 +56,25 @@ def read_records(path):
     if not path.exists():
         return []
     try:
-        with path.open(encoding="utf-8") as handle:
+        with path.open(encoding="utf-8-sig") as handle:
             return json.load(handle).get("records") or []
-    except (OSError, ValueError, json.JSONDecodeError):
+    except (OSError, ValueError):
         return []
+
+
+def tushare_call(call, *, label, retries=3):
+    """Retry transient Tushare/network failures with bounded backoff."""
+    last_error = None
+    for attempt in range(1, retries + 1):
+        try:
+            return call()
+        except Exception as exc:
+            last_error = exc
+            if attempt < retries:
+                delay = min(2 ** (attempt - 1), 4)
+                print(f"  [WARN] {label} 请求失败（{attempt}/{retries}）：{exc}；{delay} 秒后重试", flush=True)
+                time.sleep(delay)
+    raise RuntimeError(f"{label} 连续 {retries} 次请求失败：{last_error}") from last_error
 
 
 def enrich_records(records):
@@ -82,11 +98,15 @@ def enrich_records(records):
     return frame.to_dict("records")
 
 
-def fetch_etf_share(pro, code, start, end):
+def fetch_etf_share(pro, code, start, end, retries=3):
     """Fetch ETF fund shares using Tushare's valid fund_share endpoint."""
     try:
-        frame = pro.fund_share(ts_code=code, start_date=start, end_date=end, fields=ETF_SHARE_FIELDS)
-    except Exception:
+        frame = tushare_call(
+            lambda: pro.fund_share(ts_code=code, start_date=start, end_date=end, fields=ETF_SHARE_FIELDS),
+            label=f"{code} 份额", retries=retries,
+        )
+    except Exception as exc:
+        print(f"  [WARN] {exc}；继续使用已有份额数据", flush=True)
         return {}
     if frame is None or frame.empty:
         return {}
@@ -102,35 +122,60 @@ def main():
     parser.add_argument("--start", default=START_DEFAULT)
     parser.add_argument("--end", default=datetime.now().strftime("%Y%m%d"))
     parser.add_argument("--token", default=os.getenv("TUSHARE_TOKEN"))
+    parser.add_argument("--symbols", nargs="*", help="仅更新指定 ETF 代码")
     parser.add_argument("--limit", type=int, default=0, help="仅调试时限制基金数量，0 表示全部")
+    parser.add_argument("--retries", type=int, default=3, help="单次 Tushare 请求失败后的最大尝试次数")
+    parser.add_argument("--write-daily", action="store_true", help="额外生成旧版 daily/ 分片（默认不生成）")
     args = parser.parse_args()
     if not args.token:
         raise SystemExit("TUSHARE_TOKEN is required")
     end = norm(args.end)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     STOCKS_DIR.mkdir(parents=True, exist_ok=True)
-    DAILY_DIR.mkdir(parents=True, exist_ok=True)
+    if args.write_daily:
+        DAILY_DIR.mkdir(parents=True, exist_ok=True)
     pro = ts.pro_api(args.token)
-    funds = pro.fund_basic(market="E", status="L", fields="ts_code,name")
+    funds = tushare_call(
+        lambda: pro.fund_basic(market="E", status="L", fields="ts_code,name"),
+        label="上市 ETF 列表", retries=max(1, args.retries),
+    )
     if funds is None or funds.empty:
         raise RuntimeError("Tushare fund_basic returned no listed ETFs")
     funds = funds.drop_duplicates("ts_code").sort_values("ts_code")
+    if args.symbols:
+        selected = {str(symbol).strip().upper() for symbol in args.symbols if str(symbol).strip()}
+        funds = funds[funds["ts_code"].astype(str).str.upper().isin(selected)]
+        missing = sorted(selected - set(funds["ts_code"].astype(str).str.upper()))
+        if missing:
+            print(f"未在上市 ETF 列表中找到：{', '.join(missing)}")
+        if funds.empty:
+            raise RuntimeError("指定的 ETF 均未在 Tushare 上市基金列表中找到")
     if args.limit:
         funds = funds.head(args.limit)
-    rows_by_date, symbols = {}, []
-    for _, fund in funds.iterrows():
+    rows_by_date, symbols, failures = {}, [], []
+    update_started = time.monotonic()
+    for fund_index, (_, fund) in enumerate(funds.iterrows(), start=1):
         code, name = str(fund.ts_code), str(fund.get("name") or "")
         path = STOCKS_DIR / f"{code}.json"
         old = read_records(path)
         last = max((norm(row.get("trade_date")) for row in old), default="")
         start = (datetime.strptime(last, "%Y%m%d") + timedelta(days=1)).strftime("%Y%m%d") if last else norm(args.start)
-        basic_start = last or norm(args.start)
-        share_by_date = fetch_etf_share(pro, code, basic_start, end) if basic_start <= end else {}
+        # Share history is only needed for newly downloaded daily rows; do not
+        # re-request the existing history on every global update.
+        basic_start = start
+        share_by_date = fetch_etf_share(pro, code, basic_start, end, max(1, args.retries)) if basic_start <= end else {}
         incoming = []
         if start <= end:
-            frame = pro.fund_daily(ts_code=code, start_date=start, end_date=end, fields=FIELDS)
-            if frame is not None and not frame.empty:
-                incoming = frame.sort_values("trade_date").to_dict("records")
+            try:
+                frame = tushare_call(
+                    lambda: pro.fund_daily(ts_code=code, start_date=start, end_date=end, fields=FIELDS),
+                    label=f"{code} 日线", retries=max(1, args.retries),
+                )
+                if frame is not None and not frame.empty:
+                    incoming = frame.sort_values("trade_date").to_dict("records")
+            except Exception as exc:
+                failures.append((code, str(exc)))
+                print(f"  [ERROR] {exc}；保留本地旧数据并继续", flush=True)
         for row in incoming:
             share = share_by_date.get(norm(row.get("trade_date")), {}).get("fd_share")
             if share is not None:
@@ -159,8 +204,31 @@ def main():
         for row in records:
             row = {**row, "name": name}
             rows_by_date.setdefault(norm(row.get("trade_date")), []).append(row)
+        if fund_index % 25 == 0 or fund_index == len(funds):
+            elapsed = time.monotonic() - update_started
+            rate = fund_index / max(elapsed, 0.001)
+            eta = (len(funds) - fund_index) / rate
+            print(f"ETF progress: {fund_index}/{len(funds)} ({fund_index / max(len(funds), 1):.0%}), {rate:.2f} funds/s, ETA {eta:.0f}s", flush=True)
+    processed_symbols = set(symbols)
+    for path in sorted(STOCKS_DIR.glob("*.json")):
+        code = path.stem
+        if code in processed_symbols:
+            continue
+        try:
+            with path.open("r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        records = payload.get("records") or []
+        if not records:
+            continue
+        name = str(payload.get("name") or code)
+        symbols.append(code)
+        for row in records:
+            rows_by_date.setdefault(norm(row.get("trade_date")), []).append({**row, "name": name})
+    symbols.sort()
     dates = sorted(rows_by_date)
-    for date in dates:
+    for date in dates if args.write_daily else []:
         payload = {"date": date, "asset_count": len(rows_by_date[date]), "data": rows_by_date[date]}
         with (DAILY_DIR / f"{date}.json").open("w", encoding="utf-8") as handle:
             json.dump(json_clean(payload), handle, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
@@ -176,6 +244,10 @@ def main():
     with (symbols_dir / "etf.json").open("w", encoding="utf-8") as handle:
         json.dump([{"symbolname": "1634+场内ETF基金", "symbols": symbols}], handle, ensure_ascii=False, indent=2)
     print(f"ETF 更新完成：{len(symbols)} 只，{len(dates)} 个交易日，目录：{DATA_DIR}")
+    if failures:
+        preview = ", ".join(code for code, _ in failures[:20])
+        suffix = "..." if len(failures) > 20 else ""
+        raise SystemExit(f"ETF 更新部分失败：{len(failures)} 只（{preview}{suffix}），其余数据已保存")
 
 
 if __name__ == "__main__":

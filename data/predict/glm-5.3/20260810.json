@@ -1,0 +1,311 @@
+{
+  "agent_name": "glm-5.3",
+  "prediction_date": "20260810",
+  "generated_at": "2026-09-11T07:01:15.956315+00:00",
+  "lookback_days": 10,
+  "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "上证指数",
+      "as_of_date": "20260807",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000016.SH",
+      "name": "上证50",
+      "as_of_date": "20260807",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000300.SH",
+      "name": "沪深300",
+      "as_of_date": "20260807",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "科创50",
+      "as_of_date": "20260807",
+      "lookback": [
+        {
+          "trade_date": "20260727",
+          "open": 1780.7201,
+          "high": 1816.4301,
+          "low": 1724.4658,
+          "close": 1807.951,
+          "pct_chg": 1.1613,
+          "vol": 10347297.0,
+          "amount": 123092124.566
+        },
+        {
+          "trade_date": "20260728",
+          "open": 1755.8671,
+          "high": 1797.5839,
+          "low": 1675.988,
+          "close": 1693.4786,
+          "pct_chg": -6.3316,
+          "vol": 10883944.0,
+          "amount": 134055060.199
+        },
+        {
+          "trade_date": "20260729",
+          "open": 1704.5847,
+          "high": 1711.5787,
+          "low": 1608.1411,
+          "close": 1678.7376,
+          "pct_chg": -0.8705,
+          "vol": 14218535.0,
+          "amount": 147150556.757
+        },
+        {
+          "trade_date": "20260730",
+          "open": 1653.4672,
+          "high": 1671.5089,
+          "low": 1561.9961,
+          "close": 1588.4149,
+          "pct_chg": -5.3804,
+          "vol": 14695675.0,
+          "amount": 151830717.441
+        },
+        {
+          "trade_date": "20260731",
+          "open": 1721.3552,
+          "high": 1731.2064,
+          "low": 1635.6847,
+          "close": 1635.9624,
+          "pct_chg": 2.9934,
+          "vol": 14507410.0,
+          "amount": 162975217.25
+        },
+        {
+          "trade_date": "20260803",
+          "open": 1619.294,
+          "high": 1621.9932,
+          "low": 1549.7394,
+          "close": 1552.8903,
+          "pct_chg": -5.0779,
+          "vol": 12334986.0,
+          "amount": 124510595.123
+        },
+        {
+          "trade_date": "20260804",
+          "open": 1569.6234,
+          "high": 1631.0116,
+          "low": 1556.1118,
+          "close": 1616.3582,
+          "pct_chg": 4.0871,
+          "vol": 11344343.0,
+          "amount": 126488484.901
+        },
+        {
+          "trade_date": "20260805",
+          "open": 1615.2608,
+          "high": 1715.2759,
+          "low": 1615.2608,
+          "close": 1693.6677,
+          "pct_chg": 4.7829,
+          "vol": 12956469.0,
+          "amount": 154309294.028
+        },
+        {
+          "trade_date": "20260806",
+          "open": 1651.1078,
+          "high": 1727.7348,
+          "low": 1651.1078,
+          "close": 1701.2916,
+          "pct_chg": 0.4501,
+          "vol": 12017178.0,
+          "amount": 123780516.94
+        },
+        {
+          "trade_date": "20260807",
+          "open": 1697.3702,
+          "high": 1747.7367,
+          "low": 1686.6608,
+          "close": 1744.0236,
+          "pct_chg": 2.5117,
+          "vol": 12141418.0,
+          "amount": 136268941.852
+        }
+      ],
+      "news_context": "- 科创50ETF平安(589150)标的指数上涨0.45%，半导体芯片迎来密集催化: 爱建证券指出，AI需求正加速转化为先进制程扩产与设备投资，产业景气有望向设备及核心零部件环节深度传导，部分刻蚀与薄膜沉积设备交期已延长至12个月，验证上游供应链高景气延续性。 科创50ETF平安(589150)紧密跟踪上证科创板50成份指数，上证科创板50成份指数由上海证券交易所科创板中市值大、流动性好的50只证券组成，反映最具市场代表性的一批科创企业的整体表现。 数据显示，截至2026年8月31日，上证科创板50成份指数(000688)前十大权重股分别为寒武纪、中微公司、中芯国际、海光信息、澜起科技、源杰科技、拓荆科技、华虹宏力、华海清科、中科飞测，前十大权重股合计占比58.9%。 科创50ETF平安(589150)，场外联接(平安上证科创板50成份ETF发起式联接A：027348；平安上证科创板50成份ETF发起式联接C：027349)。 [...] ## 新浪财经 标的指数上涨0.45%，半导体芯片迎来密集催化 ## 界面新闻 关注) 截至2026年9月8日 10:31，科创50ETF平安(589150)标的指数上证科创板50成份指数(000688)上涨0.45%，成分股芯原股份 (https://finance.sina.cn/2026-09-08/detail-inirapze9676767.d.html?vt=4)\n- 广发基金的科创50ETF广发（588060）跌1.9%: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 广发基金的科创50ETF广发（588060）跌1.9% 广发基金的科创50ETF广发（588060）跌1.9% 2026年09月04日 15:23 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月4日，科创50ETF广发（588060）报收1.006元，收跌1.85%，成交金额6.63亿元。换手率8.87%。 科创50ETF广发成立于2021年07月15日，管理人为广发基金，基金经理为陆志明。今年以来基金回报19.59%，同类排名410/4772。 科创50ETF广发跟踪的指数为科创50（000688.SH）。上证科创板50成份指数由上海证券交易所科创板中市值大、流动性好的50只证券组成，反映最具市场代表性的一批科创企业的整体表现。 [...] 科创50ETF广发（588060）的场外联接基金为：广发科创50ETF发起式联接A（013810.OF）、广发科创50ETF (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001ktf6?from=finance)\n- 国泰基金的科创50ETF国泰（589360）跌1.8%: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 国泰基金的科创50ETF国泰（589360）跌1.8% 国泰基金的科创50ETF国泰（589360）跌1.8% 2026年09月04日 15:23 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月4日，科创50ETF国泰（589360）报收0.818元，收跌1.8%，成交金额7503.7万元。换手率3.39%。 科创50ETF国泰成立于2026年06月17日，管理人为国泰基金，基金经理为张浩然。今年以来基金回报-16.76%。 科创50ETF国泰跟踪的指数为科创50（000688.SH）。上证科创板50成份指数由上海证券交易所科创板中市值大、流动性好的50只证券组成，反映最具市场代表性的一批科创企业的整体表现。 相关新闻 加载中 点击加载更多 ## 头条号入驻 财中社 以价值致敬价值 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kt3m?from=finance)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 58.0,
+        "expected_pct_change": 0.7,
+        "rationale": "Price: the index bottomed at 1549.74 (0803) and has posted four straight gains (+4.09%, +4.78%, +0.45%, +2.51%), closing 20260807 at 1744.02, ~12.3% off the low and just under the day's high of 1747.74 — a V-shaped recovery with buyers closing near highs three sessions running (0805/0806 opened at their lows). Range: 1700 has been reclaimed and the 1711 (0729 high) supply cleared; next resistance sits at 1747–1816 (0727/0728 highs), which should cap gains after such a steep run. Volume: recovery volume (11.3M–12.9M) is lighter than panic-session volume (14.2M–14.7M), indicating selling pressure is exhausted, though the light-volume bounce argues for a moderating advance rather than another +2–4% leg. News: semiconductor catalysts (AI-driven advanced-node capex, etch/deposition equipment lead times stretched to ~12 months) directly benefit top-10 heavyweights (~58.9% weight: 寒武纪, 中微公司, 中芯国际, 海光信息等), supporting continued upside (https://finance.sina.cn/2026-09-08/detail-inirapze9676767.d.html). Net: momentum continuation favored, but post-rally consolidation near resistance tempers magnitude to a modest gain.",
+        "market_analysis": "A fourth-to-fifth consecutive up day in STAR50 would confirm repairing risk appetite in A-share growth/tech: semiconductor equipment and materials (中微公司, 拓荆科技, 华海清科, 中科飞测), AI compute chips (寒武纪, 海光信息) and foundries (中芯国际, 华虹) are the prime beneficiaries given extended equipment lead times, with sympathetic strength likely in ChiNext, SSE tech and semiconductor ETF flows. For the broad market, a STAR50-led bounce typically signals rotation back into large-cap growth from defensive value, lifting overall index breadth; however, with the index up >12% in four sessions and approaching the 1750–1816 supply zone on below-average bounce volume, tactical traders should expect choppiness — a pause-day gain (<1%) is the base case, while a break above 1816 would validate full trend reversal; failure to hold 1686–1690 (0807 low) would flag renewed distribution. Sectors least levered to this view: high-dividend/defensives, which may underperform if the tech momentum persists."
+      },
+      "actual": {
+        "trade_date": "20260810",
+        "pct_chg": -0.3584,
+        "direction": "down",
+        "candle_class": "down",
+        "open": 1740.1356,
+        "high": 1752.9311,
+        "low": 1704.0841,
+        "close": 1737.7737
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000852.SH",
+      "name": "中证1000",
+      "as_of_date": "20260807",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "ts_code": "000905.SH",
+      "name": "中证500",
+      "as_of_date": "20260807",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "深证成指",
+      "as_of_date": "20260807",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "创业板指",
+      "as_of_date": "20260807",
+      "error": "The read operation timed out"
+    },
+    {
+      "ts_code": "932000.CSI",
+      "name": "中证2000",
+      "as_of_date": "20260807",
+      "lookback": [
+        {
+          "trade_date": "20260727",
+          "open": 2748.1107,
+          "high": 2851.7202,
+          "low": 2746.2948,
+          "close": 2851.7202,
+          "pct_chg": 3.5243,
+          "vol": 251783199.26,
+          "amount": 315389981.838
+        },
+        {
+          "trade_date": "20260728",
+          "open": 2822.9398,
+          "high": 2868.4266,
+          "low": 2791.0662,
+          "close": 2803.3707,
+          "pct_chg": -1.6955,
+          "vol": 253159749.28,
+          "amount": 316429266.703
+        },
+        {
+          "trade_date": "20260729",
+          "open": 2801.4676,
+          "high": 2829.3289,
+          "low": 2758.9684,
+          "close": 2815.1152,
+          "pct_chg": 0.4189,
+          "vol": 280192523.06,
+          "amount": 342474624.192
+        },
+        {
+          "trade_date": "20260730",
+          "open": 2801.3448,
+          "high": 2825.3897,
+          "low": 2711.8393,
+          "close": 2722.1273,
+          "pct_chg": -3.3032,
+          "vol": 288606243.29,
+          "amount": 346591122.125
+        },
+        {
+          "trade_date": "20260731",
+          "open": 2779.5447,
+          "high": 2843.5942,
+          "low": 2779.5447,
+          "close": 2809.2143,
+          "pct_chg": 3.1992,
+          "vol": 291521684.39,
+          "amount": 373207721.503
+        },
+        {
+          "trade_date": "20260803",
+          "open": 2810.6173,
+          "high": 2839.3648,
+          "low": 2809.4783,
+          "close": 2839.1571,
+          "pct_chg": 1.0659,
+          "vol": 263033330.94,
+          "amount": 327541147.381
+        },
+        {
+          "trade_date": "20260804",
+          "open": 2861.3918,
+          "high": 2926.4768,
+          "low": 2850.6463,
+          "close": 2920.8145,
+          "pct_chg": 2.8761,
+          "vol": 272821249.0,
+          "amount": 351592126.742
+        },
+        {
+          "trade_date": "20260805",
+          "open": 2917.7951,
+          "high": 3006.6406,
+          "low": 2917.4954,
+          "close": 3000.2908,
+          "pct_chg": 2.721,
+          "vol": 294193994.31,
+          "amount": 406909826.043
+        },
+        {
+          "trade_date": "20260806",
+          "open": 2987.5005,
+          "high": 3040.2019,
+          "low": 2985.5364,
+          "close": 3036.4679,
+          "pct_chg": 1.2058,
+          "vol": 298483097.86,
+          "amount": 427492648.578
+        },
+        {
+          "trade_date": "20260807",
+          "open": 3037.3191,
+          "high": 3085.257,
+          "low": 2987.7218,
+          "close": 3085.257,
+          "pct_chg": 1.6068,
+          "vol": 303675417.59,
+          "amount": 449499824.193
+        }
+      ],
+      "news_context": "- 主力榜丨同类流出金额最大！中证2000ETF华泰柏瑞（563300）流出9671.6万元: 中证2000ETF华泰柏瑞跟踪的指数为中证2000（932000.CSI）。中证2000指数从沪深市场中选取市值规模较小且流动性较好的2000只证券作为指数样本。中证2000与沪深300、中证500和中证1000指数共同构成中证规模指数系列，反映沪深市场不同市值规模上市公司证券的整体表现。 中证2000ETF华泰柏瑞（563300）的场外联接基金为：华泰柏瑞中证2000ETF发起式联接A（019870.OF）、华泰柏瑞中证2000ETF发起式联接C（019871.OF）。 相关新闻 加载中 点击加载更多 ## 头条号入驻 财中社 以价值致敬价值 ## A股收盘：沪指微涨0.07% 创业板指大涨3.41% CPO概念集体爆发 ## 从五连板到一纸警示：龙版传媒AI炒作“翻车”始末 ## 7涨停后遭立案 兴业科技的“跨界幻影” ## 财经自媒体联盟更多自媒体作者 今日推荐 优秀作者 看点月榜 排行 看点昵称 看点指数 ## 热文排行榜 日榜 周榜 月榜 [...] 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kt9o?from=finance)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 58.0,
+        "expected_pct_change": 0.7,
+        "rationale": "Six consecutive advancing sessions (0731–0807, +3.20%, +1.07%, +2.88%, +2.72%, +1.21%, +1.61%) lifted the index ~13% off the 0730 low (2711.84) to a new local high at 3085.26. Price evidence: 0807 gapped up at 3037.32, was shaken to 2987.72, then closed exactly at the day's high (3085.26) — a long-lower-wick, close-at-high candle showing dip-buyers absorbed the selling. Volume evidence: turnover expanded steadily from 251.8M to 303.7M shares and amount from ~316M to ~449M over the ten sessions, with rising amount outpacing volume — healthy, price-confirming accumulation rather than distribution. Range evidence: intraday ranges (~2.5–3% of price) remain wide but up-candles are closing near highs while down-days (0728, 0730) occurred on comparatively weaker closes. Cautions: the run is extended (RSI-like overbought after six straight gains), daily gains are decelerating (2.88→2.72→1.21→1.61), and news reports the largest same-category outflow from 中证2000ETF华泰柏瑞 (563300, ~96.72M yuan, per https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kt9o?from=finance), signalling some profit-taking in small-cap exposure. Netting strong trend and volume confirmation against overbought conditions and modest ETF outflows points to continuation, but at a slower pace — a modest gain inside the 0–1% band rather than another strong thrust.",
+        "market_analysis": "Under this view, the small-cap risk-on regime persists: 中证2000 continues to lead the size-factor complex, and broad-market benchmarks (沪深300/中证500) likely keep lagging the small-cap tail while overall A-share turnover stays elevated. Sector implications: momentum-heavy, theme-driven areas (the news flow highlights CPO/optical-module strength and 创业板 +3.41%) plus small-cap tech, AI-hardware and thematic speculative names should keep outperforming, favoured by liquidity chasing beta in micro-caps. However, the pace of gains should moderate: with the index stretched after a +13% six-day run and visible ETF profit-taking, expect intraday volatility and rotation within small caps toward names with liquidity and earnings support rather than uniform breadth. Strategy stance: stay overweight small-cap/growth beta but trim into strength, avoid chasing limit-up themed laggards (regulatory warning stories on 龙版传媒/兴业科技-type speculation suggest selective crackdown risk), and watch for a deeper shakeout toward the 2980–3000 intraday-support zone if profit-taking accelerates; a close below the 0807 low (2987.72) would be the first signal the six-day streak is failing."
+      },
+      "actual": {
+        "trade_date": "20260810",
+        "pct_chg": 1.153,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 3096.2316,
+        "high": 3120.8289,
+        "low": 3067.3155,
+        "close": 3120.8289
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    }
+  ]
+}

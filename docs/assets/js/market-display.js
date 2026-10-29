@@ -6,9 +6,6 @@
 
 const API       = '';
 const DATA_BASE = './data/Astocks';
-const META_URL  = `${DATA_BASE}/meta.json`;
-const DATES_URL = `${DATA_BASE}/dates.json`;
-const LATEST_URL = `${DATA_BASE}/latest.json`;
 
 // ── 列定义（顺序 = 初始显示顺序）────────────────────────────────────────
 // sticky: 固定列类名；badge: 显示徽章；colorFn: 返回颜色类名
@@ -72,7 +69,32 @@ let curDate='', curPage=1, pageSize=50;
 let sortKey='pct_chg', sortAsc=false;
 let factorChartInst=null;
 let marketFactorChart=null;
+let marketStockCount=0;
+const INDEX_GROUP_ID = '__indices__';
 let stockGroups = [], activeGroupId = '__all__', activeAssetBase = DATA_BASE;
+let snapshotRequest = null, snapshotVersion = 0;
+
+function activeMarketSelection(){
+  const group = stockGroups.find(item => item.id === activeGroupId);
+  return {market:group?.market || 'astocks', group:group?.key || '__all__'};
+}
+
+function cancelStockSnapshot(){
+  snapshotVersion++;
+  snapshotRequest?.abort();
+}
+
+async function fetchStockSnapshot(date=''){
+  snapshotRequest?.abort();
+  snapshotRequest = new AbortController();
+  const params = new URLSearchParams({...activeMarketSelection(), mode:'exact'});
+  if(date) params.set('date', date);
+  const response = await fetch(`${API}/market-snapshot?${params}`, {
+    cache:'no-store', signal:snapshotRequest.signal
+  });
+  if(!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
 function escapeHtml(value){ return String(value).replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch])); }
 
 async function loadStockGroups(){
@@ -80,7 +102,13 @@ async function loadStockGroups(){
     const res = await fetch(`${API}/astocks-symbol-groups`);
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
-    stockGroups = Array.isArray(payload.groups) ? payload.groups : [];
+    stockGroups = (Array.isArray(payload.groups) ? payload.groups : []).map(group => ({
+      ...group,
+      isIndexGroup: (group.market === 'astocks' && (group.key === 'system_indices' || group.name === '系统指数'))
+        || (group.market === 'usstocks' && /index|指数/i.test(`${group.key} ${group.name}`))
+    }));
+    const defaultAll = stockGroups.find(group => group.market === 'astocks' && (group.key === 'all_astocks' || group.name === '全部A股'));
+    if(activeGroupId === '__all__' && defaultAll) activeGroupId = defaultAll.id;
   }catch(e){
     stockGroups = [];
     console.warn('股票分组未加载：', e.message);
@@ -91,46 +119,93 @@ async function loadStockGroups(){
 function renderStockGroups(){
   const host = document.getElementById('stockGroupList');
   if(!host) return;
-  const groups = [{id:'__all__', name:'全部A股', symbols:[]}].concat(stockGroups);
-  host.innerHTML = groups.map(group => `<button type="button" class="group-item ${group.id===activeGroupId?'active':''}" data-group-id="${escapeHtml(group.id)}"><span>${escapeHtml(group.name)}</span><span class="group-count">${group.id==='__all__' ? allStocks.length : group.symbols.length}</span></button>`).join('');
+  const hasAllGroup = stockGroups.some(group => group.market === 'astocks' && (group.key === 'all_astocks' || group.name === '全部A股'));
+  const hasIndexGroup = stockGroups.some(group => group.isIndexGroup);
+  const groups = (hasAllGroup ? [] : [{id:'__all__', name:'全部A股', symbols:[]}])
+    .concat(hasIndexGroup ? [] : [{id:INDEX_GROUP_ID, name:'系统指数', symbols:[], isIndexGroup:true}])
+    .concat(stockGroups);
+  host.innerHTML = groups.map(group => {
+    const count = group.id === '__all__' ? marketStockCount : group.isIndexGroup && group.id === activeGroupId ? allStocks.length : group.symbols.length;
+    return `<button type="button" class="group-item ${group.id===activeGroupId?'active':''}" data-group-id="${escapeHtml(group.id)}"><span>${escapeHtml(group.name)}</span><span class="group-count">${count}</span></button>`;
+  }).join('');
   host.querySelectorAll('[data-group-id]').forEach(button => {
     button.onclick = async () => {
       activeGroupId = button.dataset.groupId;
       const group = stockGroups.find(item => item.id === activeGroupId);
-      activeAssetBase = activeGroupId === '__all__' ? DATA_BASE : (group && group.data_base ? group.data_base : DATA_BASE);
-      window.ASTOCKS_ACTIVE_ASSET_BASE = activeAssetBase;
-      await loadAssetSnapshot();
+      if(activeGroupId === INDEX_GROUP_ID || group?.isIndexGroup){
+        await loadIndexSnapshot(group);
+      } else {
+        activeAssetBase = activeGroupId === '__all__' ? DATA_BASE : (group && group.data_base ? group.data_base : DATA_BASE);
+        window.ASTOCKS_ACTIVE_ASSET_BASE = activeAssetBase;
+        document.getElementById('mktDate').disabled = false;
+        await loadAssetSnapshot();
+      }
       applyFilter();
     };
   });
 }
 
-async function loadAssetSnapshot(){
-  const base = activeAssetBase || DATA_BASE;
+async function loadIndexSnapshot(group=null){
+  cancelStockSnapshot();
+  const version = snapshotVersion;
   try{
-    const [latestResponse, datesResponse] = await Promise.all([fetch(`${base}/latest.json`), fetch(`${base}/dates.json`)]);
-    if(!latestResponse.ok) throw new Error(`HTTP ${latestResponse.status}`);
-    const payload = await latestResponse.json();
-    allStocks = payload.data || [];
-    const date = payload.date || '';
+    const market = group?.market === 'usstocks' ? 'usstocks' : 'astocks';
+    const endpoint = market === 'astocks' ? `${API}/astocks-indices` : `${API}/market-indices?market=${market}`;
+    const response = await fetch(endpoint, {cache:'no-store'});
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    if(version !== snapshotVersion) return;
+    const rows = payload.data || [];
+    const symbols = group && Array.isArray(group.symbols) ? new Set(group.symbols) : null;
+    allStocks = symbols ? rows.filter(row => symbols.has(row.ts_code)) : rows;
     const selector = document.getElementById('mktDate');
-    if(datesResponse.ok){
-      const datesPayload = await datesResponse.json();
-      const dates = [...(datesPayload.dates || [])].sort().reverse();
-      selector.innerHTML = dates.map(item => `<option value="${item}">${item}</option>`).join('');
-      selector.value = date || dates[0] || '';
-    } else if(date && selector.value !== date){
-      selector.value = date;
-    }
+    selector.disabled = true;
+    selector.innerHTML = allStocks[0]?.trade_date ? `<option value="${allStocks[0].trade_date}">${allStocks[0].trade_date}</option>` : '<option value="">最新</option>';
+    curDate = allStocks[0]?.trade_date || '';
+    document.getElementById('mktMeta').textContent = `系统指数 · ${allStocks.length} 个 · 最新行情`;
   }catch(error){
+    if(version !== snapshotVersion) return;
+    allStocks=[];
+    document.getElementById('mktMeta').textContent = `系统指数加载失败：${error.message}`;
+  }
+}
+
+async function loadAssetSnapshot(date=''){
+  const version = ++snapshotVersion;
+  document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">加载行情中…</td></tr>';
+  try{
+    const payload = await fetchStockSnapshot(date);
+    if(version !== snapshotVersion) return;
+    allStocks = payload.data || [];
+    const selector = document.getElementById('mktDate');
+    const dates = [...(payload.dates || [])].sort().reverse();
+    selector.innerHTML = dates.map(item => `<option value="${item}">${item}</option>`).join('');
+    curDate = date || payload.date || dates[0] || '';
+    selector.value = curDate;
+    selector.disabled = false;
+    selector.onchange = () => loadDate(selector.value);
+    if(activeGroupId === '__all__' || activeMarketSelection().group === 'all_astocks'){
+      marketStockCount = payload.stock_count || 0;
+    }
+    const group = stockGroups.find(item => item.id === activeGroupId);
+    document.getElementById('mktMeta').textContent =
+      `${group?.name || 'A股大盘'} · 本地标的 ${payload.stock_count || 0} 只 · 行情日期 ${curDate || '—'} · 更新于 ${payload.updated_at || '—'}`
+      + (payload.skipped_files?.length ? ` · ${payload.skipped_files.length} 个文件读取异常` : '');
+  }catch(error){
+    if(error.name === 'AbortError' || version !== snapshotVersion) return;
     allStocks=[];
     document.getElementById('mktMeta').textContent = `数据加载失败：${error.message}`;
   }
+  if(version === snapshotVersion) applyFilter();
 }
 
 function activeSymbols(){
   const group = stockGroups.find(item => item.id === activeGroupId);
-  return activeGroupId === '__all__' ? null : new Set(group ? group.symbols : []);
+  return activeGroupId === '__all__' || activeGroupId === INDEX_GROUP_ID ? null : new Set(group ? group.symbols : []);
+}
+
+function activeIndexGroup(){
+  return activeGroupId === INDEX_GROUP_ID ? {id: INDEX_GROUP_ID, symbols: []} : stockGroups.find(group => group.id === activeGroupId && group.isIndexGroup);
 }
 
 // ── Tab 切换 ──────────────────────────────────────────────────────────────
@@ -139,8 +214,6 @@ function switchTab(name, btn){
   document.querySelectorAll('.mkt-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
   btn.classList.add('active');
-  if(name==='indices') loadIndices();
-  if(name==='factors') loadMarketFactors();
 }
 
 async function loadMarketFactors(){
@@ -200,20 +273,6 @@ function renderMarketFactorChart(){
   series.setData(values); marketFactorChart.timeScale().fitContent();
   const byTime=new Map(marketFactorPoints.map(point=>[`${point.date.slice(0,4)}-${point.date.slice(4,6)}-${point.date.slice(6)}`,point]));
   marketFactorChart.subscribeCrosshairMove(param=>{const point=byTime.get(String(param.time));if(!param.point||!point||point[activeMarketFactor]==null){tip.style.display='none';return;}tip.innerHTML=`<b>${point.date}</b><br>${config.label}: <strong style="color:${config.color}">${(point[activeMarketFactor]*100).toFixed(2)}%</strong><br><span>数据口径：${config.note}</span>`;tip.style.display='block';tip.style.left=`${Math.min(host.clientWidth-tip.offsetWidth-10,Math.max(10,param.point.x+14))}px`;tip.style.top=`${Math.min(host.clientHeight-tip.offsetHeight-10,Math.max(10,param.point.y+14))}px`;});
-}
-
-async function loadIndices(){
-  const body = document.getElementById('indexTbody');
-  if(!body) return;
-  body.innerHTML='<tr><td colspan="10" class="mkt-msg">正在加载指数数据…</td></tr>';
-  try{
-    const res = await fetch(`${API}/astocks-indices`);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    const payload = await res.json();
-    const rows = payload.data || [];
-    if(!rows.length){ body.innerHTML='<tr><td colspan="10" class="mkt-msg">暂无指数数据，请点击更新数据。</td></tr>'; return; }
-    body.innerHTML = rows.map(row=>`<tr onclick="window.ASTOCKSChartCard && window.ASTOCKSChartCard.openIndex('${row.ts_code}')"><td>${row.ts_code}</td><td>${row.name||'-'}</td><td class="${clr(row.pct_chg)}">${fmtN(row.close)}</td><td class="${clr(row.change)}">${fmtN(row.change)}</td><td><span class="badge ${row.pct_chg>0?'badge-up':row.pct_chg<0?'badge-dn':'badge-fl'}">${fmtPct(row.pct_chg)}</span></td><td>${fmtN(row.open)}</td><td class="mkt-up">${fmtN(row.high)}</td><td class="mkt-dn">${fmtN(row.low)}</td><td>${fmtBig(row.vol)}</td><td>${fmtBig(row.amount)}</td></tr>`).join('');
-  }catch(error){ body.innerHTML=`<tr><td colspan="10" class="mkt-msg">指数数据加载失败：${escapeHtml(error.message)}</td></tr>`; }
 }
 
 // ── 初始化列切换栏（支持拖拽排序）────────────────────────────────────────
@@ -283,53 +342,29 @@ function rebuildColOrder(){
 
 // ── 加载数据 ──────────────────────────────────────────────────────────────
 async function loadData(){
+  const indexGroup = activeIndexGroup();
+  if(indexGroup){
+    await loadIndexSnapshot(indexGroup);
+    applyFilter();
+    return;
+  }
   document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">加载中…</td></tr>';
   try{
-    const [metaRes, datesRes, latestRes] = await Promise.all([fetch(META_URL), fetch(DATES_URL), fetch(LATEST_URL)]);
-    if(!metaRes.ok || !datesRes.ok || !latestRes.ok) throw new Error('Market data partitions are unavailable');
-    if(false)
-      throw new Error('分段数据未生成，请先运行 --build-partitions');
-
-    const [meta, datesPayload, latestPayload] = await Promise.all([metaRes.json(), datesRes.json(), latestRes.json()]);
-    document.getElementById('mktMeta').textContent =
-      `A股大盘 · 上市股票 ${meta.stock_count||'—'} 只 · 更新于 ${meta.updated_at||'—'}`;
-
-    const sortedDates = [...(datesPayload.dates||[])].sort().reverse();
-    const sel = document.getElementById('mktDate');
-    sel.innerHTML = sortedDates.map(d=>`<option value="${d}">${d}</option>`).join('');
-    curDate = latestPayload.date || sortedDates[0] || '';
-    sel.value = curDate;
-    sel.onchange = async ()=>{
-      curDate=sel.value;
-      await loadDate(curDate);
-    };
-
     initColToggleBar();
     await loadStockGroups();
-    allStocks = latestPayload.data||[];
-    applyFilter();
+    await loadAssetSnapshot();
   } catch(e){
     document.getElementById('mktTbody').innerHTML=
       `<tr><td colspan="20" class="mkt-msg" style="color:var(--mkt-up)">
         加载失败：${e.message}<br>
-        <small style="color:#8b949e">请先生成 data/Astocks/dates.json 和 daily/ 分段文件</small>
+        <small style="color:#8b949e">请检查后端服务及 data/Astocks/stocks 下的行情文件</small>
       </td></tr>`;
     document.getElementById('mktMeta').textContent='加载失败';
   }
 }
 
 async function loadDate(date){
-  document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">加载行情中…</td></tr>';
-  try{
-    const response = await fetch(`${activeAssetBase || DATA_BASE}/daily/${date}.json`);
-    if(!response.ok) throw new Error(`HTTP ${response.status}`);
-    const payload = await response.json();
-    allStocks = payload.data||[];
-  } catch(e){
-    allStocks=[];
-    document.getElementById('mktMeta').textContent = `日期 ${date} 加载失败：${e.message}`;
-  }
-  applyFilter();
+  await loadAssetSnapshot(date);
 }
 
 function applyFilter(){
@@ -396,7 +431,11 @@ function render(){
   if(!slice.length){
     document.getElementById('mktTbody').innerHTML='<tr><td colspan="20" class="mkt-msg">暂无数据</td></tr>';
   } else {
-    document.getElementById('mktTbody').innerHTML = slice.map(row=>`<tr class="stock-click-row" data-symbol="${row.ts_code}" onclick="window.ASTOCKSChartCard && window.ASTOCKSChartCard.openStock('${row.ts_code}')">${
+    const activeGroup = stockGroups.find(group => group.id === activeGroupId);
+    const openMethod = activeGroupId === INDEX_GROUP_ID || activeGroup?.isIndexGroup
+      ? (activeGroup?.market === 'usstocks' ? 'openUSIndex' : 'openIndex')
+      : activeGroup?.market === 'etfs' ? 'openETF' : 'openStock';
+    document.getElementById('mktTbody').innerHTML = slice.map(row=>`<tr class="stock-click-row" data-symbol="${row.ts_code}" onclick="window.ASTOCKSChartCard && window.ASTOCKSChartCard.${openMethod}('${row.ts_code}')">${
       colOrder.map(col=>{
         const v = row[col.key];
         const cc = col.colorFn(v, row);
@@ -605,8 +644,6 @@ function renderFactorChart(){
 // ── 事件绑定 ──────────────────────────────────────────────────────────────
 document.getElementById('mktSearch').addEventListener('input', applyFilter);
 document.getElementById('mktDir').addEventListener('change', applyFilter);
-const updateDrawer = document.getElementById('updateDrawer');
-if(updateDrawer) document.querySelector('.mkt-tabs').after(updateDrawer);
 
 // ── 启动 ──────────────────────────────────────────────────────────────────
 // Index factor browser

@@ -1,0 +1,9 @@
+{
+  "symbolname": "U.S. indexes",
+  "symbols": [
+    "DJI",
+    "DJIA",
+    "NDX",
+    "SPX"
+  ]
+}

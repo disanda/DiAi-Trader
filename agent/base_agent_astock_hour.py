@@ -145,7 +145,7 @@ class BaseAgentAStock_Hour(BaseAgentAStock):
             raise ValueError("Only support hour-level trading. Please use YYYY-MM-DD HH:MM:SS format.")
 
         # Get merged_hourly.jsonl path (A-shares specific)
-        merged_file = Path(get_config_value("Ashare_DATA_PATH", "./data/a_stock_data/sse_50_hour/merged_hourly.jsonl"))
+        merged_file = Path(get_config_value("Ashare_DATA_PATH", "./data/Astocks"))
 
         if not merged_file.exists():
             return []

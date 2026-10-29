@@ -6,3 +6,12 @@ logs/
 configs/astock_config_day.json
 api.json
 data/Astocks
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/

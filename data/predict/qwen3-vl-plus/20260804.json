@@ -1,0 +1,1179 @@
+{
+  "agent_name": "qwen3-vl-plus",
+  "prediction_date": "20260804",
+  "generated_at": "2026-09-11T05:22:30.629888+00:00",
+  "lookback_days": 10,
+  "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "上证指数",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 3812.1618,
+          "high": 3864.6002,
+          "low": 3743.3601,
+          "close": 3864.3671,
+          "pct_chg": 1.7935,
+          "vol": 735021925.0,
+          "amount": 1396517619.5639
+        },
+        {
+          "trade_date": "20260722",
+          "open": 3839.6654,
+          "high": 3884.4352,
+          "low": 3839.6654,
+          "close": 3867.0336,
+          "pct_chg": 0.069,
+          "vol": 614255215.0,
+          "amount": 1258148128.16
+        },
+        {
+          "trade_date": "20260723",
+          "open": 3868.0871,
+          "high": 3878.8318,
+          "low": 3851.7058,
+          "close": 3876.7774,
+          "pct_chg": 0.252,
+          "vol": 562122601.0,
+          "amount": 1025875517.7001
+        },
+        {
+          "trade_date": "20260724",
+          "open": 3853.6316,
+          "high": 3861.0404,
+          "low": 3808.6359,
+          "close": 3814.1978,
+          "pct_chg": -1.6142,
+          "vol": 508203905.0,
+          "amount": 915366398.2926
+        },
+        {
+          "trade_date": "20260727",
+          "open": 3808.9032,
+          "high": 3858.3097,
+          "low": 3793.4489,
+          "close": 3858.245,
+          "pct_chg": 1.1548,
+          "vol": 504879454.0,
+          "amount": 1031312143.0652
+        },
+        {
+          "trade_date": "20260728",
+          "open": 3823.1331,
+          "high": 3844.0118,
+          "low": 3797.3727,
+          "close": 3813.3146,
+          "pct_chg": -1.1645,
+          "vol": 494829126.0,
+          "amount": 949683080.1264
+        },
+        {
+          "trade_date": "20260729",
+          "open": 3823.2931,
+          "high": 3845.7661,
+          "low": 3782.4811,
+          "close": 3828.469,
+          "pct_chg": 0.3974,
+          "vol": 571226391.0,
+          "amount": 1087407759.0961
+        },
+        {
+          "trade_date": "20260730",
+          "open": 3812.111,
+          "high": 3839.3407,
+          "low": 3767.5033,
+          "close": 3804.6926,
+          "pct_chg": -0.621,
+          "vol": 592298923.0,
+          "amount": 1106477266.4618
+        },
+        {
+          "trade_date": "20260731",
+          "open": 3833.5359,
+          "high": 3847.0926,
+          "low": 3822.3736,
+          "close": 3832.2624,
+          "pct_chg": 0.7246,
+          "vol": 597529427.0,
+          "amount": 1187681546.3933
+        },
+        {
+          "trade_date": "20260803",
+          "open": 3812.6129,
+          "high": 3827.6359,
+          "low": 3797.6431,
+          "close": 3809.6629,
+          "pct_chg": -0.5897,
+          "vol": 524516960.0,
+          "amount": 952256890.1023
+        }
+      ],
+      "news_context": "- 主力榜丨同类流出金额最大！上证指数ETF富国（510210）流出3595.5万元: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 主力榜丨同类流出金额最大！上证指数ETF富国（510210）流出3595.5万元 主力榜丨同类流出金额最大！上证指数ETF富国（510210）流出3595.5万元 2026年09月10日 15:29 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月10日，上证指数ETF富国（510210）报收1.008元，收跌0.4%，成交金额3.56亿元。主力资金（单笔成交额100万元以上）流出金额达3595.5万元，同类基金流出金额最大。 上证指数ETF富国跟踪的指数为上证指数（000001.SH）。上证综合指数由在上海证券交易所上市的符合条件的股票与存托凭证组成样本，反映上海证券交易所上市公司的整体表现。 [...] 上证指数ETF富国（510210）的场外联接基金为：富国上证指数ETF联接C（013286.OF）、富国上证指数ETF联接E（022087.OF）、富国上证指数E (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001l7b0?from=finance)\n- 国泰基金的上证指数ETF国泰（510760）主力资金流出2221.3万元: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 国泰基金的上证指数ETF国泰（510760）主力资金流出2221.3万元 国泰基金的上证指数ETF国泰（510760）主力资金流出2221.3万元 2026年09月04日 15:23 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月4日，上证指数ETF国泰（510760）报收1.343元，收跌0.44%，成交金额2.97亿元。主力资金（单笔成交额100万元以上）流出金额达2221.3万元。 上证指数ETF国泰跟踪的指数为上证指数（000001.SH）。上证综合指数由在上海证券交易所上市的符合条件的股票与存托凭证组成样本，反映上海证券交易所上市公司的整体表现。 [...] 上证指数ETF国泰（510760）的场外联接基金为：国泰上证综合ETF联接A（011319.OF）、国泰上证综合ETF联接C（011320.OF）、国泰上证综合ETF联接E（022494.OF）。 相 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kt1e)\n- 证监会：年内中长期资金净买入A股超6000亿元 - Moomoo: share_log donwloadimg appLogo donwloadimg アプリをダウンロード # 证监会：年内中长期资金净买入A股超6000亿元 # 国务院新闻办公室于2026年9月10日(星期四)下午3时举行“开局起步‘十五五’”系列主题新闻发布会，中国人民银行副行长陆磊，金融监管总局副局长丛林，中国证监会副主席李超，国家外汇局新闻发言人、副局长李斌介绍金融领域贯彻落实“十五五”规划、推动金融强国建设有关情况，并答记者问。 超2000家公司连续五年分红 李超表示，2024年“并购六条”出台以来，上市公司累计披露重大资产重组370单，一批优质企业通过并购重组加快转型升级，实现价值成长。新“国九条”以来，上市公司累计分红、回购超7万亿元，超2000家公司连续五年分红，超1000家公司开展中期分红，分红频次和金额持续提升。 今年以来中长期资金净买入A股超过6000亿元 [...] 李超表示，资本市场投资端改革实现重大突破，促进市场稳健发展的内生力量不断加强。今年以来，社保、年金、保险等中长期资金合计净买入A股超过6000亿元，持有A股流通市值较2025年底增长12.5%。中长期 (https://www.moomoo.com/hans/news/post/76059019)",
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 68.0,
+        "expected_pct_change": -0.42,
+        "rationale": "Last 3 sessions show weakening momentum: 20260731 +0.72% (narrow range, low vol), then 20260803 -0.59% on declining volume (524M vs prior 597M), with close (3809.66) below prior open (3833.54) and near session low (3797.64). Price has retraced ~1.3% from 7/27 high (3858.25) to 8/3 close, failing to reclaim 3830 resistance. Recent ETF outflows (e.g., 510210: -3595M; 510760: -2221M) signal institutional caution despite net long-term inflows—short-term liquidity pressure dominates. Volume trend down over last 4 days (597M→592M→571M→524M) suggests fading participation, typical before consolidation or pullback.",
+        "market_analysis": "Broad market likely enters short-term consolidation or mild correction after recent choppy rebound; defensive sectors (utilities, consumer staples) may outperform as risk appetite wanes. Financials and cyclicals vulnerable given weak volume and ETF outflows, while dividend-heavy stocks supported by long-term inflows (>6000B YTD) may hold relatively better. No strong catalyst for reversal yet; watch for break below 3795 support to confirm bearish shift."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 0.3313,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 3816.3699,
+        "high": 3831.94,
+        "low": 3799.5244,
+        "close": 3822.2846
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000016.SH",
+      "name": "上证50",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 2953.0092,
+          "high": 2973.8343,
+          "low": 2904.4787,
+          "close": 2973.8131,
+          "pct_chg": 2.0928,
+          "vol": 81847855.0,
+          "amount": 291847864.511
+        },
+        {
+          "trade_date": "20260722",
+          "open": 2954.8808,
+          "high": 3008.3756,
+          "low": 2954.8808,
+          "close": 2991.0474,
+          "pct_chg": 0.5795,
+          "vol": 68932547.0,
+          "amount": 268344451.434
+        },
+        {
+          "trade_date": "20260723",
+          "open": 3003.5027,
+          "high": 3003.5027,
+          "low": 2966.8973,
+          "close": 2978.7704,
+          "pct_chg": -0.4105,
+          "vol": 57487362.0,
+          "amount": 204207137.403
+        },
+        {
+          "trade_date": "20260724",
+          "open": 2971.5092,
+          "high": 2971.9493,
+          "low": 2941.3012,
+          "close": 2956.3456,
+          "pct_chg": -0.7528,
+          "vol": 58354918.0,
+          "amount": 189578557.27
+        },
+        {
+          "trade_date": "20260727",
+          "open": 2976.9204,
+          "high": 2976.9204,
+          "low": 2919.4611,
+          "close": 2950.4324,
+          "pct_chg": -0.2,
+          "vol": 50914045.0,
+          "amount": 174000929.147
+        },
+        {
+          "trade_date": "20260728",
+          "open": 2921.3106,
+          "high": 2931.1498,
+          "low": 2901.7347,
+          "close": 2923.2051,
+          "pct_chg": -0.9228,
+          "vol": 57573435.0,
+          "amount": 180631703.865
+        },
+        {
+          "trade_date": "20260729",
+          "open": 2948.7051,
+          "high": 2948.7051,
+          "low": 2885.1871,
+          "close": 2915.1879,
+          "pct_chg": -0.2743,
+          "vol": 59101624.0,
+          "amount": 219910761.712
+        },
+        {
+          "trade_date": "20260730",
+          "open": 2902.3806,
+          "high": 2932.7174,
+          "low": 2881.5228,
+          "close": 2926.4751,
+          "pct_chg": 0.3872,
+          "vol": 67933842.0,
+          "amount": 237811808.511
+        },
+        {
+          "trade_date": "20260731",
+          "open": 2944.9381,
+          "high": 2946.1722,
+          "low": 2919.4057,
+          "close": 2922.9673,
+          "pct_chg": -0.1199,
+          "vol": 71093350.0,
+          "amount": 240401383.484
+        },
+        {
+          "trade_date": "20260803",
+          "open": 2908.5094,
+          "high": 2912.207,
+          "low": 2873.557,
+          "close": 2887.0539,
+          "pct_chg": -1.2287,
+          "vol": 56922898.0,
+          "amount": 185011288.111
+        }
+      ],
+      "news_context": "- 主力榜丨同类流出金额最大！上证50ETF华夏（510050）流出4.87亿元: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 主力榜丨同类流出金额最大！上证50ETF华夏（510050）流出4.87亿元 主力榜丨同类流出金额最大！上证50ETF华夏（510050）流出4.87亿元 2026年09月07日 15:25 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月7日，上证50ETF华夏（510050）报收3.018元，收跌0.63%，成交金额16.79亿元。主力资金（单笔成交额100万元以上）流出金额达4.87亿元，同类基金流出金额最大。 上证50ETF华夏跟踪的指数为上证50（000016.SH）。上证50指数以上证180指数样本股为样本空间，挑选上海证券市场规模大、流动性好的最具代表性的50只股票组成样本股，综合反映上海证券市场最具市场影响力的一批龙头企业的整体表现。 [...] 上证50ETF华夏（510050）的场外联接基金为：华夏上证50ETF联接A（001051.OF）、华夏上 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kyou?from=finance)\n- 跌幅榜丨同类跌幅最大！上证50ETF易方达（510100）跌0.6%: 上证50ETF易方达跟踪的指数为上证50（000016.SH）。上证50指数以上证180指数样本股为样本空间，挑选上海证券市场规模大、流动性好的最具代表性的50只股票组成样本股，综合反映上海证券市场最具市场影响力的一批龙头企业的整体表现。 上证50ETF易方达（510100）的场外联接基金为：易方达上证50ETF联接A（007379.OF）、易方达上证50ETF联接C（007380.OF）。 相关新闻 加载中 点击加载更多 ## 头条号入驻 财中社 以价值致敬价值 ## 缩表百亿，逾期反增三成：天津银行万亿门前遭遇“降速不降险” ## 德业股份：董事长提议回购1亿元-2亿元股份 ## 中航高科：董事长王健辞职 肖世宏接任 ## 财经自媒体联盟更多自媒体作者 今日推荐 优秀作者 看点月榜 排行 看点昵称 看点指数 ## 热文排行榜 日榜 周榜 月榜 [...] 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 跌幅榜丨同类跌幅最大！上证50ETF易方达（ (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kz40?from=finance)\n- 基金市场概况与资产配置观点（08.31—09.06）: 一、市场概况（一）宏观市场总览海外市场方面，美国8月非农就业新增大幅低于预期，失业率上行，劳动力市场降温信号明确。市场将美联储9月加息概率大幅下调， (https://www.moomoo.com/hans/news/post/76055677)",
+      "prediction": {
+        "direction": "down",
+        "candle_class": "strong_down",
+        "confidence": 78.0,
+        "expected_pct_change": -1.35,
+        "rationale": "Last 10 sessions show persistent downward momentum: 7 of 10 days negative, including 4 consecutive declines from 20260727 to 20260803. The most recent session (20260803) closed at 2887.05, down -1.2287% on a new low (2873.56), breaking below prior support near 2900–2910. Volume on 20260803 (56.9M) is moderate but accompanied by sharp price drop and weak rebound—highs failed to exceed prior day’s open (2908.51). Price range contracted (38.65 pts) vs prior volatility, indicating exhaustion and bearish conviction. ETF flow data (supplementary) confirms heavy institutional outflow:华夏510050流出4.87亿元, the largest among peers, signaling active selling pressure on index constituents. Technical structure shows lower highs (3008→2946→2912) and lower lows (2904→2885→2873), confirming downtrend.",
+        "market_analysis": "Broad market likely under pressure as large-cap blue chips (SSE 50 constituents) face institutional selling, reflecting risk-off sentiment amid weakening macro signals (e.g., US labor data reducing Fed hike odds but raising recession concerns). Financials, consumer staples, and industrials—key SSE 50 sectors—may underperform; defensive rotation possible. This divergence suggests mid/small caps could outperform temporarily, but overall market breadth likely narrows with liquidity tightening in large-cap space."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": -0.2904,
+        "direction": "down",
+        "candle_class": "down",
+        "open": 2890.9853,
+        "high": 2892.3969,
+        "low": 2867.9273,
+        "close": 2878.6693
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000300.SH",
+      "name": "沪深300",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 4630.8532,
+          "high": 4739.2326,
+          "low": 4566.281,
+          "close": 4739.2287,
+          "pct_chg": 3.0643,
+          "vol": 345403590.0,
+          "amount": 1016727269.5794
+        },
+        {
+          "trade_date": "20260722",
+          "open": 4710.6602,
+          "high": 4772.0815,
+          "low": 4692.833,
+          "close": 4717.2442,
+          "pct_chg": -0.4639,
+          "vol": 285556357.0,
+          "amount": 921519272.2054
+        },
+        {
+          "trade_date": "20260723",
+          "open": 4735.1706,
+          "high": 4737.5092,
+          "low": 4698.8717,
+          "close": 4728.0018,
+          "pct_chg": 0.228,
+          "vol": 247331675.0,
+          "amount": 741818580.5601
+        },
+        {
+          "trade_date": "20260724",
+          "open": 4685.4082,
+          "high": 4704.0843,
+          "low": 4642.9387,
+          "close": 4649.1917,
+          "pct_chg": -1.6669,
+          "vol": 221261212.0,
+          "amount": 626378644.3679
+        },
+        {
+          "trade_date": "20260727",
+          "open": 4656.0272,
+          "high": 4702.5249,
+          "low": 4615.531,
+          "close": 4702.4272,
+          "pct_chg": 1.145,
+          "vol": 204786941.0,
+          "amount": 604552358.1614
+        },
+        {
+          "trade_date": "20260728",
+          "open": 4623.7986,
+          "high": 4646.487,
+          "low": 4552.2287,
+          "close": 4569.5235,
+          "pct_chg": -2.8263,
+          "vol": 215705045.0,
+          "amount": 652026893.9619
+        },
+        {
+          "trade_date": "20260729",
+          "open": 4582.0949,
+          "high": 4626.7058,
+          "low": 4516.3162,
+          "close": 4600.2624,
+          "pct_chg": 0.6727,
+          "vol": 248082357.0,
+          "amount": 751545094.1708
+        },
+        {
+          "trade_date": "20260730",
+          "open": 4566.0467,
+          "high": 4596.2056,
+          "low": 4478.2093,
+          "close": 4549.7201,
+          "pct_chg": -1.0987,
+          "vol": 274651130.0,
+          "amount": 803696969.7602
+        },
+        {
+          "trade_date": "20260731",
+          "open": 4623.8536,
+          "high": 4635.5888,
+          "low": 4588.1968,
+          "close": 4588.1968,
+          "pct_chg": 0.8457,
+          "vol": 279243698.0,
+          "amount": 832909109.2928
+        },
+        {
+          "trade_date": "20260803",
+          "open": 4561.817,
+          "high": 4572.588,
+          "low": 4529.1862,
+          "close": 4543.1781,
+          "pct_chg": -0.9812,
+          "vol": 232042584.0,
+          "amount": 615750950.3356
+        }
+      ],
+      "news_context": "- 滬深300(000300)股票股價, 市值, 即時行情, 走勢圖, 財報: 查看今日滬深300(000300)股票價格，最新即時行情，歷史走勢圖，最新消息，公司財報，未來股價預測和分析師評級。 (https://www.moomoo.com/hant/stock/000300-SH?chain_id=Name1K9-3FXPhg.1l9uk00&global_content=%7B%22promote_id%22%3A13764%2C%22sub_promote_id%22%3A57%2C%22f%22%3A%22www.moomoo.com%2Fhant%2Fstock%2F00883-HK%22%7D)\n- 沪深300(000300)股票股价, 市值, 实时行情, 走势图, 财报: AIが長安汽車の研究開発、生産、調達プロセスへの導入を開始しました。ルールが明確な反復業務においてまず効率化が進み、現場担当者によるツール自作も始まっています。アプリケーションの普及に伴い、企業は組織運営、システム連携、データ権限管理、およびコスト管理の強化にも取り組む必要があります。 wallstreetcn09/04 20:09 TMTセクターの取引高比率が再び40％台を回復！メディア・コンピュータ分野が主要な牽引役となり、年内の取引動向を総覧 ①本日、TMTセクターの売買代金が大幅に増加し、市場シェアは前日の37.8%から40.5%へと上昇し、再び4割台を回復しました。②業種別に見ると、メディアおよびコンピュータセクターで売買代金の増加が顕著であり、前日比それぞれ46.5%増、44.3%増となりました。③年初来、TMTセクターの日平均売買代金は約1兆70億元で、全市場の日平均売買代金の40.42%を占めています。 cls.cn09/04 17:32 ロボットアヒルの人気が国産サプライチェーンを牽引、AI玩具業界は「身体性を持つ知能」による局面打開が急務 [...] ①財連社記者の (https://www.moomoo.com/hans/stock/000300-SH?chain_id=Name1K9-3FXPhg.1l8f580&global_content=%7B%22promote_id%22%3A13764%2C%22sub_promote_id%22%3A59%2C%22f%22%3A%22www.moomoo.com%2Fhans%2Foptions%2FSLV260814C22000-US%2Fcommunity%22%7D)\n- Stock Market Today: Dow Falls Amid Rising Oil Prices; Apple Shares Drop Ahead Of iPhone Event (Live Coverage) - Investor's Business Daily: # Stock Market Today: Dow Slumps 400 Points As Oil Surges; Shell Jumps Past Entry (Live Coverage). The Dow Jones Industrial Average and the other major stock indexes stuck with mild declines Wednesday, as Brent crude prices topped $100 a barrel amid the ongoing U.S.-Iran conflict. Meanwhile, **Apple** (AAPL) was in focus on the stock market today ahead of its iPhone event. The global giant in oil-and-gas exploration is also still in the proper 5% buy zone after clearing a handle entry of 92.07 o (https://www.investors.com/market-trend/stock-market-today/dow-jones-sp500-nasdaq-oil-prices-apple-stock-aapl-iphone-event/)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 68.0,
+        "expected_pct_change": 0.42,
+        "rationale": "The last 3 sessions show a tightening range: 20260731 (close 4588.1968, +0.8457%), 20260803 (close 4543.1781, -0.9812%). The drop on 0803 was shallow (-0.98%) with reduced volume (232M vs 279M on 0731) and occurred within the prior day’s range (low 4529.19 > 0731 low 4588.19), indicating weak selling pressure. Prior to that, the index rebounded from 4516.32 (0729 low) to 4635.59 (0731 high), forming a higher low and higher high sequence. The 10-day volatility (std dev of pct_chg) is 1.62%, below the 3% threshold for strong moves; only 2 of 10 days exceeded ±1%. Volume has declined from peak 345M (0721) to 232M (0803), suggesting exhaustion of bearish momentum. TMT sector strength (40.5% market share, +44–46% YoY volume surge in media/computer) supports risk-on rotation, though global oil-driven Dow weakness (IBD) adds caution—hence not strong_up.",
+        "market_analysis": "Broad market likely consolidating after recent correction; the narrow down move on low volume suggests sellers are exhausted, setting up for a modest bounce. Sector-wise, TMT leadership (media/computer) may extend gains, while energy-sensitive sectors (e.g., utilities, consumer staples) could lag due to rising oil prices. Financials and industrials may benefit from stabilization in equity volatility, but without strong catalysts, the rally is likely technical rather than fundamental—expect continued sector rotation rather than broad-based breakout."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 1.2712,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 4566.9425,
+        "high": 4613.6937,
+        "low": 4555.2465,
+        "close": 4600.9304
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "科创50",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 1747.4897,
+          "high": 1904.8579,
+          "low": 1663.8498,
+          "close": 1903.1613,
+          "pct_chg": 10.7333,
+          "vol": 19512745.0,
+          "amount": 213055050.259
+        },
+        {
+          "trade_date": "20260722",
+          "open": 1874.7785,
+          "high": 1934.6051,
+          "low": 1836.107,
+          "close": 1860.0848,
+          "pct_chg": -2.2634,
+          "vol": 16238611.0,
+          "amount": 192916671.108
+        },
+        {
+          "trade_date": "20260723",
+          "open": 1876.6134,
+          "high": 1876.9857,
+          "low": 1770.5321,
+          "close": 1789.6941,
+          "pct_chg": -3.7843,
+          "vol": 11924269.0,
+          "amount": 139187112.196
+        },
+        {
+          "trade_date": "20260724",
+          "open": 1766.2589,
+          "high": 1831.2755,
+          "low": 1748.7968,
+          "close": 1787.1958,
+          "pct_chg": -0.1396,
+          "vol": 10177526.0,
+          "amount": 120544745.795
+        },
+        {
+          "trade_date": "20260727",
+          "open": 1780.7201,
+          "high": 1816.4301,
+          "low": 1724.4658,
+          "close": 1807.951,
+          "pct_chg": 1.1613,
+          "vol": 10347297.0,
+          "amount": 123092124.566
+        },
+        {
+          "trade_date": "20260728",
+          "open": 1755.8671,
+          "high": 1797.5839,
+          "low": 1675.988,
+          "close": 1693.4786,
+          "pct_chg": -6.3316,
+          "vol": 10883944.0,
+          "amount": 134055060.199
+        },
+        {
+          "trade_date": "20260729",
+          "open": 1704.5847,
+          "high": 1711.5787,
+          "low": 1608.1411,
+          "close": 1678.7376,
+          "pct_chg": -0.8705,
+          "vol": 14218535.0,
+          "amount": 147150556.757
+        },
+        {
+          "trade_date": "20260730",
+          "open": 1653.4672,
+          "high": 1671.5089,
+          "low": 1561.9961,
+          "close": 1588.4149,
+          "pct_chg": -5.3804,
+          "vol": 14695675.0,
+          "amount": 151830717.441
+        },
+        {
+          "trade_date": "20260731",
+          "open": 1721.3552,
+          "high": 1731.2064,
+          "low": 1635.6847,
+          "close": 1635.9624,
+          "pct_chg": 2.9934,
+          "vol": 14507410.0,
+          "amount": 162975217.25
+        },
+        {
+          "trade_date": "20260803",
+          "open": 1619.294,
+          "high": 1621.9932,
+          "low": 1549.7394,
+          "close": 1552.8903,
+          "pct_chg": -5.0779,
+          "vol": 12334986.0,
+          "amount": 124510595.123
+        }
+      ],
+      "news_context": "- 科创50ETF平安(589150)标的指数上涨0.45%，半导体芯片迎来密集催化: 爱建证券指出，AI需求正加速转化为先进制程扩产与设备投资，产业景气有望向设备及核心零部件环节深度传导，部分刻蚀与薄膜沉积设备交期已延长至12个月，验证上游供应链高景气延续性。 科创50ETF平安(589150)紧密跟踪上证科创板50成份指数，上证科创板50成份指数由上海证券交易所科创板中市值大、流动性好的50只证券组成，反映最具市场代表性的一批科创企业的整体表现。 数据显示，截至2026年8月31日，上证科创板50成份指数(000688)前十大权重股分别为寒武纪、中微公司、中芯国际、海光信息、澜起科技、源杰科技、拓荆科技、华虹宏力、华海清科、中科飞测，前十大权重股合计占比58.9%。 科创50ETF平安(589150)，场外联接(平安上证科创板50成份ETF发起式联接A：027348；平安上证科创板50成份ETF发起式联接C：027349)。 [...] ## 新浪财经 标的指数上涨0.45%，半导体芯片迎来密集催化 ## 界面新闻 关注) 截至2026年9月8日 10:31，科创50ETF平安(589150)标的指数上证科创板50成份指数(000688)上涨0.45%，成分股芯原股份 (https://finance.sina.cn/2026-09-08/detail-inirapze9676767.d.html?vt=4)\n- 广发基金的科创50ETF广发（588060）跌1.9%: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 广发基金的科创50ETF广发（588060）跌1.9% 广发基金的科创50ETF广发（588060）跌1.9% 2026年09月04日 15:23 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月4日，科创50ETF广发（588060）报收1.006元，收跌1.85%，成交金额6.63亿元。换手率8.87%。 科创50ETF广发成立于2021年07月15日，管理人为广发基金，基金经理为陆志明。今年以来基金回报19.59%，同类排名410/4772。 科创50ETF广发跟踪的指数为科创50（000688.SH）。上证科创板50成份指数由上海证券交易所科创板中市值大、流动性好的50只证券组成，反映最具市场代表性的一批科创企业的整体表现。 [...] 科创50ETF广发（588060）的场外联接基金为：广发科创50ETF发起式联接A（013810.OF）、广发科创50ETF (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001ktf6?from=finance)\n- 国泰基金的科创50ETF国泰（589360）跌1.8%: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 国泰基金的科创50ETF国泰（589360）跌1.8% 国泰基金的科创50ETF国泰（589360）跌1.8% 2026年09月04日 15:23 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月4日，科创50ETF国泰（589360）报收0.818元，收跌1.8%，成交金额7503.7万元。换手率3.39%。 科创50ETF国泰成立于2026年06月17日，管理人为国泰基金，基金经理为张浩然。今年以来基金回报-16.76%。 科创50ETF国泰跟踪的指数为科创50（000688.SH）。上证科创板50成份指数由上海证券交易所科创板中市值大、流动性好的50只证券组成，反映最具市场代表性的一批科创企业的整体表现。 相关新闻 加载中 点击加载更多 ## 头条号入驻 财中社 以价值致敬价值 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kt3m?from=finance)",
+      "prediction": {
+        "direction": "down",
+        "candle_class": "strong_down",
+        "confidence": 78.0,
+        "expected_pct_change": -1.85,
+        "rationale": "Last 3 sessions show accelerating downside: 20260731 rebound (+2.99%) failed to hold, followed by sharp drop on 20260803 (-5.08%) with close at 1552.89—new low since 20260723. Price broke below prior support at ~1600 (20260730 close 1588.41, then 20260803 low 1549.74). Volume on 20260803 (12.3M) remains elevated vs. recent lows, indicating conviction in selling. The 10-day sequence shows a clear descending channel: high of 1903 (20260721) → 1860 → 1789 → 1787 → 1808 → 1693 → 1679 → 1588 → 1636 → 1553. No reversal candle; 20260803’s narrow range (high 1622, low 1550, close 1553) suggests exhaustion but no buying pressure. Recent ETF price data (e.g., 588060 down 1.85% on 20260904) reflects continued weakness, though dated—still consistent with underlying index trend.",
+        "market_analysis": "Broad market likely under pressure from tech-sector profit-taking and macro uncertainty; semiconductor equipment demand signals (e.g., extended tool lead times) are positive long-term but not yet translating to near-term price recovery. Heavyweight科创50 constituents like 中微公司, 中芯国际, and 寒武纪 face valuation compression amid rate-sensitive growth concerns. Downward momentum may spill into broader growth-oriented sectors (e.g., AI hardware, chip design), while defensive sectors gain relative strength. Short-term risk of further index testing of 1500–1520 support zone."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 4.0871,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 1569.6234,
+        "high": 1631.0116,
+        "low": 1556.1118,
+        "close": 1616.3582
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000852.SH",
+      "name": "中证1000",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 6975.8931,
+          "high": 7264.3378,
+          "low": 6714.1869,
+          "close": 7259.863,
+          "pct_chg": 4.2279,
+          "vol": 334989399.0,
+          "amount": 572869030.3327
+        },
+        {
+          "trade_date": "20260722",
+          "open": 7196.8632,
+          "high": 7302.4544,
+          "low": 7118.6602,
+          "close": 7158.7622,
+          "pct_chg": -1.3926,
+          "vol": 291582470.0,
+          "amount": 518357580.3913
+        },
+        {
+          "trade_date": "20260723",
+          "open": 7169.5427,
+          "high": 7247.1412,
+          "low": 7113.4977,
+          "close": 7195.4997,
+          "pct_chg": 0.5132,
+          "vol": 250502727.0,
+          "amount": 422221092.3518
+        },
+        {
+          "trade_date": "20260724",
+          "open": 7109.2475,
+          "high": 7174.5521,
+          "low": 6995.6931,
+          "close": 6995.6931,
+          "pct_chg": -2.7768,
+          "vol": 229026635.0,
+          "amount": 379813289.8295
+        },
+        {
+          "trade_date": "20260727",
+          "open": 6981.1649,
+          "high": 7228.7845,
+          "low": 6972.2815,
+          "close": 7228.7845,
+          "pct_chg": 3.3319,
+          "vol": 225960825.0,
+          "amount": 390089645.4517
+        },
+        {
+          "trade_date": "20260728",
+          "open": 7135.7349,
+          "high": 7189.1772,
+          "low": 6992.9441,
+          "close": 7026.2761,
+          "pct_chg": -2.8014,
+          "vol": 225776735.0,
+          "amount": 393766907.5445
+        },
+        {
+          "trade_date": "20260729",
+          "open": 7020.2233,
+          "high": 7132.3518,
+          "low": 6897.3922,
+          "close": 7095.1863,
+          "pct_chg": 0.9807,
+          "vol": 271374083.0,
+          "amount": 458880097.3953
+        },
+        {
+          "trade_date": "20260730",
+          "open": 7053.0899,
+          "high": 7121.523,
+          "low": 6841.751,
+          "close": 6900.6579,
+          "pct_chg": -2.7417,
+          "vol": 259507814.0,
+          "amount": 436231656.9888
+        },
+        {
+          "trade_date": "20260731",
+          "open": 7082.7535,
+          "high": 7218.0614,
+          "low": 7071.0481,
+          "close": 7075.5065,
+          "pct_chg": 2.5338,
+          "vol": 283219421.0,
+          "amount": 498602137.1765
+        },
+        {
+          "trade_date": "20260803",
+          "open": 7055.2711,
+          "high": 7118.0967,
+          "low": 7042.8894,
+          "close": 7079.7761,
+          "pct_chg": 0.0603,
+          "vol": 233392381.0,
+          "amount": 391183027.5697
+        }
+      ],
+      "news_context": "- 广发基金赵杰： 追求可持续超额收益 打造“底仓型”产品: 今年以来，A股市场演绎了一轮结构性行情：上半年科技成长方向一枝独秀，7月市场出现回调，前期强势板块明显回撤，风格再平衡的预期随之升温。经历了这一轮起伏后， (https://www.moomoo.com/hans/news/post/75864289)\n- Two major Chinese state banks announce $39 bln capital-raising plans - Reuters: Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Markets. REUTERS/Dado Ruvic/Illustration Purchase Licensing Rights, opens new tab. BEIJING, Sept 6 (Reuters) - Agricultural Bank of China (601288.SS), opens new tab ​plans to raise ‌up to 160 billion yuan ($24 billion) ​through a ​private placement of A-shares ⁠to replenish ​its capital, according ​to a filing with the Shanghai Stock Exchange ​on Sunday (https://www.reuters.com/world/asia-pacific/two-major-chinese-state-banks-announce-39-bln-capital-raising-plans-2026-09-06/)\n- Shenzhen 100-Billion-Yuan Storage Chip Company Lists on HKEX, Net Profit Surges 71528.66% in H1 - 36Kr: # Net profit surged by 71528.66% in the first half of the year, the Shenzhen-based 100-billion-yuan storage chip company rang the listing bell on the Hong Kong Stock Exchange. As of 10:00, its share price fell slightly by 1.19% to HK$233.2 per share (approximately RMB 199.62), with a total market value of **HK$107.192 billion (approximately RMB 91.758 billion)**. Its prospectus discloses unaudited financial data for the first half of 2026: revenue reached RMB 240.88 billion, a year-on-year incre (https://eu.36kr.com/en/p/3974142285099527)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 68.0,
+        "expected_pct_change": 0.42,
+        "rationale": "Last 3 sessions show consolidation after sharp volatility: 20260731 +2.53% (strong rebound on rising volume 283M), followed by 20260803 +0.06% with tight range (high 7118, low 7043, close near open) and reduced volume (233M vs prior 283M), indicating exhaustion of selling pressure. Prior down days (e.g., -2.74% on 0730) were met with strong bounce next session (+2.53%), suggesting support near 7050–7070. Current close (7079.78) is above 5-day EMA (~7072) and above the low of the prior 3-day swing (6841). No new negative catalysts in recent data; broad market sentiment improving per Fudan fund manager’s note on style rebalancing favoring mid/small caps post-7Q correction.",
+        "market_analysis": "This up move signals stabilization in mid-cap leadership (CSI 1000 as proxy for small/mid caps) after July’s tech-led selloff. With state banks raising capital (positive for financial stability) and semiconductor IPO success (strong earnings validation for tech hardware), risk appetite is returning to growth-oriented segments. Sectors likely to benefit: semiconductors, equipment, and domestic innovation chains; defensive sectors may underperform as rotation resumes. Broad market likely entering a shallow recovery phase, but not yet confirming breakout—caution remains due to thin volume and lack of follow-through."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 2.8167,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 7128.4935,
+        "high": 7307.1712,
+        "low": 7102.4603,
+        "close": 7279.1927
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000905.SH",
+      "name": "中证500",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 7437.4524,
+          "high": 7802.7549,
+          "low": 7270.9541,
+          "close": 7800.6085,
+          "pct_chg": 5.2527,
+          "vol": 268381453.0,
+          "amount": 606955225.2011
+        },
+        {
+          "trade_date": "20260722",
+          "open": 7741.9063,
+          "high": 7889.4455,
+          "low": 7701.2212,
+          "close": 7751.6618,
+          "pct_chg": -0.6275,
+          "vol": 230747285.0,
+          "amount": 569079906.3334
+        },
+        {
+          "trade_date": "20260723",
+          "open": 7750.8521,
+          "high": 7795.3499,
+          "low": 7658.9994,
+          "close": 7734.31,
+          "pct_chg": -0.2238,
+          "vol": 204974420.0,
+          "amount": 453036704.9599
+        },
+        {
+          "trade_date": "20260724",
+          "open": 7625.2021,
+          "high": 7703.5986,
+          "low": 7532.6682,
+          "close": 7532.7006,
+          "pct_chg": -2.6067,
+          "vol": 186624835.0,
+          "amount": 402009190.3404
+        },
+        {
+          "trade_date": "20260727",
+          "open": 7512.4036,
+          "high": 7721.4028,
+          "low": 7466.5446,
+          "close": 7720.5975,
+          "pct_chg": 2.4944,
+          "vol": 174192553.0,
+          "amount": 405637050.3757
+        },
+        {
+          "trade_date": "20260728",
+          "open": 7589.7596,
+          "high": 7646.0156,
+          "low": 7412.6308,
+          "close": 7443.4332,
+          "pct_chg": -3.5899,
+          "vol": 161832458.0,
+          "amount": 389809155.0886
+        },
+        {
+          "trade_date": "20260729",
+          "open": 7444.802,
+          "high": 7572.8138,
+          "low": 7325.3558,
+          "close": 7524.5075,
+          "pct_chg": 1.0892,
+          "vol": 206604121.0,
+          "amount": 451332728.6915
+        },
+        {
+          "trade_date": "20260730",
+          "open": 7477.3139,
+          "high": 7536.4854,
+          "low": 7221.9471,
+          "close": 7309.5753,
+          "pct_chg": -2.8564,
+          "vol": 208735757.0,
+          "amount": 459995793.5628
+        },
+        {
+          "trade_date": "20260731",
+          "open": 7537.8478,
+          "high": 7638.7805,
+          "low": 7487.4314,
+          "close": 7493.985,
+          "pct_chg": 2.5229,
+          "vol": 216635960.0,
+          "amount": 513956392.6426
+        },
+        {
+          "trade_date": "20260803",
+          "open": 7457.1176,
+          "high": 7499.5786,
+          "low": 7397.9416,
+          "close": 7414.5227,
+          "pct_chg": -1.0603,
+          "vol": 198312346.0,
+          "amount": 409591536.9262
+        }
+      ],
+      "news_context": "- 国际资金关注中小盘布局，中证500ETF易方达（510580）连续3日净流入|中证500etf|易方达基金|沪深300|资金流入方面_手机网易网: # 国际资金关注中小盘布局，中证500ETF易方达（510580）连续3日净流入 新浪财经 来源：中宏网官微 9月8日，截至10:31，中证500指数上涨0.8%。个股方面，罗博特科、源杰科技、中科飞测等涨超3%，长川科技涨超1%，华虹宏力、大族激光等上涨。 中证500ETF易方达连续3日净流入。 消息面上，9月8日，中国证券业协会投资者服务与保护专业委员会证券交易佣金管理课题组正就“投资者证券交易佣金情况”开展行业调研，旨在了解现行证券交易佣金政策下，券商佣金相关客户投诉总体情况、费率明示情况、定价实践等内容，同时针对现行规定中单笔交易佣金最低收费5元是否修改征求行业意见。9月6日，巴克莱银行、瑞银集团等多家国际机构观察到，全球投资者在拥挤的AI交易之外寻求多元化配置，客户对与中证指数挂钩的看涨期权和掉期合约需求持续上升，越来越多策略师推荐布局中小盘领域。 法国巴黎银行和美国银行分析，中国股票当前的主要驱动力包括持续推进并不断支撑着渐进式牛市的资本市场改革、科技自立自强的加速落地、以及硬件板块整体盈利。 [...] 中证500ETF易方达（510580）紧密跟踪中证500（00090 (https://www.163.com/dy/article/L6B29QEO05568W0A.html)\n- 外资机构建议通过衍生品布局中国中小盘股，中证500ETF嘉实(159922)一键布局A股中小盘投资机遇_新浪财经_新浪网: 光大期货指出，下半年新增推出传统货币政策或财政政策的概率偏低，在“化债”的宏观背景下，政策制定仍以稳为主，但市场可以关注四季度存量地方债额度集中发行带来的新基建机会。海外方面，美联储近期表态偏鹰，美债企稳，黄金走弱。在此背景下，近期美国非农数据偏强，市场重回加息逻辑，海外流动性可能趋紧。上述宏观因素使得近期权益市场可能重回杠铃走势，红利资产和小盘概念可能相对偏强。 数据显示，截至2026年8月31日，中证小盘500指数(000905)前十大权重股分别为源杰科技、长川科技、华虹宏力、华海清科、协创数据、中科飞测、光迅科技、大族激光、赤峰黄金、睿创微纳，前十大权重股合计占比9.83%。 中证500ETF嘉实(159922)紧密跟踪中证小盘500指数，第一大权重行业电子占比超24%，聚焦科技中小盘。 场外投资者还可通过中证500ETF联接基金(070039)一键布局A股中小盘投资机遇。 海量资讯、精准解读，尽在新浪财经APP []( []( ## VIP课程推荐 加载中... ## APP专享直播 上一页下一页 1/10 ## 热门推荐 收起 [...] 新浪首页 新闻 体育 财经 娱乐 科 (https://finance.sina.com.cn/jjxw/2026-09-10/doc-iniriaew8653358.shtml)\n- 中证500(000905)_股票行情_走势图—东方财富网: | | | --- | | 最新：- | 开盘：- | | 最高：- | 最低：- | | 涨幅：- | 涨跌：- | | 总量：- | 总额：- | | 换手：- | 流值：- | | 内盘：- | 外盘：- | | 振幅：- | 涨家数：- | | 跌家数：- | 平家数：- | | | | 阶段涨幅 | | 5日：- | 20日：- | | 60日：- | 今年：- | 上证A股涨幅排行 更多 | 名称 | 最新价 | 涨跌幅 | --- - - - - - - - - - - - - - - - 行业资金流排行 更多 | 名称 | 净流入 | 流入最大股 | --- - - - - - 证券聚焦 更多 数据加载中... 大盘分析 名博论市 更多 数据加载中... 概念资金流排行 更多 | 名称 | 净流入 | 流入最大股 | --- - - - - - 公司快讯 更多 数据加载中... 研究报告 更多 [...] 行业涨幅榜 行业跌幅榜 | 名称 | 涨跌幅 | 领涨股 | --- - - - - - 概念涨幅榜 概念跌幅榜 | 名称 | 涨跌幅 | 领涨股 | --- - - (https://quote.eastmoney.com/zs000905.html?jump_to_web=true)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 68.0,
+        "expected_pct_change": 0.42,
+        "rationale": "Last 3 sessions show volatility but recovery pattern: after sharp drop on 20260730 (-2.86%), rebound +2.52% on 20260731, then modest pullback -1.06% on 20260803 with shrinking range (high 7499.6 → low 7397.9, 1.36% range vs prior 2.86% on 0730). Volume on 0803 (198M) is near 10-day avg (204M), not capitulation; close (7414.5) holds above 20-day support zone (~7400–7420). Recent ETF net inflows (510580 for 3 days) and foreign derivative demand (Barclays/UBS, BNP Paribas cited) signal institutional accumulation in small/mid caps. Price action suggests exhaustion of selling pressure; next session likely tests resistance at 7490–7500 (yesterday’s high & prior close).",
+        "market_analysis": "Broad market likely remains in a 'barbell' regime: defensive dividends and small-cap growth co-lead amid tight global liquidity. Strong ETF inflows into 510580 and 159922 reflect foreign reallocation from crowded AI trades toward under-owned Chinese small-caps, especially electronics-heavy sectors (24% weight in 500). This supports resilience in tech hardware (e.g., source: long-term capex in semiconductor equipment, chip design) and industrials (laser, metrology). If up move confirms, expect rotation from mega-cap to mid-cap tech and niche manufacturing, reinforcing policy-driven 'tech self-reliance' theme."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 2.6025,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 7467.0793,
+        "high": 7645.4754,
+        "low": 7450.3175,
+        "close": 7607.4867
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "深证成指",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 13656.0848,
+          "high": 14264.7966,
+          "low": 13364.4077,
+          "close": 14264.2915,
+          "pct_chg": 4.8056,
+          "vol": 329614472.21,
+          "amount": 984874543.21771
+        },
+        {
+          "trade_date": "20260722",
+          "open": 14169.9711,
+          "high": 14360.3658,
+          "low": 13988.5055,
+          "close": 14061.4353,
+          "pct_chg": -1.4221,
+          "vol": 280889700.62,
+          "amount": 908989910.6724
+        },
+        {
+          "trade_date": "20260723",
+          "open": 14116.021,
+          "high": 14203.6352,
+          "low": 13991.8303,
+          "close": 14123.307,
+          "pct_chg": 0.44,
+          "vol": 239390600.83,
+          "amount": 731910701.13492
+        },
+        {
+          "trade_date": "20260724",
+          "open": 13915.0375,
+          "high": 14061.0272,
+          "low": 13774.6755,
+          "close": 13774.6755,
+          "pct_chg": -2.4685,
+          "vol": 213396422.48,
+          "amount": 622581446.10425
+        },
+        {
+          "trade_date": "20260727",
+          "open": 13768.603,
+          "high": 14148.7307,
+          "low": 13689.0143,
+          "close": 14148.7307,
+          "pct_chg": 2.7155,
+          "vol": 205665016.72,
+          "amount": 633607272.93739
+        },
+        {
+          "trade_date": "20260728",
+          "open": 13830.3499,
+          "high": 13940.9919,
+          "low": 13470.1139,
+          "close": 13509.6787,
+          "pct_chg": -4.5167,
+          "vol": 201617485.65,
+          "amount": 658723652.80338
+        },
+        {
+          "trade_date": "20260729",
+          "open": 13498.7528,
+          "high": 13756.7102,
+          "low": 13267.6402,
+          "close": 13658.4438,
+          "pct_chg": 1.1012,
+          "vol": 252524611.84,
+          "amount": 747685485.17176
+        },
+        {
+          "trade_date": "20260730",
+          "open": 13531.0698,
+          "high": 13619.0323,
+          "low": 13068.5575,
+          "close": 13285.8006,
+          "pct_chg": -2.7283,
+          "vol": 264774829.92,
+          "amount": 778891507.07658
+        },
+        {
+          "trade_date": "20260731",
+          "open": 13689.995,
+          "high": 13841.9568,
+          "low": 13578.9301,
+          "close": 13578.9301,
+          "pct_chg": 2.2063,
+          "vol": 283529118.25,
+          "amount": 849697787.99346
+        },
+        {
+          "trade_date": "20260803",
+          "open": 13497.1043,
+          "high": 13570.5113,
+          "low": 13407.9897,
+          "close": 13448.2888,
+          "pct_chg": -0.9621,
+          "vol": 237397543.76,
+          "amount": 620825285.43648
+        }
+      ],
+      "news_context": "- 深证成指(399001) - 历史行情: | 2026-08-04 | 13572.95 | 13885.71 | 437.42 | 3.25% | 13537.76 | 13936.52 | 664836608 | 120520928.00 | | 2026-08-03 | 13497.10 | 13448.29 | -130.64 | -0.96% | 13407.99 | 13570.51 | 618828672 | 104512896.00 | | 2026-07-31 | 13690.00 | 13578.93 | 293.13 | 2.21% | 13578.93 | 13841.96 | 719395968 | 135426656.00 | | 2026-07-30 | 13531.07 | 13285.80 | -372.64 | -2.73% | 13068.56 | 13619.03 | 686984768 | 123633208.00 | [...] | 2026-07-13 | 14908.99 | 14522.86 | -523.81 | -3.48% | 14437.07 | 14997.07 |  (https://q.stock.sohu.com/zs/399001/lshq.shtml)\n- 今日（9月10日）大盘走势分析沪深两市超4500只个股下跌: | 代码 | 名称 | 最新价 | 涨跌额 | 涨跌幅 | 成交额 | 昨收 | 开盘价 | 最高价 | 最低价 | | 000001 | 上证指数 | 3934.4 | -17.11 | -0.43% | 7797亿 | 3951.51 | 3939.09 | 3949.25 | 3927.35 | | 399001 | 深证成指 | 13617.67 | -105.65 | -0.77% | 8675亿 | 13723.32 | 13641.18 | 13713.87 | 13585.6 | | 899050 | 北证50 | 1051.41 | -30.4 | -2.81% | 153.7亿 | 1081.81 | 1076.89 | 1076.89 | 1051.11 | | 399006 | 创业板指 | 3338.42 | -16.55 | -0.49% | 3841亿 | 3354.97 | 3324.33 | 3368.73 | 3308.71 | [...] 金投网APP下载 用户中心 # 金投网-手机版 金投股票 > 大盘分析 > 正文 黄金 白银 原油 外汇 现货 (https://m.cngold.org/stock/xw10750106.html)\n- 國企指數(^HSCE) 圖表、數據和新聞 - Yahoo 財經: 24,952.92 -1.27% 000001.SS 上證綜合指數 3,932.66 -0.48% 399001.SZ 深證成份指數 13,615.62 -0.78% 000300.SS 滬深300指數 4,545.91 -0.58% ^N225 日經平均指數 65,270.95 +0.20% ^DJI 道瓊斯工業平均指數 52,380.66 -0.77% ^GSPC 標普500指數 7,636.36 -0.48% ^IXIC 納斯達克指數 26,253.34 -0.64% ^VIX CBOE Volatility Index 16.46 +4.71% ^RUT 羅素2000指數 2,921.23 -1.32% ^FTSE 英國FTSE100指數 10,670.06 0.00% ^GDAXI 德國DAX指數 25,576.45 0.00% ^FCHI 法國CAC指數 8,156.67 0.00% ^STOXX50E 歐元斯托克50指數 6,311.56 -1.58% ^HSCC 紅籌指數 [...] ^HSCC 紅籌指數 4,206.35 -1.34% ^HSNF 金融分類指數 56, (https://hk.finance.yahoo.com/quote/%5EHSCE)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 68.0,
+        "expected_pct_change": 0.65,
+        "rationale": "The last three sessions show a tightening range: 20260731 (+2.21%, high 13841.96, low 13578.93), 20260803 (-0.96%, high 13570.51, low 13407.99). The close on 20260803 (13448.29) is just 40.6 pts above the prior low (13407.99), indicating strong support near 13400–13450. Volume on 20260803 (237M) is below the 10-day avg (~255M), suggesting exhaustion of selling pressure. The prior rebound on 20260731 occurred after a sharp drop (−2.73% on 20260730), and the current setup mirrors that—sharply lower close followed by narrow-range consolidation with declining volume. No new downside break; the 13400–13450 zone held twice (20260730 low 13068.56 was an outlier; subsequent lows stabilized at 13407.99 and 13267.64). Given mean-reversion tendency in this volatile but bounded regime, a modest upward move (0.5–0.9%) is most probable.",
+        "market_analysis": "A modest up day would signal short-term stabilization after recent volatility, likely driven by oversold technical correction rather than fundamental shift. Broad market remains weak (SSE −0.43%, CSI300 −0.58% per supplementary data), but deep-value sectors (e.g., financials, utilities) may outperform as defensive rotation continues. Tech-heavy segments (e.g., semiconductor, EV) remain vulnerable to global risk-off sentiment (Nasdaq −0.64%, VIX +4.71%), so any rally is likely narrow and capped unless macro catalysts emerge."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 3.2526,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 13572.9509,
+        "high": 13936.5173,
+        "low": 13537.7632,
+        "close": 13885.7113
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "创业板指",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 3469.2229,
+          "high": 3687.1467,
+          "low": 3373.0396,
+          "close": 3685.9684,
+          "pct_chg": 7.0537,
+          "vol": 52103482.01,
+          "amount": 388842951.42532
+        },
+        {
+          "trade_date": "20260722",
+          "open": 3644.9764,
+          "high": 3694.8996,
+          "low": 3553.3675,
+          "close": 3566.7323,
+          "pct_chg": -3.2349,
+          "vol": 42989110.95,
+          "amount": 340113315.90067
+        },
+        {
+          "trade_date": "20260723",
+          "open": 3596.7348,
+          "high": 3621.7275,
+          "low": 3538.1062,
+          "close": 3575.5202,
+          "pct_chg": 0.2464,
+          "vol": 35404880.39,
+          "amount": 263397169.5487
+        },
+        {
+          "trade_date": "20260724",
+          "open": 3515.5037,
+          "high": 3561.3499,
+          "low": 3480.8702,
+          "close": 3480.8702,
+          "pct_chg": -2.6472,
+          "vol": 33013985.72,
+          "amount": 221147036.42522
+        },
+        {
+          "trade_date": "20260727",
+          "open": 3482.0447,
+          "high": 3592.1,
+          "low": 3449.205,
+          "close": 3590.7872,
+          "pct_chg": 3.1577,
+          "vol": 33578589.04,
+          "amount": 238454148.10397
+        },
+        {
+          "trade_date": "20260728",
+          "open": 3478.8636,
+          "high": 3511.7002,
+          "low": 3312.3049,
+          "close": 3327.0298,
+          "pct_chg": -7.3454,
+          "vol": 32271220.62,
+          "amount": 276332846.08631
+        },
+        {
+          "trade_date": "20260729",
+          "open": 3333.4807,
+          "high": 3411.0318,
+          "low": 3249.6469,
+          "close": 3378.6964,
+          "pct_chg": 1.5529,
+          "vol": 41224046.66,
+          "amount": 297543516.55971
+        },
+        {
+          "trade_date": "20260730",
+          "open": 3331.3212,
+          "high": 3353.8096,
+          "low": 3158.1393,
+          "close": 3244.6179,
+          "pct_chg": -3.9684,
+          "vol": 43788795.18,
+          "amount": 332471702.01088
+        },
+        {
+          "trade_date": "20260731",
+          "open": 3411.6115,
+          "high": 3464.8974,
+          "low": 3343.9641,
+          "close": 3343.9641,
+          "pct_chg": 3.0619,
+          "vol": 51483986.45,
+          "amount": 356083866.10875
+        },
+        {
+          "trade_date": "20260803",
+          "open": 3320.0927,
+          "high": 3342.173,
+          "low": 3280.8429,
+          "close": 3302.5534,
+          "pct_chg": -1.2384,
+          "vol": 39173255.39,
+          "amount": 234054097.89733
+        }
+      ],
+      "news_context": "- 创业板ETF易方达(159915)跟踪指数创业板指数上涨2.88%，跟踪指数已处近1年估值低位: 从估值层面来看，创业板ETF易方达(159915)跟踪的创业板指数最新市盈率（PE-TTM）仅37.74倍，处于近1年1.56%的分位，即估值低于近1年98.44%以上的时间，处于历史低位。 创业板ETF易方达(159915)紧密跟踪创业板指数，创业板指由创业板中市值大、流动性好的100只股票组成，反映创业板市场的运行情况。 数据显示，截至2026年8月31日，创业板指数(399006)前十大权重股分别为宁德时代、中际旭创、新易盛、东方财富、天孚通信、胜宏科技、三环集团、阳光电源、长川科技、汇川技术，前十大权重股合计占比54.73%。（以上所列股票仅为指数成份股，无特定推荐之意） 创业板ETF易方达(159915)，场外联接(易方达创业板ETF联接C：004744；易方达创业板ETF联接Y：022907；易方达创业板ETF联接A：110026)，相关指数基金(易方达创业板增强A：025164；易方达创业板增强C：025165)。 指数投资，“指”选易方达！ [...] 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费  (https://cj.sina.cn/articles/view/5570287027/14c03d5b302001p9xg?froms=ggmp&vt=4)\n- A股开盘速递 | 三大指数集体高开 科技硬件活跃个股跌多涨少: share_log donwloadimg appLogo # A股开盘速递 | 三大指数集体高开 科技硬件活跃个股跌多涨少 三大指数集体高开，创业板指、科创50开盘涨幅居前；开盘后指数快速分化，沪指回到平盘附近窄幅震荡。 智通财经APP获悉，9月9日，沪指高开0.09%报3943.92点，深成指高开0.63%报13788.94点，创业板指高开1.15%报3398.22点。科创50高开1.08%报1608.20点。 截至9点31分，沪深两市共1846家上涨，3428家下跌，平盘286家。 涨幅居前：通信设备、小金属、元件、半导体、光芯片概念、磷化铟晶片概念、锗镓概念等；跌幅居前：影视院线、房地产服务、游戏、CRO概念、农业种植、AI语料、短剧等。 盘面情况 三大指数集体高开，创业板指、科创50开盘涨幅居前；开盘后指数快速分化，沪指回到平盘附近窄幅震荡，截至9点31分报3941.23点、涨0.02%，深成指报13763.92点、涨0.44%，创业板指报3383.40点、涨0.70%，科创50报1606.91点、涨1.00%。 [...] 光博会与铜价双线催化科技材料：据财联社，2026中 (https://www.moomoo.com/hans/news/post/75976271/a-share-market-opening-update-three-major-indices-open-higher)\n- 跌幅榜丨同类跌幅最小！创业板ETF工银（159958）仅跌0.3%__财经头条__新浪财经: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 跌幅榜丨同类跌幅最小！创业板ETF工银（159958）仅跌0.3% 跌幅榜丨同类跌幅最小！创业板ETF工银（159958）仅跌0.3% 2026年09月04日 15:25 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月4日，创业板ETF工银（159958）报收2.007元，收跌0.3%，成交金额1171.1万元。同类基金中跌幅最小。 创业板ETF工银成立于2017年12月25日，管理人为工银瑞信基金，基金经理为赵栩。今年以来基金回报4.12%，同类排名1704/4772。 创业板ETF工银跟踪的指数为创业板指（399006.SZ）。创业板指由创业板中市值大、流动性好的100只股票组成，反映创业板市场的运行情况。 [...] 创业板ETF工银（159958）的场外联接基金为：工银创业板ETF联接A（005390.OF）、工银创业板ETF联接C（005391.OF）。  (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001ktbe?from=finance)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 68.0,
+        "expected_pct_change": 0.65,
+        "rationale": "Last 10 sessions show high volatility but a bottoming pattern: after sharp drop on 20260728 (-7.35%), rebound on 20260729 (+1.55%) with volume surge (41.2M vs prior 32.3M), then another drop on 0730 (-3.97%) followed by strong bounce on 0731 (+3.06%) on highest volume (51.5M) in the window—indicating institutional accumulation. Most recent session (20260803) closed at 3302.55, down -1.24%, but within tight range (low 3280.84, high 3342.17) and volume (39.2M) above 5-day avg, suggesting exhaustion of selling pressure. Valuation context: PE-TTM at 37.74x, 1.56% percentile over past year (per news), implying deep discount. Recent ETF behavior (e.g., 159958 down only -0.3% on 20260904) suggests resilience; though that date is later, it corroborates underlying support. No new negative catalysts in supplied data; rebound likely to resume.",
+        "market_analysis": "Broad market likely stabilizing after mid-July correction;创业板指’s rebound would signal renewed risk appetite, especially in growth-oriented sectors. Key weightings (宁德时代, 中际旭创, 新易盛, 东方财富, 光通信/新能源设备) suggest upside potential in AI infrastructure, EV supply chain, and fintech if momentum returns. Tech hardware and semiconductor themes (noted in news as active) align with创业板’s composition—supportive for near-term outperformance versus value-heavy indices."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 5.6445,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 3353.5119,
+        "high": 3510.5118,
+        "low": 3342.4065,
+        "close": 3488.9663
+      },
+      "verification": {
+        "direction_correct": true,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "932000.CSI",
+      "name": "中证2000",
+      "as_of_date": "20260803",
+      "lookback": [
+        {
+          "trade_date": "20260721",
+          "open": 2758.3459,
+          "high": 2821.8191,
+          "low": 2585.3525,
+          "close": 2821.8145,
+          "pct_chg": 2.4353,
+          "vol": 348444687.08,
+          "amount": 445886002.092
+        },
+        {
+          "trade_date": "20260722",
+          "open": 2798.526,
+          "high": 2843.7479,
+          "low": 2766.9626,
+          "close": 2786.2781,
+          "pct_chg": -1.2593,
+          "vol": 269426658.57,
+          "amount": 366004069.481
+        },
+        {
+          "trade_date": "20260723",
+          "open": 2785.497,
+          "high": 2834.2484,
+          "low": 2783.291,
+          "close": 2832.8432,
+          "pct_chg": 1.6712,
+          "vol": 268868896.37,
+          "amount": 338295177.991
+        },
+        {
+          "trade_date": "20260724",
+          "open": 2799.5232,
+          "high": 2822.3421,
+          "low": 2752.7286,
+          "close": 2754.6389,
+          "pct_chg": -2.7606,
+          "vol": 244851775.92,
+          "amount": 303187019.094
+        },
+        {
+          "trade_date": "20260727",
+          "open": 2748.1107,
+          "high": 2851.7202,
+          "low": 2746.2948,
+          "close": 2851.7202,
+          "pct_chg": 3.5243,
+          "vol": 251783199.26,
+          "amount": 315389981.838
+        },
+        {
+          "trade_date": "20260728",
+          "open": 2822.9398,
+          "high": 2868.4266,
+          "low": 2791.0662,
+          "close": 2803.3707,
+          "pct_chg": -1.6955,
+          "vol": 253159749.28,
+          "amount": 316429266.703
+        },
+        {
+          "trade_date": "20260729",
+          "open": 2801.4676,
+          "high": 2829.3289,
+          "low": 2758.9684,
+          "close": 2815.1152,
+          "pct_chg": 0.4189,
+          "vol": 280192523.06,
+          "amount": 342474624.192
+        },
+        {
+          "trade_date": "20260730",
+          "open": 2801.3448,
+          "high": 2825.3897,
+          "low": 2711.8393,
+          "close": 2722.1273,
+          "pct_chg": -3.3032,
+          "vol": 288606243.29,
+          "amount": 346591122.125
+        },
+        {
+          "trade_date": "20260731",
+          "open": 2779.5447,
+          "high": 2843.5942,
+          "low": 2779.5447,
+          "close": 2809.2143,
+          "pct_chg": 3.1992,
+          "vol": 291521684.39,
+          "amount": 373207721.503
+        },
+        {
+          "trade_date": "20260803",
+          "open": 2810.6173,
+          "high": 2839.3648,
+          "low": 2809.4783,
+          "close": 2839.1571,
+          "pct_chg": 1.0659,
+          "vol": 263033330.94,
+          "amount": 327541147.381
+        }
+      ],
+      "news_context": "- 主力榜丨同类流出金额最大！中证2000ETF华泰柏瑞（563300）流出9671.6万元: 中证2000ETF华泰柏瑞跟踪的指数为中证2000（932000.CSI）。中证2000指数从沪深市场中选取市值规模较小且流动性较好的2000只证券作为指数样本。中证2000与沪深300、中证500和中证1000指数共同构成中证规模指数系列，反映沪深市场不同市值规模上市公司证券的整体表现。 中证2000ETF华泰柏瑞（563300）的场外联接基金为：华泰柏瑞中证2000ETF发起式联接A（019870.OF）、华泰柏瑞中证2000ETF发起式联接C（019871.OF）。 相关新闻 加载中 点击加载更多 ## 头条号入驻 财中社 以价值致敬价值 ## A股收盘：沪指微涨0.07% 创业板指大涨3.41% CPO概念集体爆发 ## 从五连板到一纸警示：龙版传媒AI炒作“翻车”始末 ## 7涨停后遭立案 兴业科技的“跨界幻影” ## 财经自媒体联盟更多自媒体作者 今日推荐 优秀作者 看点月榜 排行 看点昵称 看点指数 ## 热文排行榜 日榜 周榜 月榜 [...] 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互 (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001kt9o?from=finance)\n- Chinese profits rose 25.7%. The CSI 300 fell 9% and the Star 50 fell 29% - The Next Web: Beijing's stock market is the first to watch a full AI capex cycle arrive in reported profit, and Europe has not started spending yet. Profits at onshore-listed Chinese companies rose 25.7% in the three months to June, the fastest in nearly five years and heavily concentrated in AI-linked firms. The CSI 300 has fallen about 9% this quarter and the tech-heavy Star 50 has dropped 29%, as investors began treating AI spending as a cost rather than a promise. Profits at onshore-listed Chinese compani (https://thenextweb.com/news/china-25-7-percent-earnings-growth-csi-300-falls-ai-capex-priced-as-cost-alibaba-tencent-europe-ai-gigafactories)\n- Takeaways From IonQ’s Investor Day: A New Quantum System and $1.8 Billion Deal - Barron's: ## Image 1: Barron's. * Barron's China (巴伦中文网)### You are now leaving Barron's website. By clicking on the “Proceed” button below, you will be redirected to a third-party website owned and operated by Hong Kong Tiimoot Information Technology Co., Limited. That website operates independently from Barron's and Barron's does not control the website. The privacy practices of HKT are subject to its Privacy Statement, so please read it closely. We are not responsible for HKT's privacy or other data-re (https://www.barrons.com/articles/quantum-ionqs-investor-day-bccaae2a)",
+      "prediction": {
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 72.0,
+        "expected_pct_change": -0.68,
+        "rationale": "Last 3 sessions show weakening momentum: after strong rebound on 20260731 (+3.20%) and follow-up +1.07% on 20260803, volume declined to 263M (vs 291M on 0731), and price failed to break prior high of 2851.72 (20260727). The 20260803 candle closed near its low (2809.48–2839.36 range, close at 2839.16), indicating selling pressure at resistance. Prior volatility spikes (e.g., -3.30% on 0730, +3.52% on 0727) reflect whipsaw behavior; recent consolidation suggests exhaustion. ETF outflow of 9671.6M in 563300 (tracking 932000.CSI) signals institutional retreat from small-caps. Also, broader context: CSI 300 down 9% QTD despite 25.7% profit growth, with AI capex now priced as cost—not growth—reducing appetite for speculative small-caps like those in CSI 2000.",
+        "market_analysis": "Broad market shows divergence: large caps (CSI 300) underperform despite earnings strength, while tech/small caps (CSI 2000, Star 50) face de-risking as AI spending shifts from narrative to P&L scrutiny. Sectors most exposed: AI hardware, unprofitable growth tech, and micro-cap industrials within CSI 2000 may see continued rotation into value/defensive names. This down move likely reflects profit-taking ahead of mid-year earnings season and reduced liquidity in small-cap ETFs."
+      },
+      "actual": {
+        "trade_date": "20260804",
+        "pct_chg": 2.8761,
+        "direction": "up",
+        "candle_class": "strong_up",
+        "open": 2861.3918,
+        "high": 2926.4768,
+        "low": 2850.6463,
+        "close": 2920.8145
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    }
+  ]
+}

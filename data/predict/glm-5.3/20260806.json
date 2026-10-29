@@ -1,7 +1,7 @@
 {
   "agent_name": "glm-5.3",
   "prediction_date": "20260806",
-  "generated_at": "2026-08-24T08:13:30.948028+00:00",
+  "generated_at": "2026-09-11T06:03:11.826076+00:00",
   "lookback_days": 10,
   "data_policy": "Each prediction only contains completed index sessions before prediction_date.",
   "predictions": [
@@ -9,55 +9,179 @@
       "ts_code": "000001.SH",
       "name": "上证指数",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "Expecting value: line 1 column 1 (char 0)"
     },
     {
       "ts_code": "000016.SH",
       "name": "上证50",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "The read operation timed out"
     },
     {
       "ts_code": "000300.SH",
       "name": "沪深300",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "The read operation timed out"
     },
     {
       "ts_code": "000688.SH",
       "name": "科创50",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "The read operation timed out"
     },
     {
       "ts_code": "000852.SH",
       "name": "中证1000",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "Expecting value: line 1 column 1 (char 0)"
     },
     {
       "ts_code": "000905.SH",
       "name": "中证500",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "The read operation timed out"
     },
     {
       "ts_code": "399001.SZ",
       "name": "深证成指",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "The read operation timed out"
     },
     {
       "ts_code": "399006.SZ",
       "name": "创业板指",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "lookback": [
+        {
+          "trade_date": "20260723",
+          "open": 3596.7348,
+          "high": 3621.7275,
+          "low": 3538.1062,
+          "close": 3575.5202,
+          "pct_chg": 0.2464,
+          "vol": 35404880.39,
+          "amount": 263397169.5487
+        },
+        {
+          "trade_date": "20260724",
+          "open": 3515.5037,
+          "high": 3561.3499,
+          "low": 3480.8702,
+          "close": 3480.8702,
+          "pct_chg": -2.6472,
+          "vol": 33013985.72,
+          "amount": 221147036.42522
+        },
+        {
+          "trade_date": "20260727",
+          "open": 3482.0447,
+          "high": 3592.1,
+          "low": 3449.205,
+          "close": 3590.7872,
+          "pct_chg": 3.1577,
+          "vol": 33578589.04,
+          "amount": 238454148.10397
+        },
+        {
+          "trade_date": "20260728",
+          "open": 3478.8636,
+          "high": 3511.7002,
+          "low": 3312.3049,
+          "close": 3327.0298,
+          "pct_chg": -7.3454,
+          "vol": 32271220.62,
+          "amount": 276332846.08631
+        },
+        {
+          "trade_date": "20260729",
+          "open": 3333.4807,
+          "high": 3411.0318,
+          "low": 3249.6469,
+          "close": 3378.6964,
+          "pct_chg": 1.5529,
+          "vol": 41224046.66,
+          "amount": 297543516.55971
+        },
+        {
+          "trade_date": "20260730",
+          "open": 3331.3212,
+          "high": 3353.8096,
+          "low": 3158.1393,
+          "close": 3244.6179,
+          "pct_chg": -3.9684,
+          "vol": 43788795.18,
+          "amount": 332471702.01088
+        },
+        {
+          "trade_date": "20260731",
+          "open": 3411.6115,
+          "high": 3464.8974,
+          "low": 3343.9641,
+          "close": 3343.9641,
+          "pct_chg": 3.0619,
+          "vol": 51483986.45,
+          "amount": 356083866.10875
+        },
+        {
+          "trade_date": "20260803",
+          "open": 3320.0927,
+          "high": 3342.173,
+          "low": 3280.8429,
+          "close": 3302.5534,
+          "pct_chg": -1.2384,
+          "vol": 39173255.39,
+          "amount": 234054097.89733
+        },
+        {
+          "trade_date": "20260804",
+          "open": 3353.5119,
+          "high": 3510.5118,
+          "low": 3342.4065,
+          "close": 3488.9663,
+          "pct_chg": 5.6445,
+          "vol": 44203366.76,
+          "amount": 305124249.10933
+        },
+        {
+          "trade_date": "20260805",
+          "open": 3372.0823,
+          "high": 3584.0617,
+          "low": 3372.042,
+          "close": 3535.1431,
+          "pct_chg": 1.3235,
+          "vol": 49937396.71,
+          "amount": 382567610.05961
+        }
+      ],
+      "news_context": "- 创业板ETF易方达(159915)跟踪指数创业板指数上涨2.88%，跟踪指数已处近1年估值低位: 从估值层面来看，创业板ETF易方达(159915)跟踪的创业板指数最新市盈率（PE-TTM）仅37.74倍，处于近1年1.56%的分位，即估值低于近1年98.44%以上的时间，处于历史低位。 创业板ETF易方达(159915)紧密跟踪创业板指数，创业板指由创业板中市值大、流动性好的100只股票组成，反映创业板市场的运行情况。 数据显示，截至2026年8月31日，创业板指数(399006)前十大权重股分别为宁德时代、中际旭创、新易盛、东方财富、天孚通信、胜宏科技、三环集团、阳光电源、长川科技、汇川技术，前十大权重股合计占比54.73%。（以上所列股票仅为指数成份股，无特定推荐之意） 创业板ETF易方达(159915)，场外联接(易方达创业板ETF联接C：004744；易方达创业板ETF联接Y：022907；易方达创业板ETF联接A：110026)，相关指数基金(易方达创业板增强A：025164；易方达创业板增强C：025165)。 指数投资，“指”选易方达！ [...] 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费  (https://cj.sina.cn/articles/view/5570287027/14c03d5b302001p9xg?froms=ggmp&vt=4)\n- A股开盘速递 | 三大指数集体高开 科技硬件活跃个股跌多涨少: share_log donwloadimg appLogo # A股开盘速递 | 三大指数集体高开 科技硬件活跃个股跌多涨少 三大指数集体高开，创业板指、科创50开盘涨幅居前；开盘后指数快速分化，沪指回到平盘附近窄幅震荡。 智通财经APP获悉，9月9日，沪指高开0.09%报3943.92点，深成指高开0.63%报13788.94点，创业板指高开1.15%报3398.22点。科创50高开1.08%报1608.20点。 截至9点31分，沪深两市共1846家上涨，3428家下跌，平盘286家。 涨幅居前：通信设备、小金属、元件、半导体、光芯片概念、磷化铟晶片概念、锗镓概念等；跌幅居前：影视院线、房地产服务、游戏、CRO概念、农业种植、AI语料、短剧等。 盘面情况 三大指数集体高开，创业板指、科创50开盘涨幅居前；开盘后指数快速分化，沪指回到平盘附近窄幅震荡，截至9点31分报3941.23点、涨0.02%，深成指报13763.92点、涨0.44%，创业板指报3383.40点、涨0.70%，科创50报1606.91点、涨1.00%。 [...] 光博会与铜价双线催化科技材料：据财联社，2026中 (https://www.moomoo.com/hans/news/post/75976271/a-share-market-opening-update-three-major-indices-open-higher)\n- 跌幅榜丨同类跌幅最小！创业板ETF工银（159958）仅跌0.1%: 新浪财经APP 宏观经济 A股 港股 美股 基金 理财 黄金 期货 能源 互联网金融 房地产 更多 外汇 管理 消费 科技 互联网 手机 保险 数码 科普 创业 银行 新三板 其他 # 跌幅榜丨同类跌幅最小！创业板ETF工银（159958）仅跌0.1% 跌幅榜丨同类跌幅最小！创业板ETF工银（159958）仅跌0.1% 2026年09月10日 15:28 财中社 语音播报 缩小字体 放大字体 微博 微信 分享 0 腾讯QQ QQ空间 9月10日，创业板ETF工银（159958）报收2.037元，收跌0.1%，成交金额660.1万元。同类基金中跌幅最小。 创业板ETF工银成立于2017年12月25日，管理人为工银瑞信基金，基金经理为赵栩。今年以来基金回报5.44%，同类排名1509/4772。 创业板ETF工银跟踪的指数为创业板指（399006.SZ）。创业板指由创业板中市值大、流动性好的100只股票组成，反映创业板市场的运行情况。 [...] 创业板ETF工银（159958）的场外联接基金为：工银创业板ETF联接A（005390.OF）、工银创业板ETF联接C（005391.OF）。  (https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001l7vc?from=finance)",
+      "prediction": {
+        "direction": "up",
+        "candle_class": "up",
+        "confidence": 60.0,
+        "expected_pct_change": 0.6,
+        "rationale": "The last two sessions rebounded +7.0% (3302.55→3535.14). On 20260805 the index gapped down to 3372.08 (the day's low), was fully absorbed and driven to close at 3535.14 near the 3584.06 high — a bullish reversal candle on the window's largest turnover (amount 382.6B, vol 49.9M), and volume has expanded on up days (0731 51.5M, 0804 44.2M, 0805 49.9M), signaling accumulation rather than a dead-cat bounce. Lows have risen since the 0730 trough (3158→3281→3342→3372) and the close is back above the 0728 crash candle's high (3511.7), repairing structure; it is now the 3rd-highest close of the ten sessions. Supplementary news notes ChiNext PE-TTM ~37.7x at a ~1.6% one-year percentile, a valuation floor that encourages dip-buying flows (https://cj.sina.cn/articles/view/5570287027/14c03d5b302001p9xg). However, overhead supply sits at 3575-3592 (0723 close/0727 high) and 3621, 0805 stalled at 3584, and this window's regime has alternated hard (most up days were followed by pullbacks), so after +7% in two days a modest follow-through 'up' (0-1%) is favored over 'strong_up'.",
+        "market_analysis": "A ChiNext-led advance would signal returning risk appetite in the broad market: with ~54.7% of index weight in the top ten names, moves are driven by the battery chain (CATL), AI optical modules (Innolight, Eoptolink, TFC), fintech/brokers (East Money), power equipment (Sungrow) and semiconductor equipment (Changchuan), so tech-hardware and new-energy sectors should outperform while SH/SZ composites likely track with less beta. Confirmation would come from sustained ChiNext turnover above ~350-380B yuan and holds above the 3372/3489 supports; a rejection at 3575-3592 would instead favor rotation into defensives/value and a retest of those supports, with high-volatility 3-7% daily swings still the operating norm."
+      },
+      "actual": {
+        "trade_date": "20260806",
+        "pct_chg": -0.5539,
+        "direction": "down",
+        "candle_class": "down",
+        "open": 3472.1465,
+        "high": 3574.4058,
+        "low": 3444.3585,
+        "close": 3515.5603
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
     },
     {
       "ts_code": "932000.CSI",
       "name": "中证2000",
       "as_of_date": "20260805",
-      "error": "Model request failed: HTTP 429: {\"error\":{\"code\":\"1113\",\"message\":\"余额不足或无可用资源包,请充值。\"}}"
+      "error": "Expecting value: line 1 column 1 (char 0)"
     }
   ]
 }

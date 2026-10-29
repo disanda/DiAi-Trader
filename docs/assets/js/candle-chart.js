@@ -287,7 +287,7 @@ async function loadAndDisplayKline() {
         }
 
         // 获取基准文件路径
-        const benchmarkFile = marketConfig.benchmark_file || 'data/a_stock_data/sse_50_day/index_daily_sh000001.json';
+        const benchmarkFile = marketConfig.benchmark_file || 'a_stock_data/sse_50_day/index_daily_sh000001.json';
         console.log('[loadAndDisplayKline] 将加载基准文件:', benchmarkFile);
 
         const fullPath = `${dataLoader.baseDataPath}/${benchmarkFile}`;

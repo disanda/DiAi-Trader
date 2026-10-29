@@ -1,0 +1,758 @@
+{
+  "agent_name": "gpt-oss-20b-advanced",
+  "prediction_date": "20260820",
+  "generated_at": "2026-09-16T04:43:10.085886+00:00",
+  "lookback_days": 120,
+  "data_policy": "Point-in-time validated; return-based features; model output accepted only through submit_prediction tool",
+  "predictions": [
+    {
+      "ts_code": "000001.SH",
+      "name": "000001.SH",
+      "as_of_date": "20260819",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 413,
+        "selected_count": 120,
+        "excluded_target_or_future": 18,
+        "coverage_start": "20260226",
+        "coverage_end": "20260819",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 120,
+          "start": "20260226",
+          "end": "20260819"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 120,
+          "return_1d_pct": -2.402857206081832,
+          "return_3d_pct": -0.8340343458979826,
+          "return_5d_pct": -1.3239701103349044,
+          "return_10d_pct": 0.41235246348161336,
+          "return_20d_pct": 0.7082638226882709,
+          "return_60d_pct": -6.053751978410615,
+          "mean_return_5d_pct": -0.2584305308768453,
+          "volatility_5d_pct": 1.2427151541548724,
+          "downside_volatility_5d_pct": 1.097555550377954,
+          "max_drawdown_5d_pct": -2.402857206081832,
+          "close_vs_mean_5d_pct": -1.2646529774722137,
+          "mean_return_10d_pct": 0.046504443784102234,
+          "volatility_10d_pct": 1.0303729799815506,
+          "downside_volatility_10d_pct": 0.8181985342608654,
+          "max_drawdown_10d_pct": -2.402857206081821,
+          "close_vs_mean_10d_pct": -1.1800466711491042,
+          "mean_return_20d_pct": 0.040227964655819015,
+          "volatility_20d_pct": 0.9911796038247292,
+          "downside_volatility_20d_pct": 0.7546447189815867,
+          "max_drawdown_20d_pct": -2.402857206081832,
+          "close_vs_mean_20d_pct": 0.18115065423420784,
+          "mean_return_60d_pct": -0.09766124163441044,
+          "volatility_60d_pct": 1.1256864922390308,
+          "downside_volatility_60d_pct": 0.9013396286082312,
+          "max_drawdown_60d_pct": -9.58281413846641,
+          "close_vs_mean_60d_pct": -2.0705365316961433,
+          "gap_return_pct": -0.9568645113403274,
+          "intraday_return_pct": -1.4599625583411324,
+          "high_excursion_pct": -0.7309443639590518,
+          "low_excursion_pct": -2.7748564601736914,
+          "range_pct": 2.043912096214635,
+          "volume_change_pct": 11.923481571962725,
+          "volume_relative_20": 1.0494935594954566,
+          "rsi_14_simple": 60.40675144869076,
+          "positive_session_ratio_20": 0.65,
+          "return_skew_20": -0.6955799452616293,
+          "return_autocorrelation_20": -0.25162084900206466,
+          "price_volume_correlation_20": -0.016699606006548084,
+          "consecutive_up": 0,
+          "consecutive_down": 1
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "positive",
+            "strength": 0.0708,
+            "evidence": {
+              "return_20d_pct": 0.7082638226882709
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "conflict",
+            "strength": 0.1355,
+            "evidence": {
+              "return_5d_pct": -1.3239701103349044,
+              "return_20d_pct": 0.7082638226882709
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "neutral",
+            "strength": 0.1982,
+            "evidence": {
+              "volatility_20d_pct": 0.9911796038247292
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.0495,
+            "evidence": {
+              "volume_relative_20": 1.0494935594954566,
+              "return_1d_pct": -2.402857206081832
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "neutral",
+            "strength": 0.2081,
+            "evidence": {
+              "rsi_14_simple": 60.40675144869076
+            }
+          }
+        ],
+        "input_sha256": "ee9fab87d39fbd2791190c0ffd45701cdb6e69531047d31bf1d281799402dcb4"
+      },
+      "news_status": "ok",
+      "news_audit": [
+        {
+          "position": 0,
+          "accepted": true,
+          "title": "$上證指數 (000001.SH)$ 不可能跌的",
+          "url": "http://www.moomoo.com/hant/community/feed/sse-composite-index-000001-sh-it-s-impossible-to-fall-116842495344645",
+          "source": "tavily",
+          "published_at": "2026-07-18T04:00:00+00:00",
+          "updated_at": null,
+          "updated_date": null,
+          "last_updated": null,
+          "fetched_at": "2026-09-16T04:34:09.588697+00:00",
+          "reason": "within_cutoff"
+        }
+      ],
+      "news_context": [
+        {
+          "title": "$上證指數 (000001.SH)$ 不可能跌的",
+          "url": "http://www.moomoo.com/hant/community/feed/sse-composite-index-000001-sh-it-s-impossible-to-fall-116842495344645",
+          "source": "tavily",
+          "published_at": "2026-07-18T04:00:00+00:00",
+          "fetched_at": "2026-09-16T04:34:09.588697+00:00",
+          "content": "所有投資均存在風險，包括潛在的資本金損失。電子化交易亦存在風險。交易系統響應狀況可能會因為市場情況、系統表現或其他因素而受到影響。市場波動等因素可能會影響賬戶訪問和交易執行。\n\n投資產品不受美國聯邦存款保險公司（FDIC）保護，亦非銀行存款，且可能貶值。\n\n本網站上提供的服務和產品受到適用法律和法規以及我們服務條款和政策的約束。本服務和產品不適用於所有客戶和所有地區。本服務和產品不適用於法律不允許提供此類服務和產品地區。\n\n公司地址：新澤西州，澤西市哈德遜街185號2600單元，郵編NJ 07302\nMoomoo Financial Inc. 和 Moomoo Technologies Inc.\n\nCopyright © 2026 Moomoo Technologies Inc. 版權所有 [...] donwloadimg\nappLogo\n\n$上證指數 (000001.SH)$ 不可能跌的\n\n- 没有更多了 -\n\n投資產品和服務由Moomoo Financial Inc.提供，Moomoo Financial Inc.是美國證券投資者保護公司(SIPC)及美國金融業管理局(FINRA)的成員。如需了解Moomoo Financial Inc.的相關信息，請訪問美國金融業管理局（FINRA）的BrokerCheck網站。\n\n期權交易會帶來巨大的風險，並不適合所有投資者。投資者在參與"
+        }
+      ],
+      "prompt_sha256": "dcba926ea906cfc15dd9e8b9554652a2d8f18b722be510c1ad42e9b54982f68c",
+      "prediction": {
+        "expected_return_pct": -0.3,
+        "return_interval": {
+          "lower_pct": -1.5,
+          "upper_pct": 0.5
+        },
+        "probability_positive": 0.35,
+        "confidence_level": "low",
+        "analysis": "The 20‑day trend signal is weakly positive (0.708% cumulative return) and the 10‑day return is modestly positive (0.412%). However, the 5‑day and 1‑day returns are negative (‑1.324% and ‑2.403%). The multi‑horizon alignment signal flags this conflict, suggesting that short‑term momentum is currently negative while the longer‑term trend remains positive. Volume is only slightly above the 20‑day average (1.05×) and does not confirm the negative 1‑day return. Volatility is moderate (≈1% over 20 days) and RSI is 60.4, indicating a mild over‑bought condition but not extreme. News evidence is essentially a generic disclaimer with no actionable content. Therefore, the short‑term negative momentum is likely to persist, but the underlying long‑term trend could pull the index back up. Given the moderate volatility and weak signals, the expected return is set to a small negative value with a wide interval and low confidence.",
+        "signal_relationships": [
+          "trend_20d positive vs multi_horizon_alignment conflict",
+          "volume_confirmation neutral",
+          "rsi_extreme neutral",
+          "volatility_regime neutral"
+        ],
+        "positive_evidence": [
+          "20‑day cumulative return 0.708%",
+          "10‑day return 0.412%",
+          "close vs mean 20d 0.181% above mean",
+          "volume relative 20 1.0495"
+        ],
+        "negative_evidence": [
+          "1‑day return ‑2.403%",
+          "5‑day return ‑1.324%",
+          "3‑day return ‑0.834%",
+          "gap return ‑0.957%",
+          "intraday return ‑1.460%",
+          "low excursion ‑2.775%",
+          "high excursion ‑0.731%",
+          "max drawdown 5d ‑2.403%",
+          "max drawdown 10d ‑2.403%",
+          "max drawdown 20d ‑2.403%"
+        ],
+        "uncertainties": [
+          "Short‑term reversal vs long‑term trend dominance",
+          "Moderate volatility may amplify swings",
+          "Limited news evidence"
+        ],
+        "counter_view": "If the 20‑day trend and 10‑day positive returns dominate, the index could rebound to a small positive return.",
+        "risk_scenarios": [
+          "Sudden market shock (e.g., policy change, geopolitical event)",
+          "Liquidity crunch leading to sharp sell‑off",
+          "Unexpected earnings or macro data reversal"
+        ],
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 65.0,
+        "probability_up": 0.35,
+        "probability_down": 0.65,
+        "expected_pct_change": -0.3,
+        "rationale": "The 20‑day trend signal is weakly positive (0.708% cumulative return) and the 10‑day return is modestly positive (0.412%). However, the 5‑day and 1‑day returns are negative (‑1.324% and ‑2.403%). The multi‑horizon alignment signal flags this conflict, suggesting that short‑term momentum is currently negative while the longer‑term trend remains positive. Volume is only slightly above the 20‑day average (1.05×) and does not confirm the negative 1‑day return. Volatility is moderate (≈1% over 20 days) and RSI is 60.4, indicating a mild over‑bought condition but not extreme. News evidence is essentially a generic disclaimer with no actionable content. Therefore, the short‑term negative momentum is likely to persist, but the underlying long‑term trend could pull the index back up. Given the moderate volatility and weak signals, the expected return is set to a small negative value with a wide interval and low confidence.",
+        "market_analysis": "trend_20d positive vs multi_horizon_alignment conflict；volume_confirmation neutral；rsi_extreme neutral；volatility_regime neutral"
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-16T04:34:10.941030+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 54625,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 4193,
+            "total_tokens": 5968,
+            "completion_tokens": 1775
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260820",
+        "pct_chg": 0.2388,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 3907.2058,
+        "high": 3925.0615,
+        "low": 3888.0989,
+        "close": 3903.721
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "399001.SZ",
+      "name": "399001.SZ",
+      "as_of_date": "20260819",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 413,
+        "selected_count": 120,
+        "excluded_target_or_future": 18,
+        "coverage_start": "20260226",
+        "coverage_end": "20260819",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 120,
+          "start": "20260226",
+          "end": "20260819"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 120,
+          "return_1d_pct": -5.008329939532685,
+          "return_3d_pct": -3.2335448740493655,
+          "return_5d_pct": -3.6371505500111256,
+          "return_10d_pct": -1.79615757110978,
+          "return_20d_pct": -1.218104669585185,
+          "return_60d_pct": -12.509386084148744,
+          "mean_return_5d_pct": -0.7079136582391055,
+          "volatility_5d_pct": 2.440864149078291,
+          "downside_volatility_5d_pct": 2.2866792749002895,
+          "max_drawdown_5d_pct": -5.5366388722778765,
+          "close_vs_mean_5d_pct": -3.353584656744213,
+          "mean_return_10d_pct": -0.1630096191317998,
+          "volatility_10d_pct": 1.8830452969552876,
+          "downside_volatility_10d_pct": 1.6236993271468787,
+          "max_drawdown_10d_pct": -5.536638872277888,
+          "close_vs_mean_10d_pct": -3.050899461836354,
+          "mean_return_20d_pct": -0.03641945552551984,
+          "volatility_20d_pct": 2.2164614049625597,
+          "downside_volatility_20d_pct": 1.7496710703331044,
+          "max_drawdown_20d_pct": -6.098993035467116,
+          "close_vs_mean_20d_pct": -1.0780000397805911,
+          "mean_return_60d_pct": -0.19676038149308758,
+          "volatility_60d_pct": 2.2623616063639074,
+          "downside_volatility_60d_pct": 1.754783237472067,
+          "max_drawdown_60d_pct": -18.85294454169051,
+          "close_vs_mean_60d_pct": -6.737614240440514,
+          "gap_return_pct": -2.0893506744960377,
+          "intraday_return_pct": -2.981268416811844,
+          "high_excursion_pct": -1.7447275465320544,
+          "low_excursion_pct": -5.335445795430638,
+          "range_pct": 3.5907182488985816,
+          "volume_change_pct": 4.180201838861897,
+          "volume_relative_20": 0.9997551773605791,
+          "rsi_14_simple": 60.32353793166522,
+          "positive_session_ratio_20": 0.55,
+          "return_skew_20": -0.6996664721866339,
+          "return_autocorrelation_20": -0.3918543939859306,
+          "price_volume_correlation_20": 0.1253209272402301,
+          "consecutive_up": 0,
+          "consecutive_down": 2
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "negative",
+            "strength": 0.1218,
+            "evidence": {
+              "return_20d_pct": -1.218104669585185
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "negative",
+            "strength": 0.3237,
+            "evidence": {
+              "return_5d_pct": -3.6371505500111256,
+              "return_20d_pct": -1.218104669585185
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "neutral",
+            "strength": 0.4433,
+            "evidence": {
+              "volatility_20d_pct": 2.2164614049625597
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.0002,
+            "evidence": {
+              "volume_relative_20": 0.9997551773605791,
+              "return_1d_pct": -5.008329939532685
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "neutral",
+            "strength": 0.2065,
+            "evidence": {
+              "rsi_14_simple": 60.32353793166522
+            }
+          }
+        ],
+        "input_sha256": "f0eeb3fbff55a30f1f07e0e7e80a7e64de347f7078eff01f3c749bd61b265c7e"
+      },
+      "news_status": "ok",
+      "news_audit": [
+        {
+          "position": 0,
+          "accepted": true,
+          "title": "中國股市平開，政策信號提供支撐，但市場對人工智能持懷疑態度",
+          "url": "https://www.moomoo.com/hant/news/post/72154638/chinese-shares-open-flat-amid-policy-signal-support-ai-skepticism",
+          "source": "tavily",
+          "published_at": "2026-07-18T04:00:00+00:00",
+          "updated_at": null,
+          "updated_date": null,
+          "last_updated": null,
+          "fetched_at": "2026-09-16T04:35:05.605794+00:00",
+          "reason": "within_cutoff"
+        }
+      ],
+      "news_context": [
+        {
+          "title": "中國股市平開，政策信號提供支撐，但市場對人工智能持懷疑態度",
+          "url": "https://www.moomoo.com/hant/news/post/72154638/chinese-shares-open-flat-amid-policy-signal-support-ai-skepticism",
+          "source": "tavily",
+          "published_at": "2026-07-18T04:00:00+00:00",
+          "fetched_at": "2026-09-16T04:35:05.605794+00:00",
+          "content": "週一，受政策支持信號和市場對全球在人工智能領域巨額支出日益增長的質疑情緒影響，中國股市平開並略顯疲軟。作爲中國股市主要指標的上證綜合指數微跌0.58點，"
+        }
+      ],
+      "prompt_sha256": "879291f9495b4d6b6d89d317777cb1962a0519e19b90fce42920e390827cb18e",
+      "prediction": {
+        "expected_return_pct": -0.5,
+        "return_interval": {
+          "lower_pct": -2.5,
+          "upper_pct": 0.5
+        },
+        "probability_positive": 0.35,
+        "confidence_level": "medium",
+        "analysis": "The data quality is good (status ok, 120 sessions covered). The trend signal (20‑day) and multi‑horizon alignment both point to a negative direction with moderate strength, and the 20‑day return of –1.22% confirms a downtrend. Volatility is neutral (20‑day vol 2.22%) and volume is unchanged (volume_relative_20 ≈ 1.0), so there is no evidence of a breakout or reversal. RSI is 60.3, not extreme, so mean‑reversion pressure is weak. The recent compact return bars show a mixed pattern but the last two days were negative, and the 1‑day return on 2026‑08‑19 was –5.01%, indicating short‑term momentum is bearish. News on 2026‑07‑18 reports a flat market with policy support but AI skepticism, which does not provide a strong bullish bias. Therefore the signals are largely consistent in pointing to a modest negative move, but the lack of a clear reversal signal and the neutral risk/volume indicators introduce uncertainty.\n\nSignal relationships: trend and multi‑horizon signals are aligned (both negative). Volatility and volume signals are neutral, so they neither reinforce nor contradict the trend. RSI is neutral, so it does not add mean‑reversion pressure.\n\nPositive evidence: trend negative, multi‑horizon negative, recent 1‑day return negative, 20‑day return negative.\n\nNegative evidence: RSI neutral, volume neutral, volatility neutral, no strong bullish news.\n\nUncertainties: short‑term reversal possible, volatility could spike, AI skepticism may dampen rally.\n\nCounter view: if policy support triggers a rally or AI breakthrough, the index could rebound.\n\nRisk scenarios: sudden policy change, global market shift, unexpected AI breakthrough, or a sudden spike in volatility.",
+        "signal_relationships": [
+          "trend_20d aligns with multi_horizon_alignment",
+          "volatility_regime neutral does not reinforce trend",
+          "volume_confirmation neutral does not reinforce trend",
+          "rsi_extreme neutral does not provide mean‑reversion pressure"
+        ],
+        "positive_evidence": [
+          "trend_20d negative",
+          "multi_horizon_alignment negative",
+          "return_1d_pct -5.01%",
+          "return_20d_pct -1.22%"
+        ],
+        "negative_evidence": [
+          "rsi_extreme neutral",
+          "volume_confirmation neutral",
+          "volatility_regime neutral",
+          "news indicates AI skepticism"
+        ],
+        "uncertainties": [
+          "possible short‑term reversal",
+          "volatility spike",
+          "AI skepticism dampening rally"
+        ],
+        "counter_view": "If policy support materializes into a rally or AI breakthrough occurs, the index could turn positive.",
+        "risk_scenarios": [
+          "Sudden policy change",
+          "Global market shift",
+          "Unexpected AI breakthrough",
+          "Sudden volatility spike"
+        ],
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 65.0,
+        "probability_up": 0.35,
+        "probability_down": 0.65,
+        "expected_pct_change": -0.5,
+        "rationale": "The data quality is good (status ok, 120 sessions covered). The trend signal (20‑day) and multi‑horizon alignment both point to a negative direction with moderate strength, and the 20‑day return of –1.22% confirms a downtrend. Volatility is neutral (20‑day vol 2.22%) and volume is unchanged (volume_relative_20 ≈ 1.0), so there is no evidence of a breakout or reversal. RSI is 60.3, not extreme, so mean‑reversion pressure is weak. The recent compact return bars show a mixed pattern but the last two days were negative, and the 1‑day return on 2026‑08‑19 was –5.01%, indicating short‑term momentum is bearish. News on 2026‑07‑18 reports a flat market with policy support but AI skepticism, which does not provide a strong bullish bias. Therefore the signals are largely consistent in pointing to a modest negative move, but the lack of a clear reversal signal and the neutral risk/volume indicators introduce uncertainty.\n\nSignal relationships: trend and multi‑horizon signals are aligned (both negative). Volatility and volume signals are neutral, so they neither reinforce nor contradict the trend. RSI is neutral, so it does not add mean‑reversion pressure.\n\nPositive evidence: trend negative, multi‑horizon negative, recent 1‑day return negative, 20‑day return negative.\n\nNegative evidence: RSI neutral, volume neutral, volatility neutral, no strong bullish news.\n\nUncertainties: short‑term reversal possible, volatility could spike, AI skepticism may dampen rally.\n\nCounter view: if policy support triggers a rally or AI breakthrough, the index could rebound.\n\nRisk scenarios: sudden policy change, global market shift, unexpected AI breakthrough, or a sudden spike in volatility.",
+        "market_analysis": "trend_20d aligns with multi_horizon_alignment；volatility_regime neutral does not reinforce trend；volume_confirmation neutral does not reinforce trend；rsi_extreme neutral does not provide mean‑reversion pressure"
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-16T04:35:07.094341+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 51344,
+          "tool_call_received": false,
+          "error_type": "invalid_tool_output"
+        },
+        {
+          "attempt": 2,
+          "started_at": "2026-09-16T04:35:59.431318+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 61016,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 3882,
+            "total_tokens": 5457,
+            "completion_tokens": 1575
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260820",
+        "pct_chg": 0.5949,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 14032.9668,
+        "high": 14101.1402,
+        "low": 13870.1765,
+        "close": 13972.7807
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "399006.SZ",
+      "name": "399006.SZ",
+      "as_of_date": "20260819",
+      "data_quality": {
+        "status": "ok",
+        "errors": [],
+        "warnings": [],
+        "input_count": 413,
+        "selected_count": 120,
+        "excluded_target_or_future": 18,
+        "coverage_start": "20260226",
+        "coverage_end": "20260819",
+        "missing_sessions_checked": false,
+        "note": "Exchange calendar not supplied; internal gaps cannot be proven absent."
+      },
+      "feature_summary": {
+        "schema_version": "feature-report-2.0",
+        "coverage": {
+          "sessions": 120,
+          "start": "20260226",
+          "end": "20260819"
+        },
+        "features": {
+          "schema_version": "return-features-2.0",
+          "units": "All return, volatility, range and deviation fields are percentage points.",
+          "history_sessions": 120,
+          "return_1d_pct": -6.262778586096673,
+          "return_3d_pct": -4.213756376512512,
+          "return_5d_pct": -3.569886705846781,
+          "return_10d_pct": -1.7439152604600383,
+          "return_20d_pct": -2.6141322689118063,
+          "return_60d_pct": -14.087641116303374,
+          "mean_return_5d_pct": -0.6741247462770672,
+          "volatility_5d_pct": 3.134409138529758,
+          "downside_volatility_5d_pct": 2.8381728377503737,
+          "max_drawdown_5d_pct": -7.129743865283955,
+          "close_vs_mean_5d_pct": -4.214132515295699,
+          "mean_return_10d_pct": -0.14699196631563383,
+          "volatility_10d_pct": 2.3702601930921627,
+          "downside_volatility_10d_pct": 2.0275964074174375,
+          "max_drawdown_10d_pct": -7.129743865283967,
+          "close_vs_mean_10d_pct": -3.2417886137059426,
+          "mean_return_20d_pct": -0.0841120702864423,
+          "volatility_20d_pct": 3.081642856831838,
+          "downside_volatility_20d_pct": 2.442899076178035,
+          "max_drawdown_20d_pct": -9.640484961069262,
+          "close_vs_mean_20d_pct": -0.9933129338873803,
+          "mean_return_60d_pct": -0.20419038436804204,
+          "volatility_60d_pct": 3.106722124756073,
+          "downside_volatility_60d_pct": 2.367537697395578,
+          "max_drawdown_60d_pct": -25.786230802816956,
+          "close_vs_mean_60d_pct": -9.13742827733427,
+          "gap_return_pct": -2.699890934296234,
+          "intraday_return_pct": -3.661750933284691,
+          "high_excursion_pct": -2.2415262236023747,
+          "low_excursion_pct": -6.748955523510647,
+          "range_pct": 4.507429299908279,
+          "volume_change_pct": 2.512730515128214,
+          "volume_relative_20": 0.9390306139778798,
+          "rsi_14_simple": 61.821132184850164,
+          "positive_session_ratio_20": 0.55,
+          "return_skew_20": -0.6733191067896311,
+          "return_autocorrelation_20": -0.36615302828001295,
+          "price_volume_correlation_20": 0.22880671668551608,
+          "consecutive_up": 0,
+          "consecutive_down": 2
+        },
+        "signals": [
+          {
+            "signal_id": "trend_20d",
+            "family": "trend",
+            "direction": "negative",
+            "strength": 0.2614,
+            "evidence": {
+              "return_20d_pct": -2.6141322689118063
+            }
+          },
+          {
+            "signal_id": "multi_horizon_alignment",
+            "family": "trend",
+            "direction": "negative",
+            "strength": 0.4123,
+            "evidence": {
+              "return_5d_pct": -3.569886705846781,
+              "return_20d_pct": -2.6141322689118063
+            }
+          },
+          {
+            "signal_id": "volatility_regime",
+            "family": "risk",
+            "direction": "negative",
+            "strength": 0.6163,
+            "evidence": {
+              "volatility_20d_pct": 3.081642856831838
+            }
+          },
+          {
+            "signal_id": "volume_confirmation",
+            "family": "volume",
+            "direction": "neutral",
+            "strength": 0.061,
+            "evidence": {
+              "volume_relative_20": 0.9390306139778798,
+              "return_1d_pct": -6.262778586096673
+            }
+          },
+          {
+            "signal_id": "rsi_extreme",
+            "family": "mean_reversion",
+            "direction": "neutral",
+            "strength": 0.2364,
+            "evidence": {
+              "rsi_14_simple": 61.821132184850164
+            }
+          },
+          {
+            "signal_id": "drawdown_risk",
+            "family": "risk",
+            "direction": "negative",
+            "strength": 0.482,
+            "evidence": {
+              "max_drawdown_20d_pct": -9.640484961069262
+            }
+          }
+        ],
+        "input_sha256": "232b2885487913330f8e3bf371b51b2a9be86aba63c4dde769c76ee4af9a4ae7"
+      },
+      "news_status": "ok",
+      "news_audit": [
+        {
+          "position": 0,
+          "accepted": true,
+          "title": "槓桿崩塌與泡沫擔憂引爆！全球AI硬科技「血雨腥風」，熊市來了嗎？",
+          "url": "https://hao.cnyes.com/post/259658",
+          "source": "tavily",
+          "published_at": "2026-07-18T00:00:00+00:00",
+          "updated_at": null,
+          "updated_date": null,
+          "last_updated": null,
+          "fetched_at": "2026-09-16T04:37:00.476900+00:00",
+          "reason": "within_cutoff"
+        }
+      ],
+      "news_context": [
+        {
+          "title": "槓桿崩塌與泡沫擔憂引爆！全球AI硬科技「血雨腥風」，熊市來了嗎？",
+          "url": "https://hao.cnyes.com/post/259658",
+          "source": "tavily",
+          "published_at": "2026-07-18T00:00:00+00:00",
+          "fetched_at": "2026-09-16T04:37:00.476900+00:00",
+          "content": "$恆生科技指數 (800700.HK)$跌超5%，$南方兩倍做多三星電子 (07747.HK)$、$南方兩倍做多海力士 (07709.HK)$分別跌超21%、19%；AI大模型概念$智譜 (02513.HK)$跌超26%，$MINIMAX-W (00100.HK)$跌超14%。\n\nA股$創業板指 (399006.SZ)$、$科創50 (000688.SH)$跌幅擴大至7%，記憶體、CPO、PCB等AI硬科技全線下挫。$中際旭創 (300308.SZ)$跌超10%，$新易盛 (300502.SZ)$跌超6%，$寒武紀 (688256.SH)$、$工業富聯 (601138.SH)$跌超5%；$德明利 (001309.SZ)$連續3日「一字」跌停。\n\n### AI硬科技「腥風血雨」\n\n昨夜，美股記憶體、半導體類股重挫。\n\n$費城半導體指數 (.SOX.US)$單日下跌超4%，7月以來跌超16%。 [...] 問題是現在大火已經燒起來了，市場嗷嗷以待流動性的水來滅火，結果韓國政府往火裡加了一把柴，猶嫌火燒的不夠旺。\n\n之前很多人都說這次AI記憶體晶片引發的全球牛市，像極了2000年互聯網泡沫。\n\n如果從股價漲幅、估值擴張、資金入市，以及市場情緒上看，確實不能說不像。\n\n但是，也有幾點區別。\n\n第一，2000年的科技泡沫，很多公司都是沒有業績的，純粹靠融資活著，所以當市場資金撤走的時候，這些"
+        }
+      ],
+      "prompt_sha256": "dc809afe15261cc9a5e8d0ffcc38e2a86c425eb086b01aa9d6670d37ae958760",
+      "prediction": {
+        "expected_return_pct": -0.8,
+        "return_interval": {
+          "lower_pct": -2.0,
+          "upper_pct": 0.2
+        },
+        "probability_positive": 0.25,
+        "confidence_level": "medium",
+        "analysis": "The data quality and coverage are solid, and the news context is valid. Trend signals (20‑day negative, multi‑horizon alignment negative) and risk signals (high 20‑day volatility, significant 20‑day drawdown) all point to a bearish bias. The 5‑day mean return of –0.67% and the recent compact return bars show a pattern of small gains followed by a sharp drop on 2026‑08‑19, reinforcing the negative outlook. Volume is slightly below 20‑day average (0.94), and RSI is 61.8, which is neutral‑to‑slightly over‑bought but not extreme. The negative gap return of –2.7% and intraday return of –3.66% further support a short‑term downside. The news article from 2026‑07‑18 reports a 7% fall in the 创业板指数, indicating a broader AI‑hard‑tech sell‑off that likely still exerts downward pressure. No strong bullish signals are present; the only neutral signals are volume and RSI. Therefore, the signals are largely consistent in pointing to a modest negative return, with no clear conflict.\n\nPositive evidence: recent 5‑day mean return –0.67%, 20‑day trend negative, 20‑day volatility high, 20‑day drawdown –9.64%, negative gap return, negative intraday return, negative news about AI hard tech.\n\nNegative evidence: none (all evidence supports negative).\n\nUncertainties: volatility regime could shift, market may rebound after a sharp drop, news impact may have decayed.\n\nCounter view: mean‑reversion after a large 6.3% drop, potential liquidity injection, or a positive AI‑tech announcement could reverse the trend.\n\nRisk scenarios: sudden positive AI‑tech news, regulatory support, or a broader market rally could lead to a positive return beyond the upper bound of 0.2%.\n",
+        "signal_relationships": [
+          "trend_20d and multi_horizon_alignment both negative, reinforcing bearish bias; volatility_regime and drawdown_risk also negative, adding risk weight; volume_confirmation neutral, rsi_extreme neutral, no conflict with negative bias."
+        ],
+        "positive_evidence": [
+          "20‑day trend negative",
+          "5‑day mean return –0.67%",
+          "20‑day volatility high",
+          "20‑day drawdown –9.64%",
+          "negative gap return",
+          "negative intraday return",
+          "negative news about AI hard tech"
+        ],
+        "negative_evidence": [],
+        "uncertainties": [
+          "Volatility regime may change",
+          "News impact may have decayed",
+          "Market could rebound after sharp drop"
+        ],
+        "counter_view": "Mean‑reversion after a large 6.3% drop could push the index back up; liquidity injection or positive AI‑tech news could reverse the trend.",
+        "risk_scenarios": [
+          "Sudden positive AI‑tech news",
+          "Regulatory support",
+          "Broader market rally"
+        ],
+        "direction": "down",
+        "candle_class": "down",
+        "confidence": 75.0,
+        "probability_up": 0.25,
+        "probability_down": 0.75,
+        "expected_pct_change": -0.8,
+        "rationale": "The data quality and coverage are solid, and the news context is valid. Trend signals (20‑day negative, multi‑horizon alignment negative) and risk signals (high 20‑day volatility, significant 20‑day drawdown) all point to a bearish bias. The 5‑day mean return of –0.67% and the recent compact return bars show a pattern of small gains followed by a sharp drop on 2026‑08‑19, reinforcing the negative outlook. Volume is slightly below 20‑day average (0.94), and RSI is 61.8, which is neutral‑to‑slightly over‑bought but not extreme. The negative gap return of –2.7% and intraday return of –3.66% further support a short‑term downside. The news article from 2026‑07‑18 reports a 7% fall in the 创业板指数, indicating a broader AI‑hard‑tech sell‑off that likely still exerts downward pressure. No strong bullish signals are present; the only neutral signals are volume and RSI. Therefore, the signals are largely consistent in pointing to a modest negative return, with no clear conflict.\n\nPositive evidence: recent 5‑day mean return –0.67%, 20‑day trend negative, 20‑day volatility high, 20‑day drawdown –9.64%, negative gap return, negative intraday return, negative news about AI hard tech.\n\nNegative evidence: none (all evidence supports negative).\n\nUncertainties: volatility regime could shift, market may rebound after a sharp drop, news impact may have decayed.\n\nCounter view: mean‑reversion after a large 6.3% drop, potential liquidity injection, or a positive AI‑tech announcement could reverse the trend.\n\nRisk scenarios: sudden positive AI‑tech news, regulatory support, or a broader market rally could lead to a positive return beyond the upper bound of 0.2%.\n",
+        "market_analysis": "trend_20d and multi_horizon_alignment both negative, reinforcing bearish bias; volatility_regime and drawdown_risk also negative, adding risk weight; volume_confirmation neutral, rsi_extreme neutral, no conflict with negative bias."
+      },
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-16T04:37:02.007623+00:00",
+          "request_id": null,
+          "http_status": null,
+          "latency_ms": 90266,
+          "tool_call_received": false,
+          "error_type": "network_error"
+        },
+        {
+          "attempt": 2,
+          "started_at": "2026-09-16T04:38:33.285703+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 42093,
+          "tool_call_received": false,
+          "error_type": "invalid_tool_output"
+        },
+        {
+          "attempt": 3,
+          "started_at": "2026-09-16T04:39:17.394573+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 60594,
+          "tool_call_received": true,
+          "error_type": null,
+          "token_usage": {
+            "prompt_tokens": 4277,
+            "total_tokens": 5764,
+            "completion_tokens": 1487
+          }
+        }
+      ],
+      "actual": {
+        "trade_date": "20260820",
+        "pct_chg": 0.6361,
+        "direction": "up",
+        "candle_class": "up",
+        "open": 3517.6522,
+        "high": 3531.923,
+        "low": 3459.5692,
+        "close": 3495.5886
+      },
+      "verification": {
+        "direction_correct": false,
+        "candle_correct": false
+      }
+    },
+    {
+      "ts_code": "000688.SH",
+      "name": "000688.SH",
+      "error": "network_error",
+      "error_type": "network_error",
+      "model_attempts": [
+        {
+          "attempt": 1,
+          "started_at": "2026-09-16T04:40:19.528498+00:00",
+          "request_id": null,
+          "http_status": null,
+          "latency_ms": 90297,
+          "tool_call_received": false,
+          "error_type": "network_error"
+        },
+        {
+          "attempt": 2,
+          "started_at": "2026-09-16T04:41:50.828602+00:00",
+          "request_id": null,
+          "http_status": 200,
+          "latency_ms": 52953,
+          "tool_call_received": false,
+          "error_type": "invalid_tool_output"
+        },
+        {
+          "attempt": 3,
+          "started_at": "2026-09-16T04:42:45.776451+00:00",
+          "request_id": null,
+          "http_status": null,
+          "latency_ms": 24312,
+          "tool_call_received": false,
+          "error_type": "network_error"
+        }
+      ]
+    }
+  ],
+  "schema_version": "predict-v2.0",
+  "run_id": "3991431342814e1c829cbe463e18f90e",
+  "model_name": "openai/gpt-oss-20b",
+  "prompt_profile": "balanced"
+}

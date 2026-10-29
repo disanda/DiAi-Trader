@@ -1,50 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiAi-自交易系统</title>
-    <link rel="icon" type="image/svg+xml" href="figs/stock.svg">
-    <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked@latest/marked.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiAi · 标的管理</title>
+  <link rel="icon" type="image/svg+xml" href="figs/stock.svg">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/css/choose-stock.css?v=20260922">
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <span class="brand-icon">📊</span>
-                <h1>DiAi-自交易系统</h1>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">行情展示</a></li>
-                <li><a href="portfolio.html" class="nav-link">持仓分析</a></li>
-                <li><a href="choose_stock.html" class="nav-link  active">标的管理</a></li>
-                <li><a href="run_agent.html" class="nav-link">运行智能体</a></li>
-                <li><a href="prompt.html" class="nav-link">提示词管理</a></li>
-                <li><a href="market-display.html" class="nav-link ">A股大盘</a></li>
-                <li><a href="predict-competition.html" class="nav-link">预测竞赛</a></li>
-                <a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View source on GitHub">
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+       <span class="brand-icon">📊</span>
+       <h1>DiAi-自交易系统</h1>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">行情展示</a></li>
+        <li><a href="portfolio.html" class="nav-link">持仓分析</a></li>
+        <li><a href="choose_stock.html" class="nav-link active">标的管理</a></li>
+        <li><a href="run_agent.html" class="nav-link">启动模拟</a></li>
+        <li><a href="prompt.html" class="nav-link">提示词管理</a></li>
+        <li><a href="market-display.html" class="nav-link">A股大盘</a></li>
+        <li><a href="predict-competition.html" class="nav-link">预测竞赛</a></li>
+        <a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View source on GitHub">
                 <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                 </svg>
                 </a>
-            </ul>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container subject-page">
+    <header class="subject-header">
+      <div>
+        <h2>标的管理</h2>
+        <p id="subjectMeta">正在读取本地标的</p>
+      </div>
+      <div class="subject-actions">
+        <button class="btn-tool" id="btnQuickDownload" type="button"><i class="ti ti-download"></i>快速下载</button>
+        <button class="btn-tool" id="btnGlobalUpdate" type="button"><i class="ti ti-refresh"></i>全局数据更新</button>
+        <button class="btn-primary" id="btnAddGroup" type="button"><i class="ti ti-plus"></i>新增标的</button>
+      </div>
+    </header>
+
+    <section class="subject-layout">
+      <aside class="subject-sidebar">
+        <div class="market-switch" id="marketSwitch" aria-label="市场"></div>
+        <div class="sidebar-title"><span>标的组</span><span id="groupCount">0</span></div>
+        <div class="subject-group-list" id="groupList">
+          <div class="empty-compact">加载中...</div>
         </div>
-    </nav>
+      </aside>
 
-    <main class="container">
-        <header class="page-header">
-            <h2>📊 自定义股票标的</h2>
-            <p class="subtitle">编辑、管理和直接保存股票配置</p>
-        </header>
-    </main>
+      <section class="subject-detail" id="subjectDetail">
+        <div class="empty-state"><i class="ti ti-list-search"></i><span>选择左侧标的查看总览</span></div>
+      </section>
+    </section>
 
-    <footer class="footer">
-        <p>DiAi &copy; 2026 | 智能体自主交易系统 </p>
-    </footer>
+    <section class="job-log" id="jobLog" aria-live="polite">
+      <div class="job-log-head"><strong id="jobLogTitle">任务日志</strong><button type="button" id="closeJobLog"
+          title="关闭"><i class="ti ti-x"></i></button></div>
+      <pre id="jobLogBody"></pre>
+    </section>
+  </main>
 
-    <script src="assets/js/choose_stock.js"></script>
+  <div class="subject-modal" id="groupModal" data-open="false" role="dialog" aria-modal="true"
+    aria-labelledby="groupModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <div>
+          <h3 id="groupModalTitle">新增标的</h3>
+          <p>每行填写一个股票或指数代码</p>
+        </div><button class="icon-button" type="button" data-close="groupModal" title="关闭"><i
+            class="ti ti-x"></i></button>
+      </div>
+      <form id="groupForm" class="modal-form">
+        <input type="hidden" id="groupOriginalKey">
+        <label><span>所属市场</span><select id="groupMarket" required>
+            <option value="astocks">A 股</option>
+            <option value="etfs">ETF</option>
+            <option value="usstocks">美股</option>
+          </select></label>
+        <div class="form-grid"><label><span>文件标识</span><input id="groupKey" required maxlength="64"
+              pattern="[A-Za-z0-9_.-]+" placeholder="例如 watchlist"></label><label><span>标的名称</span><input id="groupName"
+              required maxlength="80" placeholder="例如 核心观察池"></label></div>
+        <label><span>代码清单</span><textarea id="groupSymbols" required rows="12"
+            placeholder="600519.SH&#10;000001.SZ"></textarea></label>
+        <p class="form-hint" id="groupFormHint">文件标识创建后不可修改；代码会自动去重并转为大写。</p>
+        <div class="modal-actions"><button class="btn-cancel" type="button" data-close="groupModal">取消</button><button
+            class="btn-submit" type="submit"><i class="ti ti-device-floppy"></i>保存标的</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="subject-modal" id="downloadModal" data-open="false" role="dialog" aria-modal="true"
+    aria-labelledby="downloadModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <div>
+          <h3 id="downloadModalTitle">快速下载数据</h3>
+          <p>从已有标的载入代码，或直接输入需要下载的代码</p>
+        </div><button class="icon-button" type="button" data-close="downloadModal" title="关闭"><i
+            class="ti ti-x"></i></button>
+      </div>
+      <form id="downloadForm" class="modal-form">
+        <label><span>数据类型</span><select id="downloadAsset">
+            <option value="astock">A 股股票</option>
+            <option value="astock-index">A 股指数</option>
+            <option value="etf">场内 ETF</option>
+            <option value="us-market">美股股票和指数</option>
+          </select></label>
+        <label><span>代码来源</span><select id="downloadSource">
+            <option value="group">已有标的</option>
+            <option value="manual">手工输入</option>
+          </select></label>
+        <label id="downloadGroupField"><span>选择标的</span><select id="downloadGroup"></select></label>
+        <label id="downloadSymbolsField" hidden><span>标的代码</span><textarea id="downloadSymbols" rows="6"
+            placeholder="多个代码可用逗号、空格或换行分隔"></textarea></label>
+        <div class="form-grid"><label><span>开始日期</span><input id="downloadStart" type="date"
+              required></label><label><span>结束日期</span><input id="downloadEnd" type="date" required></label></div>
+        <div class="modal-actions"><button class="btn-cancel" type="button"
+            data-close="downloadModal">取消</button><button class="btn-submit" id="downloadSubmit" type="submit"><i
+              class="ti ti-download"></i>开始下载</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/js/choose_stock.js?v=20261012"></script>
 </body>
+
 </html>
